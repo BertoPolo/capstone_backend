@@ -13,4 +13,4 @@ const itemsSchema = new Schema(
   { timestamps: true }
 )
 
-export default model("items", itemsSchema)
+export default model("Items", ItemsSchema)
