@@ -4,16 +4,6 @@ import createError from "http-errors"
 
 const itemsRouter = express.Router()
 
-//example
-
-// usersRouter.delete("/session", JWTAuthMiddleware, async (req, res, next) => {
-//   try {
-//     res.clearCookie("accessToken")
-//   } catch (error) {
-//     next(error)
-//   }
-// })
-
 //POST a new item ----TESTED----
 itemsRouter.post("/", async (req, res, next) => {
   try {
@@ -27,6 +17,7 @@ itemsRouter.post("/", async (req, res, next) => {
 
     res.status(201).send(_id)
   } catch (error) {
+    console.log(error)
     next(error)
   }
 })
@@ -38,6 +29,7 @@ itemsRouter.get("/", async (req, res, next) => {
 
     res.status(200).send(items)
   } catch (error) {
+    console.log(error)
     next(error)
   }
 })
@@ -49,6 +41,7 @@ itemsRouter.get("/:itemId", async (req, res, next) => {
 
     res.status(200).send(item)
   } catch (error) {
+    console.log(error)
     next(error)
   }
 })
@@ -56,9 +49,15 @@ itemsRouter.get("/:itemId", async (req, res, next) => {
 ///PUT item
 itemsRouter.put("/:itemId", async (req, res, next) => {
   try {
-    // const item = await itemSchema.findOne({ title: req.params.itemId })
-    // res.status(201).send(item)
+    const itemToUpdate = await itemSchema.findOneAndUpdate({ title: req.params.itemId })
+
+    if (itemToUpdate) {
+      // res.status(201).send(item)
+    } else {
+      console.log(error)
+    }
   } catch (error) {
+    console.log(error)
     next(error)
   }
 })
@@ -66,7 +65,7 @@ itemsRouter.put("/:itemId", async (req, res, next) => {
 ///DELETE item ---TESTED----
 itemsRouter.delete("/:itemId", async (req, res, next) => {
   try {
-    const item = await itemSchema.findOneAndDelete({ title: req.params.itemId })
+    await itemSchema.findOneAndDelete({ title: req.params.itemId })
 
     res.status(200).send("item was deleted successfully")
   } catch (error) {
