@@ -46,13 +46,19 @@ itemsRouter.get("/:itemId", async (req, res, next) => {
   }
 })
 
-///PUT item
+///PUT item  ---TESTED----
 itemsRouter.put("/:itemId", async (req, res, next) => {
   try {
-    const itemToUpdate = await itemSchema.findOneAndUpdate({ title: req.params.itemId })
+    const itemToUpdate = await itemSchema.findOneAndUpdate(
+      { title: req.params.itemId },
+      {
+        ...req.body,
+      },
+      { new: true }
+    )
 
     if (itemToUpdate) {
-      // res.status(201).send(item)
+      res.status(201).send(itemToUpdate)
     } else {
       console.log(error)
     }
