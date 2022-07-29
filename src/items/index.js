@@ -14,6 +14,7 @@ const itemsRouter = express.Router()
 //   }
 // })
 
+//POST a new item ----TESTED----
 itemsRouter.post("/", async (req, res, next) => {
   try {
     //const item = new itemSchema(req.body)
@@ -30,8 +31,23 @@ itemsRouter.post("/", async (req, res, next) => {
   }
 })
 
-itemsRouter.get("/", async (req, res) => {
+//GET all items ----TESTED----
+itemsRouter.get("/", async (req, res, next) => {
   try {
+    const items = await itemSchema.find({})
+
+    res.status(200).send(items)
+  } catch (error) {
+    next(error)
+  }
+})
+
+///GET single item
+itemsRouter.get("/:itemId", async (req, res, next) => {
+  try {
+    const item = await itemSchema.findOne({ title: req.params.itemId })
+
+    res.status(200).send(item)
   } catch (error) {
     next(error)
   }
