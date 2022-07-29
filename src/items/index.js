@@ -53,4 +53,25 @@ itemsRouter.get("/:itemId", async (req, res, next) => {
   }
 })
 
+///PUT item
+itemsRouter.put("/:itemId", async (req, res, next) => {
+  try {
+    // const item = await itemSchema.findOne({ title: req.params.itemId })
+    // res.status(201).send(item)
+  } catch (error) {
+    next(error)
+  }
+})
+
+///DELETE item ---TESTED----
+itemsRouter.delete("/:itemId", async (req, res, next) => {
+  try {
+    const item = await itemSchema.findOneAndDelete({ title: req.params.itemId })
+
+    res.status(200).send("item was deleted successfully")
+  } catch (error) {
+    next(error)
+  }
+})
+
 export default itemsRouter
