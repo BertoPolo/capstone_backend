@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 const { Schema, model } = mongoose
 
-const ItemsSchema = new Schema(
+const itemsSchema = new Schema(
   {
     category: { type: String, required: true },
     title: { type: String, required: true },
@@ -14,4 +14,4 @@ const ItemsSchema = new Schema(
   { timestamps: true }
 )
 
-export default model("Items", ItemsSchema)
+export default model("Items", itemsSchema)

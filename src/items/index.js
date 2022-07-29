@@ -1,4 +1,4 @@
-import ItemSchema from "./model"
+import itemSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
 
@@ -14,11 +14,24 @@ const itemsRouter = express.Router()
 //   }
 // })
 
-itemsRouter.post("/item", async (req, res, next) => {
+itemsRouter.post("/", async (req, res, next) => {
   try {
-    const item = new ItemSchema(req.body)
-    await item.save()
-    res.status(201).send(item)
+    //const item = new itemSchema(req.body)
+    //await item.save()
+
+    // const item = await itemSchema({ ...req.body }).save()
+
+    const item = await new itemSchema(req.body)
+    const { _id } = await item.save()
+
+    res.status(201).send(_id)
+  } catch (error) {
+    next(error)
+  }
+})
+
+itemsRouter.get("/", async (req, res) => {
+  try {
   } catch (error) {
     next(error)
   }

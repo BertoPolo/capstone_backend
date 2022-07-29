@@ -2,7 +2,7 @@ import express from "express"
 import mongoose from "mongoose"
 import listEndpoints from "express-list-endpoints"
 import cors from "cors"
-// import blogRouter from "./services/blogs/index.js"
+import itemsRouter from "./items/index.js"
 // import authorsRouter from "./services/authors/index.js"
 
 const server = express()
@@ -13,8 +13,7 @@ server.use(cors())
 server.use(express.json())
 
 // ****************** ENDPOINTS  *********************
-// server.use("/blogs", blogRouter)
-// server.use("/authors", authorsRouter)
+server.use("/items", itemsRouter)
 
 // ****************** ERROR HANDLERS *********************
 
