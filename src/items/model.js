@@ -5,8 +5,10 @@ const { Schema, model } = mongoose
 const itemsSchema = new Schema(
   {
     title: { type: String, required: true },
+    price: { type: String, required: true },
     image: { type: String, required: true },
-    category: { type: String, required: true },
+    mainCategory: { type: String, required: true },
+    category: { type: String },
     brand: { type: String, required: true },
     isOutlet: { type: Boolean, required: true },
     description: { type: String, required: true }, // when at Home
