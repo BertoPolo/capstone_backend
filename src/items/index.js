@@ -13,9 +13,11 @@ const itemsRouter = express.Router()
 //     next(error)
 //   }
 // })
+
 itemsRouter.post("/item", async (req, res, next) => {
   try {
-    const item = req.body
+    const item = new ItemSchema(req.body)
+    await item.save()
     res.status(201).send(item)
   } catch (error) {
     next(error)
