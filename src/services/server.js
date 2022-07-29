@@ -38,6 +38,7 @@ server.use(unauthorizedErrorHandler) // 401
 server.use(notFoundErrorHandler) // 404
 server.use(genericErrorHandler) // 500
 ////
+
 mongoose.connect(process.env.MONGO_CONNECTION)
 
 mongoose.connection.on("connected", () => {

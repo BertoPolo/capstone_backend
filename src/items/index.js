@@ -2,7 +2,23 @@ import itemSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
 
+// import multer from "multer"
+// import { CloudinaryStorage } from "multer-storage-cloudinary"
+// import { v2 as cloudinary } from "cloudinary"
+
 const itemsRouter = express.Router()
+
+// createError example
+// next(createError(404, `this post ${req.params.blogId} is not found`))
+
+// const cloudinaryfavImagesUploader = multer({
+//   storage: new CloudinaryStorage({
+//     cloudinary,
+//     params: {
+//       folder: "favImages",
+//     },
+//   }),
+// }).single("image")
 
 //POST a new item ----TESTED----
 itemsRouter.post("/", async (req, res, next) => {
