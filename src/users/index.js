@@ -17,4 +17,16 @@ usersRouter.post("/", async (req, res, next) => {
   }
 })
 
+//Get single user
+usersRouter.get("/:findUser", async (req, res, next) => {
+  try {
+    const user = await usersRouter.findOne({ name: req.params.findUser } || { username: req.params.findUser }) // find by name or username
+
+    res.status(201).send(user)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
 export default usersRouter
