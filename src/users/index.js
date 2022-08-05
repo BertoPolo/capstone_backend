@@ -1,4 +1,3 @@
-import usersRouter from "./users.js"
 import express from "express"
 import createError from "http-errors"
 

@@ -26,7 +26,7 @@ itemsRouter.post("/", async (req, res, next) => {
     //const item = new itemSchema(req.body)
     //await item.save()
 
-    // const item = await itemSchema({ ...req.body }).save()
+    const item = await itemSchema(req.body).save()
 
     const item = await new itemSchema(req.body)
     const { _id } = await item.save()
