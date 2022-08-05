@@ -17,10 +17,10 @@ usersRouter.post("/", async (req, res, next) => {
   }
 })
 
-//Get single user
-usersRouter.get("/:findUser", async (req, res, next) => {
+//Get single user -----TESTED----
+usersRouter.get("/:username", async (req, res, next) => {
   try {
-    const user = await usersSchema.findOne({ name: req.params.findUser } || { username: req.params.findUser }) // find by name or username
+    const user = await usersSchema.findOne({ username: req.params.username })
 
     res.status(200).send(user)
   } catch (error) {
@@ -29,10 +29,10 @@ usersRouter.get("/:findUser", async (req, res, next) => {
   }
 })
 
-//Delete user
-usersRouter.delete("/:findUser", async (req, res, next) => {
+//Delete user  -----TESTED----
+usersRouter.delete("/:username", async (req, res, next) => {
   try {
-    await usersSchema.findOneAndDelete({ name: req.params.findUser } || { username: req.params.findUser }) // find by name or username
+    await usersSchema.findOneAndDelete({ username: req.params.username })
 
     res.status(200).send("deleted successfully")
   } catch (error) {
