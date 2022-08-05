@@ -20,8 +20,9 @@ const itemsRouter = express.Router()
 //   }),
 // }).single("image")
 
-//POST a new item ----TESTED----
-itemsRouter.post("/", async (req, res, next) => {
+//POST a new item
+itemsRouter.post("/:category", async (req, res, next) => {
+  // implement to post INTO category
   try {
     //const item = new itemSchema(req.body)
     //await item.save()
