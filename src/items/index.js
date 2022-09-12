@@ -38,24 +38,45 @@ itemsRouter.post("/", async (req, res, next) => {
   }
 })
 
-//GET all items ----TESTED----
-itemsRouter.get("/", async (req, res, next) => {
+//GET filtered items
+itemsRouter.get("/:itemTitle", async (req, res, next) => {
   try {
-    const items = await itemSchema.find({})
-
-    res.status(200).send(items)
+    const items = await itemSchema.find({ title: req.params.itemTitle })
+    if (items) {
+      res.status(200).send(items)
+    } else {
+      next(createError(404, `this item ${req.params.itemTitle} is not found`))
+    }
   } catch (error) {
     console.log(error)
     next(error)
   }
 })
 
-///GET single item
-itemsRouter.get("/:itemId", async (req, res, next) => {
-  try {
-    const item = await itemSchema.findOne({ title: req.params.itemId })
+//GET 15 random items
+// itemsRouter.get("/random", async (req, res, next) => {
+//   try {
+//     // if query parameter random===true then use $sample operator
+//     // else normal find()
+//     const items = await itemSchema.find({})
 
-    res.status(200).send(item)
+//     res.status(200).send(items)
+//   } catch (error) {
+//     console.log(error)
+//     next(error)
+//   }
+// })
+
+///GET single item
+itemsRouter.get("/:itemTitle", async (req, res, next) => {
+  try {
+    const item = await itemSchema.findOne({ title: req.params.itemTitle })
+
+    if (item) {
+      res.status(200).send(item)
+    } else {
+      next(createError(404, `this item ${req.params.itemTitle} is not found`))
+    }
   } catch (error) {
     console.log(error)
     next(error)
@@ -63,10 +84,10 @@ itemsRouter.get("/:itemId", async (req, res, next) => {
 })
 
 ///PUT item  ---TESTED----
-itemsRouter.put("/:itemId", async (req, res, next) => {
+itemsRouter.put("/:itemTitle", async (req, res, next) => {
   try {
     const itemToUpdate = await itemSchema.findOneAndUpdate(
-      { title: req.params.itemId },
+      { title: req.params.itemTitle },
       {
         ...req.body,
       },
@@ -76,6 +97,7 @@ itemsRouter.put("/:itemId", async (req, res, next) => {
     if (itemToUpdate) {
       res.status(201).send(itemToUpdate)
     } else {
+      next(createError(404, `this item ${req.params.itemTitle} is not found`))
       console.log(error)
     }
   } catch (error) {
@@ -85,9 +107,9 @@ itemsRouter.put("/:itemId", async (req, res, next) => {
 })
 
 ///DELETE item ---TESTED----
-itemsRouter.delete("/:itemId", async (req, res, next) => {
+itemsRouter.delete("/:itemTitle", async (req, res, next) => {
   try {
-    await itemSchema.findOneAndDelete({ title: req.params.itemId })
+    await itemSchema.findOneAndDelete({ title: req.params.itemTitle })
 
     res.status(200).send("item was deleted successfully")
   } catch (error) {
