@@ -38,34 +38,43 @@ itemsRouter.post("/", async (req, res, next) => {
   }
 })
 
-//GET filtered items
-itemsRouter.get("/:itemTitle", async (req, res, next) => {
-  try {
-    const items = await itemSchema.find({ title: req.params.itemTitle })
-    if (items) {
-      res.status(200).send(items)
-    } else {
-      next(createError(404, `this item ${req.params.itemTitle} is not found`))
-    }
-  } catch (error) {
-    console.log(error)
-    next(error)
-  }
-})
-
-//GET 15 random items
-// itemsRouter.get("/random", async (req, res, next) => {
+//GET all items
+// itemsRouter.get("/", async (req, res, next) => {
 //   try {
-//     // if query parameter random===true then use $sample operator
-//     // else normal find()
 //     const items = await itemSchema.find({})
 
 //     res.status(200).send(items)
 //   } catch (error) {
 //     console.log(error)
-//     next(error)
+//     next(createError(404, `this item ${req.params.itemTitle} is not found`))
 //   }
 // })
+
+//GET filtered items
+itemsRouter.get("/:itemTitle", async (req, res, next) => {
+  try {
+    const items = await itemSchema.find({ title: req.params.itemTitle })
+
+    res.status(200).send(items)
+  } catch (error) {
+    console.log(error)
+    next(createError(404, `this item ${req.params.itemTitle} is not found`))
+  }
+})
+
+//GET 15 random items
+itemsRouter.get("/", async (req, res, next) => {
+  try {
+    // if query parameter random===true then use $sample operator
+    // else normal find()
+    const items = await itemSchema.find({ $sample: { size: 15 } })
+
+    res.status(200).send(items)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
 
 ///GET single item
 itemsRouter.get("/:itemTitle", async (req, res, next) => {
