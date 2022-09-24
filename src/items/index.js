@@ -11,17 +11,17 @@ const itemsRouter = express.Router()
 // createError example
 // next(createError(404, `this post ${req.params.blogId} is not found`))
 
-// const cloudinaryfavImagesUploader = multer({
-//   storage: new CloudinaryStorage({
-//     cloudinary,
-//     params: {
-//       folder: "favImages",
-//     },
-//   }),
-// }).single("image")
+const cloudinaryfavImagesUploader = multer({
+  storage: new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: "itemImages",
+    },
+  }),
+}).single("image")
 
-//POST a new item----TESTED----
-itemsRouter.post("/", async (req, res, next) => {
+//POST a new item
+itemsRouter.post("/", cloudinaryfavImagesUploader, async (req, res, next) => {
   try {
     //const item = new itemSchema(req.body)
     //await item.save()

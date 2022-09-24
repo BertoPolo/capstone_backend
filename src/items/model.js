@@ -11,6 +11,7 @@ const itemsSchema = new Schema(
     category: { type: String },
     brand: { type: String, required: true },
     isOutlet: { type: Boolean, required: true },
+    outletPrice: { type: String },
     description: { type: String, required: true }, // when at Home
     fullDescription: { type: String, required: true }, //  when u see the full item
   },
