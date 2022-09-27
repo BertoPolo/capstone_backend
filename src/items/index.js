@@ -2,9 +2,9 @@ import itemSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
 
-// import multer from "multer"
-// import { CloudinaryStorage } from "multer-storage-cloudinary"
-// import { v2 as cloudinary } from "cloudinary"
+import multer from "multer"
+import { CloudinaryStorage } from "multer-storage-cloudinary"
+import { v2 as cloudinary } from "cloudinary"
 
 const itemsRouter = express.Router()
 
