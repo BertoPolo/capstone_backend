@@ -50,7 +50,7 @@ itemsRouter.post("/", cloudinaryfavImagesUploader, async (req, res, next) => {
 //   }
 // })
 
-//GET filtered items
+//GET filtered BY TITLE items
 itemsRouter.get("/:itemTitle", async (req, res, next) => {
   try {
     const items = await itemSchema.find({ title: req.params.itemTitle })
@@ -59,6 +59,18 @@ itemsRouter.get("/:itemTitle", async (req, res, next) => {
   } catch (error) {
     console.log(error)
     next(createError(404, `this item ${req.params.itemTitle} is not found`))
+  }
+})
+
+//GET filtered BY CATEGORY items
+itemsRouter.get("/:category", async (req, res, next) => {
+  try {
+    const items = await itemSchema.find({ category: req.params.category })
+
+    res.status(200).send(items)
+  } catch (error) {
+    console.log(error)
+    next(createError(404, `this category ${req.params.category} is not found`))
   }
 })
 
