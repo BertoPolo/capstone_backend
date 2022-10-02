@@ -28,12 +28,18 @@ usersRouter.post("/", async (req, res, next) => {
 //     next(error)
 //   }
 // })
-//Get searched users
-usersRouter.get("/:username", async (req, res, next) => {
-  try {
-    const user = await usersSchema.find({ username: req.params.username })
 
-    res.status(200).send(user)
+//Get searched users -- 404 not returned--
+usersRouter.get("/:name", async (req, res, next) => {
+  try {
+    const lowName = req.params.name.toLocaleLowerCase()
+    const user = await usersSchema.find({ name: lowName })
+
+    if (user) {
+      res.status(200).send(user)
+    } else {
+      res.status(404).send("user not found")
+    }
   } catch (error) {
     console.log(error)
     next(error)
@@ -41,9 +47,10 @@ usersRouter.get("/:username", async (req, res, next) => {
 })
 
 //Delete user  -----TESTED----
-usersRouter.delete("/:username", async (req, res, next) => {
+usersRouter.delete("/:name", async (req, res, next) => {
   try {
-    await usersSchema.findOneAndDelete({ username: req.params.username })
+    const lowName = req.params.name.toLocaleLowerCase()
+    await usersSchema.findOneAndDelete({ name: lowName })
 
     res.status(200).send("deleted successfully")
   } catch (error) {
