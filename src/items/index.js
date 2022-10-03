@@ -62,10 +62,22 @@ itemsRouter.get("/:itemTitle", async (req, res, next) => {
   }
 })
 
-//GET filtered BY CATEGORY items
-itemsRouter.get("/:category", async (req, res, next) => {
+//GET  BY CATEGORY items
+itemsRouter.get("/category/:category", async (req, res, next) => {
   try {
     const items = await itemSchema.find({ category: req.params.category })
+
+    res.status(200).send(items)
+  } catch (error) {
+    console.log(error)
+    next(createError(404, `this category ${req.params.category} is not found`))
+  }
+})
+
+//GET  BY mainCategory items
+itemsRouter.get("/mainCategory/:mainCategory", async (req, res, next) => {
+  try {
+    const items = await itemSchema.find({ mainCategory: req.params.mainCategory })
 
     res.status(200).send(items)
   } catch (error) {
