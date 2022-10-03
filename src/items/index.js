@@ -66,8 +66,11 @@ itemsRouter.get("/:itemTitle", async (req, res, next) => {
 itemsRouter.get("/category/:category", async (req, res, next) => {
   try {
     const items = await itemSchema.find({ category: req.params.category })
-
-    res.status(200).send(items)
+    if (items) {
+      res.status(200).send(items)
+    } else {
+      res.status(404).send("category not found")
+    }
   } catch (error) {
     console.log(error)
     next(createError(404, `this category ${req.params.category} is not found`))
@@ -78,11 +81,29 @@ itemsRouter.get("/category/:category", async (req, res, next) => {
 itemsRouter.get("/mainCategory/:mainCategory", async (req, res, next) => {
   try {
     const items = await itemSchema.find({ mainCategory: req.params.mainCategory })
-
-    res.status(200).send(items)
+    if (items) {
+      res.status(200).send(items)
+    } else {
+      res.status(404).send("mainCategory not found")
+    }
   } catch (error) {
     console.log(error)
-    next(createError(404, `this category ${req.params.category} is not found`))
+    next(createError(404, `this category ${req.params.mainCategory} is not found`))
+  }
+})
+
+//GET  BY brand's items
+itemsRouter.get("/brand/:brand", async (req, res, next) => {
+  try {
+    const items = await itemSchema.find({ brand: req.params.brand })
+    if (items) {
+      res.status(200).send(items)
+    } else {
+      res.status(404).send("brand not found")
+    }
+  } catch (error) {
+    console.log(error)
+    next(createError(404, `this category ${req.params.brand} is not found`))
   }
 })
 
