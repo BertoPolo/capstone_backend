@@ -46,6 +46,28 @@ usersRouter.get("/:name", async (req, res, next) => {
   }
 })
 
+//PUT  edit your self account data
+usersRouter.put("/edit/:username", async (req, res, next) => {
+  try {
+    const lowUserName = req.params.username.toLocaleLowerCase()
+    const user = await itemSchema.findOneAndUpdate(
+      { username: lowUserName },
+      {
+        ...req.body,
+      },
+      { new: true }
+    )
+    if (user) {
+      res.status(201).send(user)
+    } else {
+      res.status(404).send("user not found")
+    }
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
 //Delete user  -----TESTED----
 usersRouter.delete("/:name", async (req, res, next) => {
   try {
