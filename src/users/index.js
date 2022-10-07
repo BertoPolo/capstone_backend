@@ -49,9 +49,9 @@ usersRouter.get("/:name", async (req, res, next) => {
 //PUT  edit your self account data
 usersRouter.put("/edit/:username", async (req, res, next) => {
   try {
-    const lowUserName = req.params.username.toLocaleLowerCase()
-    const user = await itemSchema.findOneAndUpdate(
-      { username: lowUserName },
+    // const lowUserName = req.params.username.toLocaleLowerCase()
+    const user = await usersSchema.findOneAndUpdate(
+      { username: req.params.username },
       {
         ...req.body,
       },
