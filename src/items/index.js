@@ -21,7 +21,7 @@ const cloudinaryfavImagesUploader = multer({
 }).single("image")
 
 //POST a new item
-itemsRouter.post("/", cloudinaryfavImagesUploader, async (req, res, next) => {
+itemsRouter.post("/", async (req, res, next) => {
   try {
     //const item = new itemSchema(req.body)
     //await item.save()
@@ -30,6 +30,19 @@ itemsRouter.post("/", cloudinaryfavImagesUploader, async (req, res, next) => {
 
     const item = new itemSchema(req.body)
     const { _id } = await item.save()
+
+    res.status(201).send(_id)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
+//POST img to new item   SHOULD BE A PUT?
+itemsRouter.post("/img", async (req, res, next) => {
+  try {
+    // const item = new itemSchema(req.body)
+    // const { _id } = await item.save()
 
     res.status(201).send(_id)
   } catch (error) {
@@ -159,6 +172,8 @@ itemsRouter.put("/:itemTitle", async (req, res, next) => {
     next(error)
   }
 })
+
+//PUT item's image
 
 ///DELETE item ---TESTED----
 itemsRouter.delete("/:itemTitle", async (req, res, next) => {

@@ -46,7 +46,7 @@ usersRouter.get("/:name", async (req, res, next) => {
   }
 })
 
-//PUT  edit your self account data
+//PUT  edit your self account data --- TESTED----
 usersRouter.put("/edit/:username", async (req, res, next) => {
   try {
     // const lowUserName = req.params.username.toLocaleLowerCase()
