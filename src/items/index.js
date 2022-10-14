@@ -116,7 +116,23 @@ itemsRouter.get("/brand/:brand", async (req, res, next) => {
     }
   } catch (error) {
     console.log(error)
-    next(createError(404, `this category ${req.params.brand} is not found`))
+    next(createError(404, `this brand ${req.params.brand} is not found`))
+  }
+})
+
+//GET  all brands
+itemsRouter.get("/brands/all", async (req, res, next) => {
+  try {
+    const items = await itemSchema.find({})
+    // const brands = await items.brand
+    // const { brands } = await items
+
+    if (items) {
+      res.status(200).send()
+    }
+  } catch (error) {
+    console.log(error)
+    next(createError(404, `no brands founded`))
   }
 })
 
