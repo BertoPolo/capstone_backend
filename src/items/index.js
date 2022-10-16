@@ -21,7 +21,7 @@ const cloudinaryfavImagesUploader = multer({
 }).single("image")
 
 //POST a new item
-itemsRouter.post("/", async (req, res, next) => {
+itemsRouter.post("/new", async (req, res, next) => {
   try {
     //const item = new itemSchema(req.body)
     //await item.save()
