@@ -39,7 +39,7 @@ itemsRouter.post("/new", async (req, res, next) => {
 })
 
 //POST img to new item   SHOULD BE A PUT?
-itemsRouter.post("/img", async (req, res, next) => {
+itemsRouter.post("/:itemTitle/img", cloudinaryfavImagesUploader, async (req, res, next) => {
   try {
     // const item = new itemSchema(req.body)
     // const { _id } = await item.save()
@@ -168,6 +168,7 @@ itemsRouter.get("/:itemTitle", async (req, res, next) => {
 
 ///PUT item  ---TESTED----
 itemsRouter.put("/:itemTitle", async (req, res, next) => {
+  // should be /itemEdit/:itemTitle
   try {
     const itemToUpdate = await itemSchema.findOneAndUpdate(
       { title: req.params.itemTitle },
