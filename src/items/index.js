@@ -121,20 +121,20 @@ itemsRouter.get("/brand/:brand", async (req, res, next) => {
 })
 
 //GET  all brands
-itemsRouter.get("/allbrands", async (req, res, next) => {
-  try {
-    const items = await itemSchema.find({})
-    // const brands = await items.brand
-    // const { brands } = await items
+// itemsRouter.get("/allbrands", async (req, res, next) => {
+//   try {
+//     const items = await itemSchema.find({})
+//     // const brands = await items.brand
+//     // const { brands } = await items
 
-    if (items) {
-      res.status(200).send()
-    }
-  } catch (error) {
-    console.log(error)
-    next(createError(404, `no brands founded`))
-  }
-})
+//     if (items) {
+//       res.status(200).send()
+//     }
+//   } catch (error) {
+//     console.log(error)
+//     next(createError(404, `no brands founded`))
+//   }
+// })
 
 //GET 15 random items
 itemsRouter.get("/", async (req, res, next) => {
