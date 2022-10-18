@@ -38,8 +38,8 @@ itemsRouter.post("/new", async (req, res, next) => {
   }
 })
 
-//POST img to new item   SHOULD BE A PUT?
-itemsRouter.post("/:itemTitle/img", cloudinaryfavImagesUploader, async (req, res, next) => {
+//POST img to new item   SHOULD BE A PUT?  search by ID   submit firrst then add image ( FE )
+itemsRouter.put("/:itemTitle/img", cloudinaryfavImagesUploader, async (req, res, next) => {
   try {
     // const item = new itemSchema(req.body)
     // const { _id } = await item.save()
@@ -64,9 +64,9 @@ itemsRouter.post("/:itemTitle/img", cloudinaryfavImagesUploader, async (req, res
 // })
 
 //GET filtered BY TITLE items
-itemsRouter.get("/:itemTitle", async (req, res, next) => {
+itemsRouter.get("/bytitle/:itemTitle", async (req, res, next) => {
   try {
-    const items = await itemSchema.find({ title: req.params.itemTitle })
+    const items = await itemSchema.find({ title: { $regex: /searchInput/i } })
 
     res.status(200).send(items)
   } catch (error) {
@@ -105,7 +105,7 @@ itemsRouter.get("/mainCategory/:mainCategory", async (req, res, next) => {
   }
 })
 
-//GET  BY brand's items
+//GET  BY brand's item
 itemsRouter.get("/brand/:brand", async (req, res, next) => {
   try {
     const items = await itemSchema.find({ brand: req.params.brand })
@@ -121,7 +121,7 @@ itemsRouter.get("/brand/:brand", async (req, res, next) => {
 })
 
 //GET  all brands
-itemsRouter.get("/brands/all", async (req, res, next) => {
+itemsRouter.get("/allbrands", async (req, res, next) => {
   try {
     const items = await itemSchema.find({})
     // const brands = await items.brand
