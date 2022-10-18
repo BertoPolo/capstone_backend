@@ -38,7 +38,7 @@ itemsRouter.post("/new", async (req, res, next) => {
   }
 })
 
-//POST img to new item   SHOULD BE A PUT?  search by ID   submit firrst then add image ( FE )
+//POST/PUT img's item
 itemsRouter.put("/:itemTitle/img", cloudinaryfavImagesUploader, async (req, res, next) => {
   try {
     // const item = new itemSchema(req.body)
@@ -66,7 +66,7 @@ itemsRouter.put("/:itemTitle/img", cloudinaryfavImagesUploader, async (req, res,
 //GET filtered BY TITLE items
 itemsRouter.get("/bytitle/:itemTitle", async (req, res, next) => {
   try {
-    const items = await itemSchema.find({ title: { $regex: /searchInput/i } })
+    const items = await itemSchema.find({ title: { $regex: req.params.itemTitle } })
 
     res.status(200).send(items)
   } catch (error) {
@@ -189,8 +189,6 @@ itemsRouter.put("/:itemTitle", async (req, res, next) => {
     next(error)
   }
 })
-
-//PUT item's image
 
 ///DELETE item ---TESTED----
 itemsRouter.delete("/:itemTitle", async (req, res, next) => {

@@ -4,6 +4,8 @@ import listEndpoints from "express-list-endpoints"
 import cors from "cors"
 import itemsRouter from "../items/index.js"
 import usersRouter from "../users/index.js"
+import brandsRouter from "../brands/index.js"
+
 import { genericErrorHandler, notFoundErrorHandler, badRequestErrorHandler, unauthorizedErrorHandler } from "./errorHandlers.js"
 
 const server = express()
@@ -33,6 +35,7 @@ server.use(express.json())
 // ****************** ENDPOINTS  *********************
 server.use("/items", itemsRouter)
 server.use("/users", usersRouter)
+server.use("/brands", brandsRouter)
 
 // ****************** ERROR HANDLERS *********************
 server.use(badRequestErrorHandler) // 400
