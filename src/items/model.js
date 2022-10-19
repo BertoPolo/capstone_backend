@@ -9,7 +9,7 @@ const itemsSchema = new Schema(
     image: { type: String },
     mainCategory: { type: String, required: true },
     category: { type: String },
-    brand: [{ type: Schema.Types.ObjectId, ref: "Brands" }],
+    brand: { type: Schema.Types.ObjectId, ref: "Brands" },
     isOutlet: { type: Boolean, required: true },
     outletPrice: { type: String },
     description: { type: String, required: true }, // when at Home
