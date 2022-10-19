@@ -66,7 +66,7 @@ itemsRouter.put("/:itemTitle/img", cloudinaryfavImagesUploader, async (req, res,
 //GET filtered BY TITLE items
 itemsRouter.get("/bytitle/:itemTitle", async (req, res, next) => {
   try {
-    const items = await itemSchema.find({ title: { $regex: req.params.itemTitle } })
+    const items = await itemSchema.find({ title: { $regex: req.params.itemTitle, $options: "i" } })
 
     res.status(200).send(items)
   } catch (error) {
