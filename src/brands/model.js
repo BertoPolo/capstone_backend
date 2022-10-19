@@ -4,7 +4,7 @@ const { Schema, model } = mongoose
 
 const brandsSchema = new Schema(
   {
-    brands: [{ type: Schema.Types.ObjectId, ref: "Items" }],
+    brands: { type: String, required: true },
   },
   { timestamps: true }
 )
