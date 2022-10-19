@@ -104,7 +104,7 @@ itemsRouter.get("/mainCategory/:mainCategory", async (req, res, next) => {
   }
 })
 
-//GET  BY brand's item
+//GET  BY brand's item ///////////////////////////////////////////////REDO
 itemsRouter.get("/brand/:brand", async (req, res, next) => {
   try {
     const items = await itemSchema.find({ brand: req.params.brand })
@@ -118,22 +118,6 @@ itemsRouter.get("/brand/:brand", async (req, res, next) => {
     next(createError(404, `this brand ${req.params.brand} is not found`))
   }
 })
-
-//GET  all brands
-// itemsRouter.get("/allbrands", async (req, res, next) => {
-//   try {
-//     const items = await itemSchema.find({})
-//     // const brands = await items.brand
-//     // const { brands } = await items
-
-//     if (items) {
-//       res.status(200).send()
-//     }
-//   } catch (error) {
-//     console.log(error)
-//     next(createError(404, `no brands founded`))
-//   }
-// })
 
 //GET 15 random items
 itemsRouter.get("/", async (req, res, next) => {

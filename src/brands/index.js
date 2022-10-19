@@ -20,10 +20,10 @@ brandsRouter.post("/new", async (req, res, next) => {
 //GET ALL Brands
 brandsRouter.get("/all", async (req, res, next) => {
   try {
-    const brands = await brandschema.find({})
+    const brands = await brandsSchema.find({})
 
     if (brands) {
-      res.status(200).send()
+      res.status(200).send(brands)
     }
   } catch (error) {
     console.log(error)
