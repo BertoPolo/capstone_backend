@@ -104,10 +104,11 @@ itemsRouter.get("/mainCategory/:mainCategory", async (req, res, next) => {
   }
 })
 
-//GET  BY brand's item ///////////////////////////////////////////////REDO
+//GET  BY brand's item
 itemsRouter.get("/brand/:brand", async (req, res, next) => {
   try {
     const items = await itemSchema.find({ brand: req.params.brand })
+
     if (items) {
       res.status(200).send(items)
     } else {
