@@ -32,8 +32,7 @@ usersRouter.post("/", async (req, res, next) => {
 //Get searched users -- 404 not returned--
 usersRouter.get("/:name", async (req, res, next) => {
   try {
-    const lowName = req.params.name.toLocaleLowerCase()
-    const user = await usersSchema.find({ name: lowName })
+    const user = await usersSchema.find({ name: { $regex: req.params.name, $options: "i" } })
 
     if (user) {
       res.status(200).send(user)
