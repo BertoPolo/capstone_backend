@@ -51,18 +51,6 @@ itemsRouter.put("/:itemTitle/img", cloudinaryfavImagesUploader, async (req, res,
   }
 })
 
-//GET all items
-// itemsRouter.get("/", async (req, res, next) => {
-//   try {
-//     const items = await itemSchema.find({})
-
-//     res.status(200).send(items)
-//   } catch (error) {
-//     console.log(error)
-//     next(createError(404, `this item ${req.params.itemTitle} is not found`))
-//   }
-// })
-
 //GET filtered BY TITLE items
 itemsRouter.get("/bytitle/:itemTitle", async (req, res, next) => {
   try {
