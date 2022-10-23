@@ -142,13 +142,7 @@ itemsRouter.get("/:itemTitle", async (req, res, next) => {
 itemsRouter.put("/:itemTitle", async (req, res, next) => {
   // should be /itemEdit/:itemTitle
   try {
-    const itemToUpdate = await itemSchema.findOneAndUpdate(
-      { title: req.params.itemTitle },
-      {
-        ...req.body,
-      },
-      { new: true }
-    )
+    const itemToUpdate = await itemSchema.findOneAndUpdate({ title: req.params.itemTitle }, { ...req.body }, { new: true })
 
     if (itemToUpdate) {
       res.status(201).send(itemToUpdate)
