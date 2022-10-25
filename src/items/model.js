@@ -14,7 +14,6 @@ const itemsSchema = new Schema(
     outletPrice: { type: String },
     description: { type: String, required: true }, // when at Home
     fullDescription: { type: String, required: true }, //  when u see the full item
-    // amount: { type: Number, default: 1 },
   },
   { timestamps: true }
 )
