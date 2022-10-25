@@ -1,6 +1,7 @@
 import itemSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
+import q2m from "query-to-mongo"
 
 import multer from "multer"
 import { CloudinaryStorage } from "multer-storage-cloudinary"
@@ -55,6 +56,8 @@ itemsRouter.put("/:itemTitle/img", cloudinaryfavImagesUploader, async (req, res,
 itemsRouter.get("/bytitle/:itemTitle", async (req, res, next) => {
   try {
     const items = await itemSchema.find({ title: { $regex: req.params.itemTitle, $options: "i" } }).populate({ path: "brand", select: "brands" })
+    const mongoQuery = q2m(req.query)
+
     res.status(200).send(items)
   } catch (error) {
     console.log(error)
