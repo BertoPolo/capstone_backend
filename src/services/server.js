@@ -5,6 +5,8 @@ import cors from "cors"
 import itemsRouter from "../items/index.js"
 import usersRouter from "../users/index.js"
 import brandsRouter from "../brands/index.js"
+import categoriesRouter from "../categories/index.js"
+import mainCategoriesRouter from "../mainCategories/index.js"
 
 import { genericErrorHandler, notFoundErrorHandler, badRequestErrorHandler, unauthorizedErrorHandler } from "./errorHandlers.js"
 
@@ -36,6 +38,8 @@ server.use(express.json())
 server.use("/items", itemsRouter)
 server.use("/users", usersRouter)
 server.use("/brands", brandsRouter)
+server.use("/categories", categoriesRouter)
+server.use("/mainCategories", mainCategoriesRouter)
 
 // ****************** ERROR HANDLERS *********************
 server.use(badRequestErrorHandler) // 400
