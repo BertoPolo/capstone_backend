@@ -1,11 +1,12 @@
 import usersSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
+import { adminOnlyMiddleware } from "../auth/admin.js"
 
 const usersRouter = express.Router()
 
 //POST a new user -----TESTED----
-usersRouter.post("/", async (req, res, next) => {
+usersRouter.post("/", adminOnlyMiddleware, async (req, res, next) => {
   try {
     const newUser = new usersSchema(req.body)
     const { _id } = await newUser.save()
@@ -46,9 +47,8 @@ usersRouter.get("/:name", async (req, res, next) => {
 })
 
 //PUT  edit your self account data --- TESTED----
-usersRouter.put("/edit/:username", async (req, res, next) => {
+usersRouter.put("/edit/:username", adminOnlyMiddleware, async (req, res, next) => {
   try {
-    // const lowUserName = req.params.username.toLocaleLowerCase()
     const user = await usersSchema.findOneAndUpdate(
       { username: req.params.username },
       {
@@ -68,7 +68,7 @@ usersRouter.put("/edit/:username", async (req, res, next) => {
 })
 
 //Delete user  -----TESTED----
-usersRouter.delete("/:name", async (req, res, next) => {
+usersRouter.delete("/:name", adminOnlyMiddleware, async (req, res, next) => {
   try {
     const lowName = req.params.name.toLocaleLowerCase()
     await usersSchema.findOneAndDelete({ name: lowName })

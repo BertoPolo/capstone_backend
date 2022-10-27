@@ -1,11 +1,12 @@
 import brandsSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
+import { adminOnlyMiddleware } from "../auth/admin.js"
 
 const brandsRouter = express.Router()
 
 //POST new Brands
-brandsRouter.post("/new", async (req, res, next) => {
+brandsRouter.post("/new", adminOnlyMiddleware, async (req, res, next) => {
   try {
     const newBrands = new brandsSchema(req.body)
     const { _id } = await newBrands.save()

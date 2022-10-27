@@ -2,10 +2,10 @@ import itemSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
 import q2m from "query-to-mongo"
-
 import multer from "multer"
 import { CloudinaryStorage } from "multer-storage-cloudinary"
 import { v2 as cloudinary } from "cloudinary"
+import { adminOnlyMiddleware } from "../auth/admin.js"
 
 const itemsRouter = express.Router()
 
@@ -22,7 +22,7 @@ const cloudinaryfavImagesUploader = multer({
 }).single("image")
 
 //POST a new item
-itemsRouter.post("/new", async (req, res, next) => {
+itemsRouter.post("/new", adminOnlyMiddleware, async (req, res, next) => {
   try {
     //const item = new itemSchema(req.body)
     //await item.save()
@@ -40,7 +40,7 @@ itemsRouter.post("/new", async (req, res, next) => {
 })
 
 //POST/PUT img's item
-itemsRouter.put("/:itemTitle/img", cloudinaryfavImagesUploader, async (req, res, next) => {
+itemsRouter.put("/:itemTitle/img", cloudinaryfavImagesUploader, adminOnlyMiddleware, async (req, res, next) => {
   try {
     // const item = new itemSchema(req.body)
     // const { _id } = await item.save()
@@ -142,7 +142,7 @@ itemsRouter.get("/:itemTitle", async (req, res, next) => {
 })
 
 ///PUT item  ---TESTED----
-itemsRouter.put("/:itemTitle", async (req, res, next) => {
+itemsRouter.put("/:itemTitle", adminOnlyMiddleware, async (req, res, next) => {
   // should be /itemEdit/:itemTitle
   try {
     const itemToUpdate = await itemSchema.findOneAndUpdate({ title: req.params.itemTitle }, { ...req.body }, { new: true })
@@ -160,7 +160,7 @@ itemsRouter.put("/:itemTitle", async (req, res, next) => {
 })
 
 ///DELETE item ---TESTED----
-itemsRouter.delete("/:itemTitle", async (req, res, next) => {
+itemsRouter.delete("/:itemTitle", adminOnlyMiddleware, async (req, res, next) => {
   try {
     await itemSchema.findOneAndDelete({ title: req.params.itemTitle })
 
