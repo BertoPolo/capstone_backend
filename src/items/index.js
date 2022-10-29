@@ -21,8 +21,24 @@ const cloudinaryfavImagesUploader = multer({
   }),
 }).single("image")
 
+itemsRouter.get("/", async (req, res, next) => {
+  try {
+    const queryToMongo = q2m(req.query)
+    console.log(queryToMongo)
+    const products = await itemSchema
+      .find(queryToMongo.criteria)
+      .limit(queryToMongo.options.limit)
+      .skip(queryToMongo.options.skip)
+      .sort(queryToMongo.options.sort)
+    res.send(products)
+  } catch (error) {
+    next(error)
+  }
+})
+
 //POST a new item
-itemsRouter.post("/new", adminOnlyMiddleware, async (req, res, next) => {
+itemsRouter.post("/new", async (req, res, next) => {
+  //adminOnlyMiddleware
   try {
     //const item = new itemSchema(req.body)
     //await item.save()
