@@ -7,9 +7,9 @@ const itemsSchema = new Schema(
     title: { type: String, required: true },
     price: { type: Number, required: true },
     image: { type: String },
-    mainCategory: { type: String, required: true },
-    category: { type: String },
-    brand: { type: Schema.Types.ObjectId, ref: "Brands" },
+    mainCategory: { type: Schema.Types.ObjectId, ref: "MainCategories", required: true },
+    category: { type: Schema.Types.ObjectId, ref: "Categories" },
+    brand: { type: Schema.Types.ObjectId, ref: "Brands", required: true },
     isOutlet: { type: Boolean, required: true },
     outletPrice: { type: Number },
     description: { type: String, required: true }, // when at Home

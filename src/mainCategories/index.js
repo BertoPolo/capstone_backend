@@ -6,7 +6,8 @@ import { adminOnlyMiddleware } from "../auth/admin.js"
 const mainCategoriesRouter = express.Router()
 
 //POST new Brands
-mainCategoriesRouter.post("/new", adminOnlyMiddleware, async (req, res, next) => {
+mainCategoriesRouter.post("/new", async (req, res, next) => {
+  //, adminOnlyMiddleware
   try {
     const newMcat = new mainCategoriesSchema(req.body)
     const { _id } = await newMcat.save()
