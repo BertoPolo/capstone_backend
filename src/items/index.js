@@ -60,7 +60,12 @@ itemsRouter.get("/", async (req, res, next) => {
     console.log(queryToMongo)
     const products = await itemSchema
       .find(queryToMongo.criteria)
-      .populate(["brand", "category", "mainCategory"]) //{ path: "brand", select: "brands" }{ path: "category", select: "categories" }
+      // .populate(["brand", "category", "mainCategory"]) //({ path: "brand", select: "brands" })
+      .populate([
+        { path: "brand", select: "brands" },
+        { path: "category", select: "categories" },
+        { path: "mainCategory", select: "mainCategories" },
+      ])
       .limit(queryToMongo.options.limit)
       .skip(queryToMongo.options.skip)
       .sort(queryToMongo.options.sort)
