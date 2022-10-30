@@ -59,8 +59,8 @@ itemsRouter.get("/", async (req, res, next) => {
     const queryToMongo = q2m(req.query)
     console.log(queryToMongo)
     const products = await itemSchema
-      // .populate({ path: "brand", select: "brands" })
       .find(queryToMongo.criteria)
+      .populate(["brand", "category", "mainCategory"]) //{ path: "brand", select: "brands" }{ path: "category", select: "categories" }
       .limit(queryToMongo.options.limit)
       .skip(queryToMongo.options.skip)
       .sort(queryToMongo.options.sort)
