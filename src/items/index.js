@@ -44,9 +44,14 @@ itemsRouter.post("/new", async (req, res, next) => {
 itemsRouter.put("/:itemId/img", cloudinaryfavImagesUploader, async (req, res, next) => {
   // adminOnlyMiddleware
   try {
-    // const itemToUpdate = await itemSchema.findOneAndUpdate({ title: req.params.itemId }, { ...req.body }, { new: true })
+    const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { image: req.file.path }, { new: true })
 
-    res.status(201).send()
+    if (itemToUpdate) {
+      res.status(201).send(itemToUpdate)
+    } else {
+      next(createError(404, `this item ${req.params.itemId} is not found`))
+      console.log(error)
+    }
   } catch (error) {
     console.log(error)
     next(error)
