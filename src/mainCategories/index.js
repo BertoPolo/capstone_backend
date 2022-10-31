@@ -22,7 +22,7 @@ mainCategoriesRouter.post("/new", async (req, res, next) => {
 //GET ALL Brands
 mainCategoriesRouter.get("/all", async (req, res, next) => {
   try {
-    const mCats = await mainCategoriesSchema.find({})
+    const mCats = await mainCategoriesSchema.find({}).sort({ title: "asc" })
 
     if (mCats) {
       res.status(200).send(mCats)
