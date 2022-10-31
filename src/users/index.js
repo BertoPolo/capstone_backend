@@ -68,7 +68,7 @@ usersRouter.put("/edit/:username", adminOnlyMiddleware, async (req, res, next) =
 })
 
 //Delete user  -----TESTED----
-usersRouter.delete("/:name", adminOnlyMiddleware, async (req, res, next) => {
+usersRouter.delete("/delete/:name", adminOnlyMiddleware, async (req, res, next) => {
   try {
     const lowName = req.params.name.toLocaleLowerCase()
     await usersSchema.findOneAndDelete({ name: lowName })

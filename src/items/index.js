@@ -62,8 +62,8 @@ itemsRouter.put("/:itemId/img", cloudinaryfavImagesUploader, async (req, res, ne
 itemsRouter.get("/", async (req, res, next) => {
   try {
     const queryToMongo = q2m(req.query)
-    //query example : localhost:3004/items?limit=10&sort=-title?category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
-    http: console.log(queryToMongo)
+    // http://query example : localhost:3004/items?limit=10&sort=-title?category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
+    console.log(queryToMongo)
     const products = await itemSchema
       .find(queryToMongo.criteria)
       // .populate(["brand", "category", "mainCategory"]) //({ path: "brand", select: "brands" })
