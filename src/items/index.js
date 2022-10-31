@@ -41,12 +41,12 @@ itemsRouter.post("/new", async (req, res, next) => {
 })
 
 //POST/PUT img's item
-itemsRouter.put("/:itemTitle/img", cloudinaryfavImagesUploader, adminOnlyMiddleware, async (req, res, next) => {
+itemsRouter.put("/:itemId/img", cloudinaryfavImagesUploader, async (req, res, next) => {
+  // adminOnlyMiddleware
   try {
-    // const item = new itemSchema(req.body)
-    // const { _id } = await item.save()
+    // const itemToUpdate = await itemSchema.findOneAndUpdate({ title: req.params.itemId }, { ...req.body }, { new: true })
 
-    res.status(201).send(_id)
+    res.status(201).send()
   } catch (error) {
     console.log(error)
     next(error)
@@ -57,7 +57,8 @@ itemsRouter.put("/:itemTitle/img", cloudinaryfavImagesUploader, adminOnlyMiddlew
 itemsRouter.get("/", async (req, res, next) => {
   try {
     const queryToMongo = q2m(req.query)
-    console.log(queryToMongo)
+    //query example : localhost:3004/items?limit=10&sort=-title?category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
+    http: console.log(queryToMongo)
     const products = await itemSchema
       .find(queryToMongo.criteria)
       // .populate(["brand", "category", "mainCategory"]) //({ path: "brand", select: "brands" })
