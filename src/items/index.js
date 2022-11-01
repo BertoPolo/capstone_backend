@@ -59,7 +59,7 @@ itemsRouter.put("/:itemId/img", cloudinaryfavImagesUploader, async (req, res, ne
 })
 
 //GET filtered items
-// http://query example : localhost:3004/items?limit=10&sort=-title?category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
+// http://query example : localhost:3004/items?limit=10&sort=-title&category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
 itemsRouter.get("/", async (req, res, next) => {
   try {
     const queryToMongo = q2m(req.query)
@@ -75,6 +75,7 @@ itemsRouter.get("/", async (req, res, next) => {
       .limit(queryToMongo.options.limit)
       .skip(queryToMongo.options.skip)
       .sort(queryToMongo.options.sort)
+
     // console.log(req.user)
 
     if (products.length !== 0) {
@@ -118,7 +119,7 @@ itemsRouter.put("/edit/:itemId", async (req, res, next) => {
 })
 
 ///DELETE item ---TESTED----
-itemsRouter.delete("/:itemId", adminOnlyMiddleware, async (req, res, next) => {
+itemsRouter.delete("/delete/:itemId", adminOnlyMiddleware, async (req, res, next) => {
   try {
     await itemSchema.findByIdAndDelete(req.params.itemId)
 
