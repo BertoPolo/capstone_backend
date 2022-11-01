@@ -30,16 +30,14 @@ usersRouter.post("/", adminOnlyMiddleware, async (req, res, next) => {
 //   }
 // })
 
-//Get searched users -- 404 not returned--
+//Get searched users
 usersRouter.get("/:name", async (req, res, next) => {
   try {
     const user = await usersSchema.find({ name: { $regex: req.params.name, $options: "i" } })
+    // you can also sort by name
 
-    if (user) {
-      res.status(200).send(user)
-    } else {
-      res.status(404).send("user not found")
-    }
+    if (user) res.status(200).send(user)
+    else res.status(404).send("user not found")
   } catch (error) {
     console.log(error)
     next(error)
@@ -47,7 +45,8 @@ usersRouter.get("/:name", async (req, res, next) => {
 })
 
 //PUT  edit your self account data --- TESTED----
-usersRouter.put("/edit/:username", adminOnlyMiddleware, async (req, res, next) => {
+usersRouter.put("/edit/:username", async (req, res, next) => {
+  // , adminOnlyMiddleware
   try {
     const user = await usersSchema.findOneAndUpdate(
       { username: req.params.username },
@@ -56,11 +55,8 @@ usersRouter.put("/edit/:username", adminOnlyMiddleware, async (req, res, next) =
       },
       { new: true }
     )
-    if (user) {
-      res.status(201).send(user)
-    } else {
-      res.status(404).send("user not found")
-    }
+    if (user) res.status(201).send(user)
+    else res.status(404).send("user not found")
   } catch (error) {
     console.log(error)
     next(error)
@@ -68,10 +64,10 @@ usersRouter.put("/edit/:username", adminOnlyMiddleware, async (req, res, next) =
 })
 
 //Delete user  -----TESTED----
-usersRouter.delete("/delete/:name", adminOnlyMiddleware, async (req, res, next) => {
+usersRouter.delete("/delete/:userId", async (req, res, next) => {
+  // , adminOnlyMiddleware
   try {
-    const lowName = req.params.name.toLocaleLowerCase()
-    await usersSchema.findOneAndDelete({ name: lowName })
+    await usersSchema.findByIdAndDelete(req.params.userId)
 
     res.status(200).send("deleted successfully")
   } catch (error) {

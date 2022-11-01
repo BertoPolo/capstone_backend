@@ -24,9 +24,8 @@ categoriesRouter.get("/all", async (req, res, next) => {
   try {
     const categories = await categoriesSchema.find({}).sort({ title: "asc" }).populate({ path: "mainCategory", select: "mainCategories" })
 
-    if (categories) {
-      res.status(200).send(categories)
-    }
+    if (categories) res.status(200).send(categories)
+    else res.status(404).send()
   } catch (error) {
     console.log(error)
     next(createError(404, `no categories founded`))

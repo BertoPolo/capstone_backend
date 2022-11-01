@@ -93,7 +93,8 @@ itemsRouter.get("/random", async (req, res, next) => {
     // else normal find()
     const items = await itemSchema.find({ $sample: { size: 15 } })
 
-    res.status(200).send(items)
+    if (items) res.status(200).send(items)
+    else res.status(404).send()
   } catch (error) {
     console.log(error)
     next(error)
@@ -106,9 +107,8 @@ itemsRouter.put("/edit/:itemId", async (req, res, next) => {
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { ...req.body }, { new: true })
 
-    if (itemToUpdate) {
-      res.status(201).send(itemToUpdate)
-    } else {
+    if (itemToUpdate) res.status(201).send(itemToUpdate)
+    else {
       next(createError(404, `this item ${req.params.itemTitle} is not found`))
       console.log(error)
     }

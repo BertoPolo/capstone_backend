@@ -24,9 +24,8 @@ mainCategoriesRouter.get("/all", async (req, res, next) => {
   try {
     const mCats = await mainCategoriesSchema.find({}).sort({ title: "asc" })
 
-    if (mCats) {
-      res.status(200).send(mCats)
-    }
+    if (mCats) res.status(200).send(mCats)
+    else res.status(404).send()
   } catch (error) {
     console.log(error)
     next(createError(404, `no Main Categories founded`))
