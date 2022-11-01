@@ -77,9 +77,9 @@ itemsRouter.get("/", async (req, res, next) => {
       .sort(queryToMongo.options.sort)
     // console.log(req.user)
 
-    // if (products.length < 0) {
-    res.send(products)
-    // } else res.status(404).send("no data found")
+    if (products.length !== 0) {
+      res.send(products)
+    } else res.status(404).send("no data found")
   } catch (error) {
     next(error)
   }
@@ -95,6 +95,35 @@ itemsRouter.get("/random", async (req, res, next) => {
     res.status(200).send(items)
   } catch (error) {
     console.log(error)
+    next(error)
+  }
+})
+
+///PUT item  ---TESTED----
+itemsRouter.put("/edit/:itemId", async (req, res, next) => {
+  // , adminOnlyMiddleware
+  try {
+    const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { ...req.body }, { new: true })
+
+    if (itemToUpdate) {
+      res.status(201).send(itemToUpdate)
+    } else {
+      next(createError(404, `this item ${req.params.itemTitle} is not found`))
+      console.log(error)
+    }
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
+///DELETE item ---TESTED----
+itemsRouter.delete("/:itemId", adminOnlyMiddleware, async (req, res, next) => {
+  try {
+    await itemSchema.findByIdAndDelete(req.params.itemId)
+
+    res.status(200).send("item was deleted successfully")
+  } catch (error) {
     next(error)
   }
 })
@@ -173,34 +202,5 @@ itemsRouter.get("/random", async (req, res, next) => {
 //     next(error)
 //   }
 // })
-
-///PUT item  ---TESTED----
-itemsRouter.put("/:itemTitle", adminOnlyMiddleware, async (req, res, next) => {
-  // should be /itemEdit/:itemTitle
-  try {
-    const itemToUpdate = await itemSchema.findOneAndUpdate({ title: req.params.itemTitle }, { ...req.body }, { new: true })
-
-    if (itemToUpdate) {
-      res.status(201).send(itemToUpdate)
-    } else {
-      next(createError(404, `this item ${req.params.itemTitle} is not found`))
-      console.log(error)
-    }
-  } catch (error) {
-    console.log(error)
-    next(error)
-  }
-})
-
-///DELETE item ---TESTED----
-itemsRouter.delete("/:itemTitle", adminOnlyMiddleware, async (req, res, next) => {
-  try {
-    await itemSchema.findOneAndDelete({ title: req.params.itemTitle })
-
-    res.status(200).send("item was deleted successfully")
-  } catch (error) {
-    next(error)
-  }
-})
 
 export default itemsRouter
