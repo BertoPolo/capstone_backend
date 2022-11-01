@@ -59,10 +59,10 @@ itemsRouter.put("/:itemId/img", cloudinaryfavImagesUploader, async (req, res, ne
 })
 
 //GET filtered items
+// http://query example : localhost:3004/items?limit=10&sort=-title?category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
 itemsRouter.get("/", async (req, res, next) => {
   try {
     const queryToMongo = q2m(req.query)
-    // http://query example : localhost:3004/items?limit=10&sort=-title?category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
     console.log(queryToMongo)
     const products = await itemSchema
       .find(queryToMongo.criteria)
@@ -76,7 +76,10 @@ itemsRouter.get("/", async (req, res, next) => {
       .skip(queryToMongo.options.skip)
       .sort(queryToMongo.options.sort)
     // console.log(req.user)
+
+    // if (products.length < 0) {
     res.send(products)
+    // } else res.status(404).send("no data found")
   } catch (error) {
     next(error)
   }
