@@ -5,7 +5,7 @@ import { adminOnlyMiddleware } from "../auth/admin.js"
 
 const mainCategoriesRouter = express.Router()
 
-//POST new Brands
+//POST new mainCategory
 mainCategoriesRouter.post("/new", async (req, res, next) => {
   //, adminOnlyMiddleware
   try {
@@ -19,10 +19,10 @@ mainCategoriesRouter.post("/new", async (req, res, next) => {
   }
 })
 
-//GET ALL Brands
+//GET ALL MainCategories
 mainCategoriesRouter.get("/all", async (req, res, next) => {
   try {
-    const mCats = await mainCategoriesSchema.find({}).sort({ title: "asc" })
+    const mCats = await mainCategoriesSchema.find().sort({ title: "asc" })
 
     if (mCats) res.status(200).send(mCats)
     else res.status(404).send()
