@@ -18,23 +18,23 @@ usersRouter.post("/", adminOnlyMiddleware, async (req, res, next) => {
   }
 })
 
-//Get single user -----TESTED----
-// usersRouter.get("/:username", async (req, res, next) => {
-//   try {
-//     const user = await usersSchema.findOne({ username: req.params.username })
-
-//     res.status(200).send(user)
-//   } catch (error) {
-//     console.log(error)
-//     next(error)
-//   }
-// })
-
 //Get searched users
 usersRouter.get("/:name", async (req, res, next) => {
   try {
-    const user = await usersSchema.find({ name: { $regex: req.params.name, $options: "i" } })
+    const users = await usersSchema.find({ name: { $regex: req.params.name, $options: "i" } })
     // you can also sort by name
+
+    if (users) res.status(200).send(users)
+    else res.status(404).send("user not found")
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+//Get single user by ID
+usersRouter.get("/id/:userId", async (req, res, next) => {
+  try {
+    const user = await usersSchema.findById(req.params.userId)
 
     if (user) res.status(200).send(user)
     else res.status(404).send("user not found")
