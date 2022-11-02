@@ -45,11 +45,11 @@ usersRouter.get("/id/:userId", async (req, res, next) => {
 })
 
 //PUT  edit your self account data --- TESTED----
-usersRouter.put("/edit/:username", async (req, res, next) => {
+usersRouter.put("/edit/:userId", async (req, res, next) => {
   // , adminOnlyMiddleware
   try {
-    const user = await usersSchema.findOneAndUpdate(
-      { username: req.params.username },
+    const user = await usersSchema.findByIdAndUpdate(
+      req.params.userId,
       {
         ...req.body,
       },
