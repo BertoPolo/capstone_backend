@@ -119,7 +119,8 @@ itemsRouter.put("/edit/:itemId", async (req, res, next) => {
 })
 
 ///DELETE item ---TESTED----
-itemsRouter.delete("/delete/:itemId", adminOnlyMiddleware, async (req, res, next) => {
+itemsRouter.delete("/delete/:itemId", async (req, res, next) => {
+  // , adminOnlyMiddleware
   try {
     await itemSchema.findByIdAndDelete(req.params.itemId)
 
