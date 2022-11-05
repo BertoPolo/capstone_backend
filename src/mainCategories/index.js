@@ -22,13 +22,13 @@ mainCategoriesRouter.post("/new", async (req, res, next) => {
 //GET ALL MainCategories
 mainCategoriesRouter.get("/all", async (req, res, next) => {
   try {
-    const mCats = await mainCategoriesSchema.find().sort({ title: "asc" })
+    const mCats = await mainCategoriesSchema.find().sort({ title: "asc" }).populate({ path: "categories", select: "categories" })
 
     if (mCats) res.status(200).send(mCats)
     else res.status(404).send()
   } catch (error) {
     console.log(error)
-    next(createError(404, `no Main Categories founded`))
+    next(createError(404, `no main categories found`))
   }
 })
 

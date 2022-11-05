@@ -28,7 +28,7 @@ categoriesRouter.get("/all", async (req, res, next) => {
     else res.status(404).send()
   } catch (error) {
     console.log(error)
-    next(createError(404, `no categories founded`))
+    next(createError(404, `no categories found`))
   }
 })
 

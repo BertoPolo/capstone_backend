@@ -4,7 +4,8 @@ const { Schema, model } = mongoose
 
 const mainCategoriesSchema = new Schema(
   {
-    mainCategories: { type: String, required: true },
+    mainCategory: { type: String, required: true },
+    categories: [{ type: Schema.Types.ObjectId, ref: "Categories" }],
   },
   { timestamps: true }
 )

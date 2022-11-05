@@ -28,7 +28,7 @@ brandsRouter.get("/all", async (req, res, next) => {
     }
   } catch (error) {
     console.log(error)
-    next(createError(404, `no brands founded`))
+    next(createError(404, `no brands found`))
   }
 })
 
