@@ -35,7 +35,7 @@ mainCategoriesRouter.get("/all", async (req, res, next) => {
 //PUT main category
 mainCategoriesRouter.put("/addCat/:mCatId", async (req, res, next) => {
   try {
-    const mCatToModify = await mainCategoriesSchema.findByIdAndUpdate(...req.params.mCatId)
+    const mCatToModify = await mainCategoriesSchema.findByIdAndUpdate(req.params.mCatId, { ...req.body }, { new: true })
 
     if (mCatToModify) res.status(201).send(mCatToModify)
     // else res.status(404).send()
