@@ -37,7 +37,7 @@ mainCategoriesRouter.get("/all", async (req, res, next) => {
 mainCategoriesRouter.put("/addCat/:mCatId", async (req, res, next) => {
   try {
     const id = mongoose.Types.ObjectId(req.body.categories)
-    const mCatToModify = await mainCategoriesSchema.findByIdAndUpdate(req.params.mCatId, { ...id }, { new: true })
+    const mCatToModify = await mainCategoriesSchema.findByIdAndUpdate(req.params.mCatId, { $push: { categories: id } }, { new: true })
 
     if (mCatToModify) res.status(201).send(mCatToModify)
     // else res.status(404).send()
