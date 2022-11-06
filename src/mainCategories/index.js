@@ -25,7 +25,20 @@ mainCategoriesRouter.get("/all", async (req, res, next) => {
     const mCats = await mainCategoriesSchema.find().sort({ title: "ASC" }).populate({ path: "categories", select: "categories" })
 
     if (mCats) res.status(200).send(mCats)
-    else res.status(404).send()
+    // else res.status(404).send()
+  } catch (error) {
+    console.log(error)
+    next(createError(404, `no main categories found`))
+  }
+})
+
+//PUT main category
+mainCategoriesRouter.put("/addCat/:mCatId", async (req, res, next) => {
+  try {
+    const mCatToModify = await mainCategoriesSchema.findByIdAndUpdate(...req.params.mCatId)
+
+    if (mCatToModify) res.status(201).send(mCatToModify)
+    // else res.status(404).send()
   } catch (error) {
     console.log(error)
     next(createError(404, `no main categories found`))
