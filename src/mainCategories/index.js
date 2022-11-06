@@ -1,6 +1,7 @@
 import mainCategoriesSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
+import { mongoose } from "mongoose"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 
 const mainCategoriesRouter = express.Router()
@@ -35,7 +36,8 @@ mainCategoriesRouter.get("/all", async (req, res, next) => {
 //PUT main category
 mainCategoriesRouter.put("/addCat/:mCatId", async (req, res, next) => {
   try {
-    const mCatToModify = await mainCategoriesSchema.findByIdAndUpdate(req.params.mCatId, { ...req.body }, { new: true })
+    const id = mongoose.Types.ObjectId(req.body.categories)
+    const mCatToModify = await mainCategoriesSchema.findByIdAndUpdate(req.params.mCatId, { ...id }, { new: true })
 
     if (mCatToModify) res.status(201).send(mCatToModify)
     // else res.status(404).send()
