@@ -22,7 +22,7 @@ categoriesRouter.post("/new", async (req, res, next) => {
 //GET ALL categories
 categoriesRouter.get("/all", async (req, res, next) => {
   try {
-    const categories = await categoriesSchema.find().sort({ title: "asc" })
+    const categories = await categoriesSchema.find().sort({ categories: "ASC" })
     if (categories) res.status(200).send(categories)
     else res.status(404).send()
   } catch (error) {
