@@ -6,7 +6,8 @@ import { adminOnlyMiddleware } from "../auth/admin.js"
 const usersRouter = express.Router()
 
 //POST a new user -----TESTED----
-usersRouter.post("/", adminOnlyMiddleware, async (req, res, next) => {
+usersRouter.post("/", async (req, res, next) => {
+  // , adminOnlyMiddleware
   try {
     const newUser = new usersSchema(req.body)
     const { _id } = await newUser.save()
