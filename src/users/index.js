@@ -9,6 +9,7 @@ const usersRouter = express.Router()
 usersRouter.post("/", async (req, res, next) => {
   // , adminOnlyMiddleware
   try {
+    //check if the user already exists
     const newUser = new usersSchema(req.body)
     const { _id } = await newUser.save()
 
@@ -32,10 +33,10 @@ usersRouter.get("/:name", async (req, res, next) => {
     next(error)
   }
 })
-//Get single user by ID
-usersRouter.get("/id/:userId", async (req, res, next) => {
+//Get single user by username
+usersRouter.get("/username/:username", async (req, res, next) => {
   try {
-    const user = await usersSchema.findById(req.params.userId)
+    const user = await usersSchema.findOne({ username: req.params.username })
 
     if (user) res.status(200).send(user)
     else res.status(404).send("user not found")
