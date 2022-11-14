@@ -1,6 +1,6 @@
 import createError from "http-errors"
 import atob from "atob"
-import UsersModel from "../api/users/model.js"
+import UsersModel from "../users/model.js"
 
 export const basicAuthMiddleware = async (req, res, next) => {
   // Here we are receiving something like --> Authorization: "Basic am9obkByYW1iby5jb206MTIzNA=="
