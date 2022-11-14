@@ -7,7 +7,7 @@ import { adminOnlyMiddleware } from "../auth/admin.js"
 const usersRouter = express.Router()
 
 //POST a new user -----TESTED----
-usersRouter.post("/", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+usersRouter.post("/", async (req, res, next) => {
   try {
     //check if the user already exists
     const newUser = new usersSchema(req.body)
@@ -33,6 +33,7 @@ usersRouter.get("/:name", basicAuthMiddleware, async (req, res, next) => {
     next(error)
   }
 })
+
 //Get single user by username
 usersRouter.get("/username/:username", basicAuthMiddleware, async (req, res, next) => {
   try {

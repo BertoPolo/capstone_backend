@@ -7,15 +7,17 @@ export const basicAuthMiddleware = async (req, res, next) => {
     next(createError(401, "Please provide credentials in Authorization header!"))
   } else {
     const base64Credentials = req.headers.authorization.split(" ")[1]
-    const [username, password] = atob(base64Credentials).split(":")
-    console.log(`username: ${username}, PASSWORD: ${password}`)
+    const [name, password] = atob(base64Credentials).split(":")
+    console.log(`name: ${name}, PASSWORD: ${password}`)
 
-    const user = await UsersModel.checkCredentials(username, password)
+    const user = await UsersModel.checkCredentials(name, password)
 
     if (user) {
       req.user = user
+      console.log("auth successfull")
       next()
     } else {
+      console.log("auth not passed")
       next(createError(401, "Credentials are wrong!"))
     }
   }
