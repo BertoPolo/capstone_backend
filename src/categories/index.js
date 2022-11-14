@@ -32,4 +32,6 @@ categoriesRouter.get("/all", async (req, res, next) => {
   }
 })
 
+//Delete Category
+
 export default categoriesRouter
