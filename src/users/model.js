@@ -14,7 +14,7 @@ const usersSchema = new Schema(
   },
   { timestamps: true }
 )
-
+//protect passwords
 usersSchema.pre("save", async function (next) {
   const currentUser = this
   const plainPW = this.password
@@ -26,6 +26,7 @@ usersSchema.pre("save", async function (next) {
   next()
 })
 
+//delete password and __v in any res.send
 usersSchema.methods.toJSON = function () {
   const userDocument = this
   const userObject = userDocument.toObject()
