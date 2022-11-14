@@ -2,13 +2,13 @@ import mainCategoriesSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
 import { mongoose } from "mongoose"
+import { basicAuthMiddleware } from "../auth/basic.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 
 const mainCategoriesRouter = express.Router()
 
 //POST new mainCategory
-mainCategoriesRouter.post("/new", async (req, res, next) => {
-  //, adminOnlyMiddleware
+mainCategoriesRouter.post("/new", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const newMcat = new mainCategoriesSchema(req.body)
     const { _id } = await newMcat.save()
@@ -21,7 +21,7 @@ mainCategoriesRouter.post("/new", async (req, res, next) => {
 })
 
 //GET ALL MainCategories
-mainCategoriesRouter.get("/all", async (req, res, next) => {
+mainCategoriesRouter.get("/all", basicAuthMiddleware, async (req, res, next) => {
   try {
     const mCats = await mainCategoriesSchema.find().sort({ mainCategory: "ASC" }).populate({ path: "categories", select: "categories" })
 
@@ -34,7 +34,7 @@ mainCategoriesRouter.get("/all", async (req, res, next) => {
 })
 
 //PUT main category
-mainCategoriesRouter.put("/addCat/:mCatId", async (req, res, next) => {
+mainCategoriesRouter.put("/addCat/:mCatId", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const id = mongoose.Types.ObjectId(req.body.categories)
     const mCatToModify = await mainCategoriesSchema.findByIdAndUpdate(req.params.mCatId, { $push: { categories: id } }, { new: true })
@@ -46,5 +46,6 @@ mainCategoriesRouter.put("/addCat/:mCatId", async (req, res, next) => {
     next(createError(404, `no main categories found`))
   }
 })
+//Delete Main Category
 
 export default mainCategoriesRouter

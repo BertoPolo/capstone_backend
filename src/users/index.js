@@ -49,7 +49,6 @@ usersRouter.get("/username/:username", basicAuthMiddleware, async (req, res, nex
 
 //PUT  edit your self account data --- TESTED----
 usersRouter.put("/edit/:userId", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
-  // , adminOnlyMiddleware
   try {
     const user = await usersSchema.findByIdAndUpdate(
       req.params.userId,
@@ -68,7 +67,6 @@ usersRouter.put("/edit/:userId", basicAuthMiddleware, adminOnlyMiddleware, async
 
 //Delete user  -----TESTED----
 usersRouter.delete("/delete/:userId", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
-  // , adminOnlyMiddleware
   try {
     await usersSchema.findByIdAndDelete(req.params.userId)
 

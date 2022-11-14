@@ -6,6 +6,7 @@ import multer from "multer"
 import { CloudinaryStorage } from "multer-storage-cloudinary"
 import { v2 as cloudinary } from "cloudinary"
 import { adminOnlyMiddleware } from "../auth/admin.js"
+import { basicAuthMiddleware } from "../auth/basic.js"
 
 const itemsRouter = express.Router()
 
@@ -22,8 +23,7 @@ const cloudinaryfavImagesUploader = multer({
 }).single("image")
 
 //POST a new item
-itemsRouter.post("/new", async (req, res, next) => {
-  //adminOnlyMiddleware
+itemsRouter.post("/new", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     //const item = new itemSchema(req.body)
     //await item.save()
@@ -41,7 +41,7 @@ itemsRouter.post("/new", async (req, res, next) => {
 })
 
 //POST/PUT img's item
-itemsRouter.put("/:itemId/img", cloudinaryfavImagesUploader, async (req, res, next) => {
+itemsRouter.put("/:itemId/img", cloudinaryfavImagesUploader, basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   // adminOnlyMiddleware
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { image: req.file.path }, { new: true })
@@ -76,8 +76,6 @@ itemsRouter.get("/", async (req, res, next) => {
       .skip(queryToMongo.options.skip)
       .sort(queryToMongo.options.sort)
 
-    // console.log(req.user)
-
     if (products.length !== 0) {
       res.send(products)
     } else res.status(404).send("no data found")
@@ -102,7 +100,7 @@ itemsRouter.get("/random", async (req, res, next) => {
 })
 
 ///PUT item  ---TESTED----
-itemsRouter.put("/edit/:itemId", async (req, res, next) => {
+itemsRouter.put("/edit/:itemId", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   // , adminOnlyMiddleware
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { ...req.body }, { new: true })
@@ -119,7 +117,7 @@ itemsRouter.put("/edit/:itemId", async (req, res, next) => {
 })
 
 ///DELETE item ---TESTED----
-itemsRouter.delete("/delete/:itemId", async (req, res, next) => {
+itemsRouter.delete("/delete/:itemId", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   // , adminOnlyMiddleware
   try {
     await itemSchema.findByIdAndDelete(req.params.itemId)

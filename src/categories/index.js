@@ -2,11 +2,12 @@ import categoriesSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
 import { adminOnlyMiddleware } from "../auth/admin.js"
+import { basicAuthMiddleware } from "../auth/basic.js"
 
 const categoriesRouter = express.Router()
 
 //POST new categories
-categoriesRouter.post("/new", async (req, res, next) => {
+categoriesRouter.post("/new", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   //adminOnlyMiddleware
   try {
     const newCategory = new categoriesSchema(req.body)
