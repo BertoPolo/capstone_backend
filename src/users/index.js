@@ -1,6 +1,7 @@
 import usersSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
+import { JWTAuthMiddleware } from "../auth/token.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 
 const usersRouter = express.Router()

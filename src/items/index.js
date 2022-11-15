@@ -6,6 +6,7 @@ import multer from "multer"
 import { CloudinaryStorage } from "multer-storage-cloudinary"
 import { v2 as cloudinary } from "cloudinary"
 import { adminOnlyMiddleware } from "../auth/admin.js"
+import { JWTAuthMiddleware } from "../auth/token.js"
 
 const itemsRouter = express.Router()
 

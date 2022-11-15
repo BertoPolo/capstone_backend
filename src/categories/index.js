@@ -2,6 +2,7 @@ import categoriesSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
 import { adminOnlyMiddleware } from "../auth/admin.js"
+import { JWTAuthMiddleware } from "../auth/token.js"
 
 const categoriesRouter = express.Router()
 

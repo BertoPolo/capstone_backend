@@ -3,6 +3,7 @@ import express from "express"
 import createError from "http-errors"
 import { mongoose } from "mongoose"
 import { adminOnlyMiddleware } from "../auth/admin.js"
+import { JWTAuthMiddleware } from "../auth/token.js"
 
 const mainCategoriesRouter = express.Router()
 
