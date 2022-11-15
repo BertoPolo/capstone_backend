@@ -45,8 +45,7 @@ usersRouter.post("/", async (req, res, next) => {
 })
 
 //Get searched users
-usersRouter.get("/:name", async (req, res, next) => {
-  // , JWTAuthMiddleware
+usersRouter.get("/:name", JWTAuthMiddleware, async (req, res, next) => {
   try {
     const users = await usersSchema.find({ name: { $regex: req.params.name, $options: "i" } })
     // you can also sort by name
@@ -60,8 +59,7 @@ usersRouter.get("/:name", async (req, res, next) => {
 })
 
 //Get single user by username
-usersRouter.get("/username/:username", async (req, res, next) => {
-  // , JWTAuthMiddleware
+usersRouter.get("/username/:username", JWTAuthMiddleware, async (req, res, next) => {
   try {
     const user = await usersSchema.findOne({ username: req.params.username })
 
@@ -73,9 +71,8 @@ usersRouter.get("/username/:username", async (req, res, next) => {
   }
 })
 
-//PUT  edit your self account data --- TESTED----
-usersRouter.put("/edit/:userId", async (req, res, next) => {
-  // , JWTAuthMiddleware, adminOnlyMiddleware
+//PUT  edit your self account data
+usersRouter.put("/edit/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const user = await usersSchema.findByIdAndUpdate(
       req.params.userId,
@@ -92,9 +89,8 @@ usersRouter.put("/edit/:userId", async (req, res, next) => {
   }
 })
 
-//Delete user  -----TESTED----
-usersRouter.delete("/delete/:userId", async (req, res, next) => {
-  // , JWTAuthMiddleware, adminOnlyMiddleware
+//Delete user
+usersRouter.delete("/delete/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     await usersSchema.findByIdAndDelete(req.params.userId)
 

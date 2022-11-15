@@ -7,8 +7,7 @@ import { JWTAuthMiddleware } from "../auth/token.js"
 const categoriesRouter = express.Router()
 
 //POST new categories
-categoriesRouter.post("/new", async (req, res, next) => {
-  // , JWTAuthMiddleware, adminOnlyMiddleware
+categoriesRouter.post("/new", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const newCategory = new categoriesSchema(req.body)
     const { _id } = await newCategory.save()

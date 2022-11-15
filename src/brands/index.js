@@ -7,8 +7,7 @@ import { JWTAuthMiddleware } from "../auth/token.js"
 const brandsRouter = express.Router()
 
 //POST new Brands
-brandsRouter.post("/new", async (req, res, next) => {
-  // , JWTAuthMiddleware, adminOnlyMiddleware
+brandsRouter.post("/new", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const newBrands = new brandsSchema(req.body)
     const { _id } = await newBrands.save()

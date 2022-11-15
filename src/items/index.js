@@ -24,7 +24,6 @@ const cloudinaryfavImagesUploader = multer({
 
 //POST a new item
 itemsRouter.post("/new", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
-  // , JWTAuthMiddleware, adminOnlyMiddleware
   try {
     //const item = new itemSchema(req.body)
     //await item.save()
@@ -43,8 +42,6 @@ itemsRouter.post("/new", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res
 
 //POST/PUT img's item
 itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudinaryfavImagesUploader, async (req, res, next) => {
-  // , JWTAuthMiddleware, adminOnlyMiddleware
-
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { image: req.file.path }, { new: true })
 
@@ -102,8 +99,7 @@ itemsRouter.get("/random", async (req, res, next) => {
 })
 
 ///PUT item
-itemsRouter.put("/edit/:itemId", async (req, res, next) => {
-  // , JWTAuthMiddleware, adminOnlyMiddleware
+itemsRouter.put("/edit/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { ...req.body }, { new: true })
 
@@ -120,7 +116,6 @@ itemsRouter.put("/edit/:itemId", async (req, res, next) => {
 
 ///DELETE item
 itemsRouter.delete("/delete/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
-  // , JWTAuthMiddleware, adminOnlyMiddleware
   try {
     await itemSchema.findByIdAndDelete(req.params.itemId)
 
