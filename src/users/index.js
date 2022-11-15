@@ -7,19 +7,6 @@ import { adminOnlyMiddleware } from "../auth/admin.js"
 
 const usersRouter = express.Router()
 
-//POST a new user -----TESTED----
-usersRouter.post("/", async (req, res, next) => {
-  try {
-    //check if the user already exists
-    const newUser = new usersSchema(req.body)
-    const { _id } = await newUser.save()
-
-    res.status(201).send(_id)
-  } catch (error) {
-    console.log(error)
-    next(error)
-  }
-})
 //POST create a new token
 usersRouter.post("/login", async (req, res, next) => {
   try {
@@ -43,9 +30,23 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 })
 
+//POST a new user
+usersRouter.post("/", async (req, res, next) => {
+  try {
+    //check if the user already exists
+    const newUser = new usersSchema(req.body)
+    const { _id } = await newUser.save()
+
+    res.status(201).send(_id)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
 //Get searched users
 usersRouter.get("/:name", async (req, res, next) => {
-  // , basicAuthMiddleware
+  // , JWTAuthMiddleware
   try {
     const users = await usersSchema.find({ name: { $regex: req.params.name, $options: "i" } })
     // you can also sort by name
@@ -60,7 +61,7 @@ usersRouter.get("/:name", async (req, res, next) => {
 
 //Get single user by username
 usersRouter.get("/username/:username", async (req, res, next) => {
-  // , basicAuthMiddleware
+  // , JWTAuthMiddleware
   try {
     const user = await usersSchema.findOne({ username: req.params.username })
 
@@ -74,7 +75,7 @@ usersRouter.get("/username/:username", async (req, res, next) => {
 
 //PUT  edit your self account data --- TESTED----
 usersRouter.put("/edit/:userId", async (req, res, next) => {
-  // , basicAuthMiddleware, adminOnlyMiddleware
+  // , JWTAuthMiddleware, adminOnlyMiddleware
   try {
     const user = await usersSchema.findByIdAndUpdate(
       req.params.userId,
@@ -93,7 +94,7 @@ usersRouter.put("/edit/:userId", async (req, res, next) => {
 
 //Delete user  -----TESTED----
 usersRouter.delete("/delete/:userId", async (req, res, next) => {
-  // , basicAuthMiddleware, adminOnlyMiddleware
+  // , JWTAuthMiddleware, adminOnlyMiddleware
   try {
     await usersSchema.findByIdAndDelete(req.params.userId)
 

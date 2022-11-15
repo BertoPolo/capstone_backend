@@ -23,8 +23,8 @@ const cloudinaryfavImagesUploader = multer({
 }).single("image")
 
 //POST a new item
-itemsRouter.post("/new", async (req, res, next) => {
-  // , basicAuthMiddleware, adminOnlyMiddleware
+itemsRouter.post("/new", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+  // , JWTAuthMiddleware, adminOnlyMiddleware
   try {
     //const item = new itemSchema(req.body)
     //await item.save()
@@ -42,9 +42,9 @@ itemsRouter.post("/new", async (req, res, next) => {
 })
 
 //POST/PUT img's item
-itemsRouter.put("/:itemId/img", cloudinaryfavImagesUploader, async (req, res, next) => {
-  // , basicAuthMiddleware, adminOnlyMiddleware
-  // adminOnlyMiddleware
+itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudinaryfavImagesUploader, async (req, res, next) => {
+  // , JWTAuthMiddleware, adminOnlyMiddleware
+
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { image: req.file.path }, { new: true })
 
@@ -101,9 +101,9 @@ itemsRouter.get("/random", async (req, res, next) => {
   }
 })
 
-///PUT item  ---TESTED----
+///PUT item
 itemsRouter.put("/edit/:itemId", async (req, res, next) => {
-  // , basicAuthMiddleware, adminOnlyMiddleware
+  // , JWTAuthMiddleware, adminOnlyMiddleware
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { ...req.body }, { new: true })
 
@@ -118,9 +118,9 @@ itemsRouter.put("/edit/:itemId", async (req, res, next) => {
   }
 })
 
-///DELETE item ---TESTED----
-itemsRouter.delete("/delete/:itemId", async (req, res, next) => {
-  // , basicAuthMiddleware, adminOnlyMiddleware
+///DELETE item
+itemsRouter.delete("/delete/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+  // , JWTAuthMiddleware, adminOnlyMiddleware
   try {
     await itemSchema.findByIdAndDelete(req.params.itemId)
 
@@ -129,80 +129,5 @@ itemsRouter.delete("/delete/:itemId", async (req, res, next) => {
     next(error)
   }
 })
-
-//GET filtered BY TITLE items
-// itemsRouter.get("/bytitle/:itemTitle", async (req, res, next) => {
-//   try {
-//     const items = await itemSchema.find({ title: { $regex: req.params.itemTitle, $options: "i" } }).populate({ path: "brand", select: "brands" })
-//     const mongoQuery = q2m(req.query)
-
-//     res.status(200).send(items)
-//   } catch (error) {
-//     console.log(error)
-//     next(createError(404, `this item ${req.params.itemTitle} is not found`))
-//   }
-// })
-
-//GET  BY CATEGORY items
-// itemsRouter.get("/category/:category", async (req, res, next) => {
-//   try {
-//     const items = await itemSchema.find({ category: req.params.category })
-//     if (items) {
-//       res.status(200).send(items)
-//     } else {
-//       res.status(404).send("category not found")
-//     }
-//   } catch (error) {
-//     console.log(error)
-//     next(createError(404, `this category ${req.params.category} is not found`))
-//   }
-// })
-
-//GET  BY mainCategory items
-// itemsRouter.get("/mainCategory/:mainCategory", async (req, res, next) => {
-//   try {
-//     const items = await itemSchema.find({ mainCategory: req.params.mainCategory })
-//     if (items) {
-//       res.status(200).send(items)
-//     } else {
-//       res.status(404).send("mainCategory not found")
-//     }
-//   } catch (error) {
-//     console.log(error)
-//     next(createError(404, `this category ${req.params.mainCategory} is not found`))
-//   }
-// })
-
-//GET  BY brand's item
-// itemsRouter.get("/brand/:brand", async (req, res, next) => {
-//   try {
-//     const items = await itemSchema.find({ brand: req.params.brand })
-
-//     if (items) {
-//       res.status(200).send(items)
-//     } else {
-//       res.status(404).send("brand not found")
-//     }
-//   } catch (error) {
-//     console.log(error)
-//     next(createError(404, `this brand ${req.params.brand} is not found`))
-//   }
-// })
-
-///GET single item
-// itemsRouter.get("/:itemTitle", async (req, res, next) => {
-//   try {
-//     const item = await itemSchema.findOne({ title: req.params.itemTitle })
-
-//     if (item) {
-//       res.status(200).send(item)
-//     } else {
-//       next(createError(404, `this item ${req.params.itemTitle} is not found`))
-//     }
-//   } catch (error) {
-//     console.log(error)
-//     next(error)
-//   }
-// })
 
 export default itemsRouter

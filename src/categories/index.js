@@ -8,7 +8,7 @@ const categoriesRouter = express.Router()
 
 //POST new categories
 categoriesRouter.post("/new", async (req, res, next) => {
-  // , basicAuthMiddleware, adminOnlyMiddleware
+  // , JWTAuthMiddleware, adminOnlyMiddleware
   try {
     const newCategory = new categoriesSchema(req.body)
     const { _id } = await newCategory.save()

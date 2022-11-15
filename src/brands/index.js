@@ -8,7 +8,7 @@ const brandsRouter = express.Router()
 
 //POST new Brands
 brandsRouter.post("/new", async (req, res, next) => {
-  // , basicAuthMiddleware, adminOnlyMiddleware
+  // , JWTAuthMiddleware, adminOnlyMiddleware
   try {
     const newBrands = new brandsSchema(req.body)
     const { _id } = await newBrands.save()
