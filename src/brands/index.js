@@ -7,8 +7,8 @@ import { basicAuthMiddleware } from "../auth/basic.js"
 const brandsRouter = express.Router()
 
 //POST new Brands
-brandsRouter.post("/new", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
-  // , adminOnlyMiddleware,
+brandsRouter.post("/new", async (req, res, next) => {
+  // , basicAuthMiddleware, adminOnlyMiddleware
   try {
     const newBrands = new brandsSchema(req.body)
     const { _id } = await newBrands.save()

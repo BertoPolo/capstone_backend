@@ -7,8 +7,8 @@ import { basicAuthMiddleware } from "../auth/basic.js"
 const categoriesRouter = express.Router()
 
 //POST new categories
-categoriesRouter.post("/new", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
-  //adminOnlyMiddleware
+categoriesRouter.post("/new", async (req, res, next) => {
+  // , basicAuthMiddleware, adminOnlyMiddleware
   try {
     const newCategory = new categoriesSchema(req.body)
     const { _id } = await newCategory.save()

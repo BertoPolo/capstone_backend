@@ -23,7 +23,8 @@ const cloudinaryfavImagesUploader = multer({
 }).single("image")
 
 //POST a new item
-itemsRouter.post("/new", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+itemsRouter.post("/new", async (req, res, next) => {
+  // , basicAuthMiddleware, adminOnlyMiddleware
   try {
     //const item = new itemSchema(req.body)
     //await item.save()
@@ -41,7 +42,8 @@ itemsRouter.post("/new", basicAuthMiddleware, adminOnlyMiddleware, async (req, r
 })
 
 //POST/PUT img's item
-itemsRouter.put("/:itemId/img", cloudinaryfavImagesUploader, basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+itemsRouter.put("/:itemId/img", cloudinaryfavImagesUploader, async (req, res, next) => {
+  // , basicAuthMiddleware, adminOnlyMiddleware
   // adminOnlyMiddleware
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { image: req.file.path }, { new: true })
@@ -89,7 +91,7 @@ itemsRouter.get("/random", async (req, res, next) => {
   try {
     // if query parameter random===true then use $sample operator
     // else normal find()
-    const items = await itemSchema.aggregate([{ $sample: { size: 3 } }]) // .find({ $sample: { size: 15 } })
+    const items = await itemSchema.find({ $sample: { size: 15 } }) //.aggregate([{ $sample: { size: 3 } }]) this just work 1 time
 
     if (items) res.status(200).send(items)
     else res.status(404).send()
@@ -100,8 +102,8 @@ itemsRouter.get("/random", async (req, res, next) => {
 })
 
 ///PUT item  ---TESTED----
-itemsRouter.put("/edit/:itemId", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
-  // , adminOnlyMiddleware
+itemsRouter.put("/edit/:itemId", async (req, res, next) => {
+  // , basicAuthMiddleware, adminOnlyMiddleware
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { ...req.body }, { new: true })
 
@@ -117,8 +119,8 @@ itemsRouter.put("/edit/:itemId", basicAuthMiddleware, adminOnlyMiddleware, async
 })
 
 ///DELETE item ---TESTED----
-itemsRouter.delete("/delete/:itemId", basicAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
-  // , adminOnlyMiddleware
+itemsRouter.delete("/delete/:itemId", async (req, res, next) => {
+  // , basicAuthMiddleware, adminOnlyMiddleware
   try {
     await itemSchema.findByIdAndDelete(req.params.itemId)
 
