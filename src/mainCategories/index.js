@@ -21,7 +21,7 @@ mainCategoriesRouter.post("/new", JWTAuthMiddleware, adminOnlyMiddleware, async 
 })
 
 //GET ALL MainCategories
-mainCategoriesRouter.get("/all", JWTAuthMiddleware, async (req, res, next) => {
+mainCategoriesRouter.get("/all", async (req, res, next) => {
   try {
     const mCats = await mainCategoriesSchema.find().sort({ mainCategory: "ASC" }).populate({ path: "categories", select: "categories" })
 
