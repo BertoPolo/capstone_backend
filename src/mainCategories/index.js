@@ -2,7 +2,6 @@ import mainCategoriesSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
 import { mongoose } from "mongoose"
-import { basicAuthMiddleware } from "../auth/basic.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 
 const mainCategoriesRouter = express.Router()

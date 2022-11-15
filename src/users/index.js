@@ -1,7 +1,6 @@
 import usersSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
-import { basicAuthMiddleware } from "../auth/basic.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 
 const usersRouter = express.Router()
