@@ -69,7 +69,7 @@ itemsRouter.get("/", async (req, res, next) => {
       .populate([
         { path: "brand", select: "brands" },
         { path: "category", select: "categories" },
-        { path: "mainCategory", select: "mainCategories" },
+        { path: "mainCategory", select: "mainCategory" },
       ])
       .limit(queryToMongo.options.limit)
       .skip(queryToMongo.options.skip)
@@ -82,6 +82,23 @@ itemsRouter.get("/", async (req, res, next) => {
     next(error)
   }
 })
+//////////////
+// itemsRouter.get("/categories/:catname", async (req, res, next) => {
+//   try {
+//     const products = await itemSchema.find({ categories: req.params.catname }).populate([
+//       { path: "brand", select: "brands" },
+//       { path: "category", select: "categories" },
+//       { path: "mainCategory", select: "mainCategories" },
+//     ])
+
+//     if (products.length !== 0) {
+//       res.send(products)
+//     } else res.status(404).send("no data found")
+//   } catch (error) {
+//     next(error)
+//   }
+// })
+///////////
 
 //GET 15 random items
 itemsRouter.get("/random", async (req, res, next) => {
