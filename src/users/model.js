@@ -14,6 +14,7 @@ const usersSchema = new Schema(
   },
   { timestamps: true }
 )
+
 //protect passwords
 usersSchema.pre("save", async function (next) {
   const currentUser = this

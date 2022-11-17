@@ -19,7 +19,7 @@ usersRouter.post("/login", async (req, res, next) => {
     if (user) {
       // 3. If credentials are ok --> generate an access token (JWT) and send it as a response
 
-      const accessToken = await generateAccessToken({ _id: user._id, role: user.role })
+      const accessToken = await generateAccessToken({ _id: user._id, isAdmin: user.isAdmin })
       res.send({ accessToken })
     } else {
       // 4. If credentials are not ok --> throw an error (401)
@@ -71,7 +71,7 @@ usersRouter.get("/username/:username", JWTAuthMiddleware, async (req, res, next)
   }
 })
 
-//PUT  edit your self account data
+//PUT account data
 usersRouter.put("/edit/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const user = await usersSchema.findByIdAndUpdate(
