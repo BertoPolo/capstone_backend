@@ -51,7 +51,7 @@ usersRouter.get("/:name", JWTAuthMiddleware, async (req, res, next) => {
     // you can also sort by name
 
     if (users) res.status(200).send(users)
-    else res.status(404).send("user not found")
+    else next(createError(404, `no users found`))
   } catch (error) {
     console.log(error)
     next(error)
@@ -64,7 +64,7 @@ usersRouter.get("/username/:username", JWTAuthMiddleware, async (req, res, next)
     const user = await usersSchema.findOne({ username: req.params.username })
 
     if (user) res.status(200).send(user)
-    else res.status(404).send("user not found")
+    else next(createError(404, `no users found`))
   } catch (error) {
     console.log(error)
     next(error)
@@ -82,7 +82,7 @@ usersRouter.put("/edit/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (
       { new: true }
     )
     if (user) res.status(201).send(user)
-    else res.status(404).send("user not found")
+    else next(createError(404, `no users found`))
   } catch (error) {
     console.log(error)
     next(error)

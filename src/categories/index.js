@@ -24,7 +24,7 @@ categoriesRouter.get("/all", async (req, res, next) => {
   try {
     const categories = await categoriesSchema.find().sort({ categories: "ASC" })
     if (categories) res.status(200).send(categories)
-    else res.status(404).send()
+    else next(createError(404, `no categories found`))
   } catch (error) {
     console.log(error)
     next(createError(404, `no categories found`))

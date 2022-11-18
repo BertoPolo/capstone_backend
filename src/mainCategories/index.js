@@ -26,7 +26,7 @@ mainCategoriesRouter.get("/all", async (req, res, next) => {
     const mCats = await mainCategoriesSchema.find().sort({ mainCategory: "ASC" }).populate({ path: "categories", select: "categories" })
 
     if (mCats) res.status(200).send(mCats)
-    // else res.status(404).send()
+    else next(createError(404, `no main categories found`))
   } catch (error) {
     console.log(error)
     next(createError(404, `no main categories found`))
@@ -40,7 +40,7 @@ mainCategoriesRouter.put("/addCat/:mCatId", JWTAuthMiddleware, adminOnlyMiddlewa
     const mCatToModify = await mainCategoriesSchema.findByIdAndUpdate(req.params.mCatId, { $push: { categories: id } }, { new: true })
 
     if (mCatToModify) res.status(201).send(mCatToModify)
-    // else res.status(404).send()
+    else next(createError(404, `no main categories found`))
   } catch (error) {
     console.log(error)
     next(createError(404, `no main categories found`))

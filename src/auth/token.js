@@ -10,8 +10,8 @@ export const JWTAuthMiddleware = async (req, res, next) => {
       // 2. Extract the token from authorization header
       const token = req.headers.authorization.replace("Bearer ", "")
 
-      // 3. Verify token (verify expiration date and check signature integrity), if everything is fine we should get back the payload ({_id, role})
-
+      // 3. Verify token (verify expiration date and check signature integrity), if everything is fine we should get back the payload ({_id, isAdmin})
+      // console.log(token)
       const payload = await verifyAccessToken(token)
 
       // 4. If token is ok --> next

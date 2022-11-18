@@ -49,7 +49,7 @@ itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudina
       res.status(201).send(itemToUpdate)
     } else {
       next(createError(404, `this item ${req.params.itemId} is not found`))
-      console.log(error)
+      // console.log(error)
     }
   } catch (error) {
     console.log(error)
@@ -77,7 +77,7 @@ itemsRouter.get("/", async (req, res, next) => {
 
     if (products.length !== 0) {
       res.send(products)
-    } else res.status(404).send("no data found")
+    } else next(createError(404, `nothing found`))
   } catch (error) {
     next(error)
   }
@@ -91,7 +91,7 @@ itemsRouter.get("/random", async (req, res, next) => {
     const items = await itemSchema.find({ $sample: { size: 15 } }) //.aggregate([{ $sample: { size: 3 } }]) this just work 1 time
 
     if (items) res.status(200).send(items)
-    else res.status(404).send()
+    else next(createError(404, `nothing found`))
   } catch (error) {
     console.log(error)
     next(error)
@@ -104,10 +104,7 @@ itemsRouter.put("/edit/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { ...req.body }, { new: true })
 
     if (itemToUpdate) res.status(201).send(itemToUpdate)
-    else {
-      next(createError(404, `this item ${req.params.itemTitle} is not found`))
-      console.log(error)
-    }
+    else next(createError(404, `this item ${req.params.itemTitle} is not found`))
   } catch (error) {
     console.log(error)
     next(error)

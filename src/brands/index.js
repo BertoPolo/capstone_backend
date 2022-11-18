@@ -24,9 +24,8 @@ brandsRouter.get("/all", async (req, res, next) => {
   try {
     const brands = await brandsSchema.find({})
 
-    if (brands) {
-      res.status(200).send(brands)
-    }
+    if (brands) res.status(200).send(brands)
+    else next(createError(404, `no brands found`))
   } catch (error) {
     console.log(error)
     next(createError(404, `no brands found`))
