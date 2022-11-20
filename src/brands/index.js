@@ -22,7 +22,7 @@ brandsRouter.post("/new", JWTAuthMiddleware, adminOnlyMiddleware, async (req, re
 //GET ALL Brands
 brandsRouter.get("/all", async (req, res, next) => {
   try {
-    const brands = await brandsSchema.find({})
+    const brands = await brandsSchema.find()
 
     if (brands) res.status(200).send(brands)
     else next(createError(404, `no brands found`))
