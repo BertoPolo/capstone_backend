@@ -49,6 +49,7 @@ usersRouter.get("/:name", JWTAuthMiddleware, async (req, res, next) => {
   try {
     const users = await usersSchema.find({ name: { $regex: req.params.name, $options: "i" } })
     // you can also sort by name
+    //implement q2m to search how admin wants to
 
     if (users) res.status(200).send(users)
     else next(createError(404, `no users found`))
@@ -81,6 +82,25 @@ usersRouter.put("/edit/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (
       },
       { new: true }
     )
+    if (user) res.status(201).send(user)
+    else next(createError(404, `no users found`))
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+//PUT self account data
+usersRouter.put("/edit/me/:username", JWTAuthMiddleware, async (req, res, next) => {
+  try {
+    //have to be protected and only edit BY YOURSELF
+    const user = await usersSchema.findOneAndUpdate(
+      { username: req.params.username },
+      {
+        ...req.body,
+      },
+      { new: true }
+    )
+    console.log(req.body.password)
     if (user) res.status(201).send(user)
     else next(createError(404, `no users found`))
   } catch (error) {

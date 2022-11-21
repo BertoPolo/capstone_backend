@@ -44,7 +44,6 @@ itemsRouter.post("/new", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res
 itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudinaryfavImagesUploader, async (req, res, next) => {
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { image: req.file.path }, { new: true })
-
     if (itemToUpdate) {
       res.status(201).send(itemToUpdate)
     } else {
