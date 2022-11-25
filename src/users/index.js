@@ -89,12 +89,12 @@ usersRouter.put("/edit/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (
     next(error)
   }
 })
+
 //PUT self account data
-usersRouter.put("/edit/me/:username", JWTAuthMiddleware, async (req, res, next) => {
+usersRouter.put("/me/", JWTAuthMiddleware, async (req, res, next) => {
   try {
-    //have to be protected and only edit BY YOURSELF
-    const user = await usersSchema.findOneAndUpdate(
-      { username: req.params.username },
+    const user = await usersSchema.findByIdAndUpdate(
+      req.user._id,
       {
         ...req.body,
       },
@@ -110,9 +110,9 @@ usersRouter.put("/edit/me/:username", JWTAuthMiddleware, async (req, res, next) 
 })
 
 //Delete user
-usersRouter.delete("/delete/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+usersRouter.delete("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
-    await usersSchema.findByIdAndDelete(req.params.userId)
+    await usersSchema.findByIdAndDelete(req.user._id)
 
     res.status(200).send("deleted successfully")
   } catch (error) {

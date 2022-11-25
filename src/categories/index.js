@@ -1,4 +1,5 @@
 import categoriesSchema from "./model.js"
+import mainCategoriesSchema from "../mainCategories/model.js"
 import express from "express"
 import createError from "http-errors"
 import { adminOnlyMiddleware } from "../auth/admin.js"
@@ -11,6 +12,7 @@ categoriesRouter.post("/new", JWTAuthMiddleware, adminOnlyMiddleware, async (req
   try {
     const newCategory = new categoriesSchema(req.body)
     const { _id } = await newCategory.save()
+    const mainCategory = await mainCategoriesSchema.findByIdAndUpdate(req.body.mainCategory, { $push: { categories: _id } })
 
     res.status(201).send(_id)
   } catch (error) {
