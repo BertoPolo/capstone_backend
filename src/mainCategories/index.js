@@ -8,7 +8,7 @@ import { JWTAuthMiddleware } from "../auth/token.js"
 const mainCategoriesRouter = express.Router()
 
 //POST new mainCategory
-mainCategoriesRouter.post("/new", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+mainCategoriesRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const newMcat = new mainCategoriesSchema(req.body)
     const { _id } = await newMcat.save()
@@ -34,7 +34,7 @@ mainCategoriesRouter.get("/all", async (req, res, next) => {
 })
 
 //PUT main category
-mainCategoriesRouter.put("/addCat/:mCatId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+mainCategoriesRouter.put("/:mCatId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const id = mongoose.Types.ObjectId(req.body.categories)
     const mCatToModify = await mainCategoriesSchema.findByIdAndUpdate(req.params.mCatId, { $push: { categories: id } }, { new: true })

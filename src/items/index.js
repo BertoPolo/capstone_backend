@@ -23,7 +23,7 @@ const cloudinaryfavImagesUploader = multer({
 }).single("image")
 
 //POST a new item
-itemsRouter.post("/new", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+itemsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     //const item = new itemSchema(req.body)
     //await item.save()
