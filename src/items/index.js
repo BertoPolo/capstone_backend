@@ -98,7 +98,7 @@ itemsRouter.get("/random", async (req, res, next) => {
 })
 
 ///PUT item
-itemsRouter.put("/edit/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+itemsRouter.put("/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { ...req.body }, { new: true })
 
@@ -111,7 +111,7 @@ itemsRouter.put("/edit/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (
 })
 
 ///DELETE item
-itemsRouter.delete("/delete/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+itemsRouter.delete("/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     await itemSchema.findByIdAndDelete(req.params.itemId)
 
