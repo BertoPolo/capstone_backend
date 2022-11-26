@@ -4,6 +4,7 @@ import createError from "http-errors"
 import { JWTAuthMiddleware } from "../auth/token.js"
 import { generateAccessToken } from "../auth/tools.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
+import { main } from "../tools/email.js"
 
 const usersRouter = express.Router()
 
@@ -33,7 +34,6 @@ usersRouter.post("/login", async (req, res, next) => {
 //POST a new user
 usersRouter.post("/", async (req, res, next) => {
   try {
-    //check if the username already exists
     const doesUserAlreadyExists = await usersSchema.findOne({ username: req.body.username })
 
     if (!doesUserAlreadyExists) {
@@ -51,7 +51,8 @@ usersRouter.post("/", async (req, res, next) => {
 //POST send email notification
 usersRouter.post("/email", async (req, res, next) => {
   try {
-    const email = req.body
+    // const email = req.body
+    //  await sendRegistrationEmail(email)
 
     res.status(201).send(email)
   } catch (error) {
