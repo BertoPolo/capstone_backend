@@ -33,11 +33,27 @@ usersRouter.post("/login", async (req, res, next) => {
 //POST a new user
 usersRouter.post("/", async (req, res, next) => {
   try {
-    //check if the user already exists
-    const newUser = new usersSchema(req.body)
-    const { _id } = await newUser.save()
+    //check if the username already exists
+    const doesUserAlreadyExists = await usersSchema.findOne({ username: req.body.username })
 
-    res.status(201).send(_id)
+    if (!doesUserAlreadyExists) {
+      const newUser = new usersSchema(req.body)
+      const { _id } = await newUser.save()
+
+      res.status(201).send(_id)
+    } else next(createError(409, `user already exists`))
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
+//POST send email notification
+usersRouter.post("/email", async (req, res, next) => {
+  try {
+    const email = req.body
+
+    res.status(201).send(email)
   } catch (error) {
     console.log(error)
     next(error)
