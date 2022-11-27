@@ -117,9 +117,22 @@ usersRouter.put("/me/", JWTAuthMiddleware, async (req, res, next) => {
       },
       { new: true }
     )
-    console.log(req.body.password)
     if (user) res.status(201).send(user)
     else next(createError(404, `no users found`))
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
+//PUT self account password    NOT WORKING
+usersRouter.put("/me/password", JWTAuthMiddleware, async (req, res, next) => {
+  try {
+    const user = await usersSchema.findById(req.user._id)
+    const { password } = await user.save()
+    // console.log(password)
+    if (user) res.status(201).send(user)
+    else next(createError(404, `no user found`))
   } catch (error) {
     console.log(error)
     next(error)
