@@ -4,7 +4,8 @@ import createError from "http-errors"
 import { JWTAuthMiddleware } from "../auth/token.js"
 import { generateAccessToken } from "../auth/tools.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
-// import { sendMail } from "../tools/email.js"
+import nodemailer from "nodemailer"
+// import { sendEmail } from "../tools/email.js"
 
 const usersRouter = express.Router()
 
@@ -31,13 +32,32 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 })
 
+//POST send Email ---> split stuff and then use it in /registration and when finish purchase process
 usersRouter.post("/registrationEmail", async (req, res, next) => {
   try {
-    const { email } = req.body
+    // const { email } = req.body
 
-    await sendMail(email)
+    let testAccountB = await nodemailer.createTestAccount()
 
-    res.send({ message: "User registered, email sent!" })
+    let transporter = nodemailer.createTransport({
+      host: "smtp.example.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: testAccountB.user,
+        pass: testAccountB.pass,
+      },
+    })
+
+    let info = await transporter.sendMail({
+      from: '"Fred Foo 👻" <foo@example.com>', // sender address
+      to: "renorz@hotmail.com", // list of receivers
+      subject: "Hello ✔", // Subject line
+      text: "Hello world?", // plain text body
+      html: "<b>Hello world?</b>", // html body
+    })
+
+    // res.send({ message: "User registered, email sent!" })
   } catch (error) {
     next(error)
   }

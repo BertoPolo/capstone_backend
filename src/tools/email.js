@@ -1,7 +1,7 @@
 "use strict"
 import nodemailer from "nodemailer"
 // async..await is not allowed in global scope, must use a wrapper
-export async function sendMail() {
+export async function sendEmail() {
   // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing
   let testAccount = await nodemailer.createTestAccount()
@@ -39,4 +39,4 @@ export async function sendMail() {
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
 }
 
-sendMail().catch(console.error)
+// sendEmail().catch(console.error)
