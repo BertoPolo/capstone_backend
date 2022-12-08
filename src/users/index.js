@@ -4,7 +4,7 @@ import createError from "http-errors"
 import { JWTAuthMiddleware } from "../auth/token.js"
 import { generateAccessToken } from "../auth/tools.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
-import { main } from "../tools/email.js"
+// import { sendMail } from "../tools/email.js"
 
 const usersRouter = express.Router()
 
@@ -26,6 +26,18 @@ usersRouter.post("/login", async (req, res, next) => {
       // 4. If credentials are not ok --> throw an error (401)
       next(createError(401, "Credentials are not ok!"))
     }
+  } catch (error) {
+    next(error)
+  }
+})
+
+usersRouter.post("/registrationEmail", async (req, res, next) => {
+  try {
+    const { email } = req.body
+
+    await sendMail(email)
+
+    res.send({ message: "User registered, email sent!" })
   } catch (error) {
     next(error)
   }
@@ -145,7 +157,7 @@ usersRouter.delete("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (re
   try {
     await usersSchema.findByIdAndDelete(req.user._id)
 
-    res.status(200).send("deleted successfully")
+    res.status(200).send({ message: "deleted successfully" })
   } catch (error) {
     console.log(error)
     next(error)
