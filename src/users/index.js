@@ -41,17 +41,14 @@ usersRouter.post("/registrationEmail", async (req, res, next) => {
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
-      // port: 465,
-      // secure: true,
       auth: {
         user: process.env.USER,
         pass: process.env.PASS,
       },
-      tls: { rejectUnauthorized: false }, // is it needed?¿?
     })
 
     const info = await transporter.sendMail({
-      from: '"Stuff To Route" <taniaxd07@hotmail.com>', // sender address
+      from: `"Stuff To Route" <${process.env.USER}>`, // sender address
       to: "renorz@hotmail.com", // list of receivers
       subject: "Welcome ✔", // Subject line
       text: "Welcome aboard!!", // plain text body
