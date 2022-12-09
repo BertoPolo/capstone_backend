@@ -5,7 +5,6 @@ import { JWTAuthMiddleware } from "../auth/token.js"
 import { generateAccessToken } from "../auth/tools.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 import nodemailer from "nodemailer"
-// import { sendEmail } from "../tools/email.js"
 
 const usersRouter = express.Router()
 
@@ -32,7 +31,7 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 })
 
-//POST send Email after registration => not working
+//POST send Email after purchase
 usersRouter.post("/registrationEmail", async (req, res, next) => {
   try {
     // const { email } = req.body
@@ -49,7 +48,7 @@ usersRouter.post("/registrationEmail", async (req, res, next) => {
 
     const info = await transporter.sendMail({
       from: `"Stuff To Route" <${process.env.USER}>`, // sender address
-      to: "renorz@hotmail.com", // list of receivers
+      to: req.body.email, // list of receivers
       subject: "Welcome ✔", // Subject line
       text: "Welcome aboard!!", // plain text body
       html: "<b>Welcome aboard!!</b>", // html body
@@ -61,7 +60,7 @@ usersRouter.post("/registrationEmail", async (req, res, next) => {
   }
 })
 
-//POST a new user
+//POST a new user and send Email after registration
 usersRouter.post("/", async (req, res, next) => {
   try {
     const doesUserAlreadyExists = await usersSchema.findOne({ username: req.body.username })
@@ -70,21 +69,26 @@ usersRouter.post("/", async (req, res, next) => {
       const newUser = new usersSchema(req.body)
       const { _id } = await newUser.save()
 
-      res.status(201).send(_id)
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+          user: process.env.USER,
+          pass: process.env.PASS,
+        },
+      })
+
+      const info = await transporter.sendMail({
+        from: `"Stuff To Route" <${process.env.USER}>`, // sender address
+        to: req.body.email, // list of receivers
+        subject: "Welcome ✔", // Subject line
+        text: "Welcome aboard!!", // plain text body
+        html: "<b>Welcome aboard!!</b>", // html body
+      })
+
+      res.status(201).send(_id, { message: "User registered, email sent!" })
     } else next(createError(409, `user already exists`))
-  } catch (error) {
-    console.log(error)
-    next(error)
-  }
-})
-
-//POST send email notification
-usersRouter.post("/email", async (req, res, next) => {
-  try {
-    // const email = req.body
-    //  await sendRegistrationEmail(email)
-
-    res.status(201).send(email)
   } catch (error) {
     console.log(error)
     next(error)
@@ -158,11 +162,15 @@ usersRouter.put("/me/", JWTAuthMiddleware, async (req, res, next) => {
 //PUT self account password
 usersRouter.put("/me/password", JWTAuthMiddleware, async (req, res, next) => {
   try {
-    const user = await usersSchema.findByIdAndUpdate(req.user._id, { password: req.body.password }, { new: true })
+    // const user = await usersSchema.findByIdAndUpdate(req.user._id, { password: req.body.password }, { new: true }) NOT ENCRIPTIN BEACAUSE "FIND AND UPDATE"
+    const user = await usersSchema.findById(req.user._id)
+    // const pass ={password: req.body.password}
+
     const { password } = await user.save()
-    // console.log(password)
+
+    console.log(password)
+
     if (user) res.status(201).send(user)
-    // if (user) res.status(201).send(password)
     else next(createError(404, `no user found`))
   } catch (error) {
     console.log(error)
