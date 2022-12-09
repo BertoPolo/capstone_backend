@@ -32,19 +32,22 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 })
 
-//POST send Email after registration
+//POST send Email after registration => not working
 usersRouter.post("/registrationEmail", async (req, res, next) => {
   try {
     // const { email } = req.body
 
     const transporter = nodemailer.createTransport({
-      host: "http://www.hotmail.com",
+      host: "smtp.gmail.com",
       port: 587,
       secure: false,
+      // port: 465,
+      // secure: true,
       auth: {
         user: process.env.USER,
         pass: process.env.PASS,
       },
+      tls: { rejectUnauthorized: false }, // is it needed?¿?
     })
 
     const info = await transporter.sendMail({
