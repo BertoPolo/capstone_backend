@@ -32,32 +32,30 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 })
 
-//POST send Email ---> split stuff and then use it in /registration and when finish purchase process
+//POST send Email after registration
 usersRouter.post("/registrationEmail", async (req, res, next) => {
   try {
     // const { email } = req.body
 
-    let testAccountB = await nodemailer.createTestAccount()
-
-    let transporter = nodemailer.createTransport({
-      host: "smtp.example.com",
+    const transporter = nodemailer.createTransport({
+      host: "http://www.hotmail.com",
       port: 587,
       secure: false,
       auth: {
-        user: testAccountB.user,
-        pass: testAccountB.pass,
+        user: process.env.USER,
+        pass: process.env.PASS,
       },
     })
 
-    let info = await transporter.sendMail({
-      from: '"Fred Foo 👻" <foo@example.com>', // sender address
+    const info = await transporter.sendMail({
+      from: '"Stuff To Route" <taniaxd07@hotmail.com>', // sender address
       to: "renorz@hotmail.com", // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
-      html: "<b>Hello world?</b>", // html body
+      subject: "Welcome ✔", // Subject line
+      text: "Welcome aboard!!", // plain text body
+      html: "<b>Welcome aboard!!</b>", // html body
     })
 
-    // res.send({ message: "User registered, email sent!" })
+    res.send({ message: "User registered, email sent!" })
   } catch (error) {
     next(error)
   }
