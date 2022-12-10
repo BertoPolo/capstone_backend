@@ -86,7 +86,7 @@ usersRouter.post("/", async (req, res, next) => {
         html: "<b>Welcome aboard!!</b>",
       })
 
-      res.status(201).send(_id, { message: "User registered, email sent!" })
+      res.status(201).send(_id)
     } else next(createError(409, `user already exists`))
   } catch (error) {
     console.log(error)
