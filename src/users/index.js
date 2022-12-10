@@ -32,6 +32,41 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 })
 
+//POST a new user and send Email after registration
+usersRouter.post("/", async (req, res, next) => {
+  try {
+    const doesUserAlreadyExists = await usersSchema.findOne({ username: req.body.username })
+
+    if (!doesUserAlreadyExists) {
+      const newUser = new usersSchema(req.body)
+      const { _id } = await newUser.save()
+
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+          user: process.env.USER,
+          pass: process.env.PASS,
+        },
+      })
+
+      const info = await transporter.sendMail({
+        from: `"Stuff To Route" <${process.env.USER}>`,
+        to: req.body.email,
+        subject: "Welcome ✔",
+        text: "Welcome aboard!!",
+        html: "<b>Welcome aboard!!</b>",
+      })
+
+      res.status(201).send(_id)
+    } else next(createError(409, `user already exists`))
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
 //POST send Email after purchase
 usersRouter.post("/purchase", async (req, res, next) => {
   const { id, amount, email } = req.body
@@ -69,41 +104,6 @@ usersRouter.post("/purchase", async (req, res, next) => {
   } catch (error) {
     next(error)
     console.log(error)
-  }
-})
-
-//POST a new user and send Email after registration
-usersRouter.post("/", async (req, res, next) => {
-  try {
-    const doesUserAlreadyExists = await usersSchema.findOne({ username: req.body.username })
-
-    if (!doesUserAlreadyExists) {
-      const newUser = new usersSchema(req.body)
-      const { _id } = await newUser.save()
-
-      const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
-        auth: {
-          user: process.env.USER,
-          pass: process.env.PASS,
-        },
-      })
-
-      const info = await transporter.sendMail({
-        from: `"Stuff To Route" <${process.env.USER}>`,
-        to: req.body.email,
-        subject: "Welcome ✔",
-        text: "Welcome aboard!!",
-        html: "<b>Welcome aboard!!</b>",
-      })
-
-      res.status(201).send(_id)
-    } else next(createError(409, `user already exists`))
-  } catch (error) {
-    console.log(error)
-    next(error)
   }
 })
 
