@@ -40,31 +40,30 @@ usersRouter.post("/purchase", async (req, res, next) => {
     const stripe = new Stripe(process.env.SECRET_STRIPE_KEY)
 
     const payment = await stripe.paymentIntents.create({
-      amount: amount,
-      currency: "USD", // change to euro
+      amount: amount * 100,
+      currency: "EUR",
       payment_method: id,
       description: " this description should be dynamic filled with all the purchased items",
       confirm: true,
     })
-    // console.log(payment)
 
-    // const transporter = nodemailer.createTransport({
-    //   host: "smtp.gmail.com",
-    //   port: 587,
-    //   secure: false,
-    //   auth: {
-    //     user: process.env.USER,
-    //     pass: process.env.PASS,
-    //   },
-    // })
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.USER,
+        pass: process.env.PASS,
+      },
+    })
 
-    // const info = await transporter.sendMail({
-    //   from: `"Stuff To Route" <${process.env.USER}>`,
-    //   to: email,
-    //   subject: "Welcome ✔",
-    //   text: "Thank you for your purchase!!",
-    //   html: "<b>Thank you for your purchase,in a few days you gonna enjoy your stuff!!</b>",
-    // })
+    const info = await transporter.sendMail({
+      from: `"Stuff To Route" <${process.env.USER}>`,
+      to: email,
+      subject: "Welcome ✔",
+      text: "Thank you for your purchase!!",
+      html: "<b>Thank you for your purchase,in a few days you gonna enjoy your stuff!!</b>",
+    })
 
     res.send({ message: "payment and Email are done!" })
   } catch (error) {
