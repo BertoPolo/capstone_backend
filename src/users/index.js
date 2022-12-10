@@ -5,6 +5,7 @@ import { JWTAuthMiddleware } from "../auth/token.js"
 import { generateAccessToken } from "../auth/tools.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 import nodemailer from "nodemailer"
+import Stripe from "stripe"
 
 const usersRouter = express.Router()
 
@@ -33,29 +34,42 @@ usersRouter.post("/login", async (req, res, next) => {
 
 //POST send Email after purchase
 usersRouter.post("/purchase", async (req, res, next) => {
-  //merge with poyment endpoint
+  const { id, amount, email } = req.body
+
   try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: process.env.USER,
-        pass: process.env.PASS,
-      },
-    })
+    const stripe = new Stripe(process.env.SECRET_STRIPE_KEY)
 
-    const info = await transporter.sendMail({
-      from: `"Stuff To Route" <${process.env.USER}>`,
-      to: req.body.email,
-      subject: "Welcome ✔",
-      text: "Thank you for your purchase!!",
-      html: "<b>Thank you for your purchase,in a few days you gonna enjoy your stuff!!</b>",
+    const payment = await stripe.paymentIntents.create({
+      amount: amount,
+      currency: "USD", // change to euro
+      payment_method: id,
+      description: " this description should be dynamic filled with all the purchased items",
+      confirm: true,
     })
+    // console.log(payment)
 
-    res.send({ message: "Email sent!" })
+    // const transporter = nodemailer.createTransport({
+    //   host: "smtp.gmail.com",
+    //   port: 587,
+    //   secure: false,
+    //   auth: {
+    //     user: process.env.USER,
+    //     pass: process.env.PASS,
+    //   },
+    // })
+
+    // const info = await transporter.sendMail({
+    //   from: `"Stuff To Route" <${process.env.USER}>`,
+    //   to: email,
+    //   subject: "Welcome ✔",
+    //   text: "Thank you for your purchase!!",
+    //   html: "<b>Thank you for your purchase,in a few days you gonna enjoy your stuff!!</b>",
+    // })
+
+    res.send({ message: "payment and Email are done!" })
   } catch (error) {
     next(error)
+    console.log(error)
   }
 })
 
