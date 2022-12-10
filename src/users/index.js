@@ -162,13 +162,10 @@ usersRouter.put("/me/", JWTAuthMiddleware, async (req, res, next) => {
 //PUT self account password
 usersRouter.put("/me/password", JWTAuthMiddleware, async (req, res, next) => {
   try {
-    // const user = await usersSchema.findByIdAndUpdate(req.user._id, { password: req.body.password }, { new: true }) NOT ENCRIPTIN BEACAUSE "FIND AND UPDATE"
     const user = await usersSchema.findById(req.user._id)
-    // const pass ={password: req.body.password}
+    user.password = req.body.password
 
     const { password } = await user.save()
-
-    console.log(password)
 
     if (user) res.status(201).send(user)
     else next(createError(404, `no user found`))
