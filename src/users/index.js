@@ -32,10 +32,9 @@ usersRouter.post("/login", async (req, res, next) => {
 })
 
 //POST send Email after purchase
-usersRouter.post("/registrationEmail", async (req, res, next) => {
+usersRouter.post("/purchase", async (req, res, next) => {
+  //merge with poyment endpoint
   try {
-    // const { email } = req.body
-
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
@@ -47,14 +46,14 @@ usersRouter.post("/registrationEmail", async (req, res, next) => {
     })
 
     const info = await transporter.sendMail({
-      from: `"Stuff To Route" <${process.env.USER}>`, // sender address
-      to: req.body.email, // list of receivers
-      subject: "Welcome ✔", // Subject line
-      text: "Welcome aboard!!", // plain text body
-      html: "<b>Welcome aboard!!</b>", // html body
+      from: `"Stuff To Route" <${process.env.USER}>`,
+      to: req.body.email,
+      subject: "Welcome ✔",
+      text: "Thank you for your purchase!!",
+      html: "<b>Thank you for your purchase,in a few days you gonna enjoy your stuff!!</b>",
     })
 
-    res.send({ message: "User registered, email sent!" })
+    res.send({ message: "Email sent!" })
   } catch (error) {
     next(error)
   }
@@ -80,11 +79,11 @@ usersRouter.post("/", async (req, res, next) => {
       })
 
       const info = await transporter.sendMail({
-        from: `"Stuff To Route" <${process.env.USER}>`, // sender address
-        to: req.body.email, // list of receivers
-        subject: "Welcome ✔", // Subject line
-        text: "Welcome aboard!!", // plain text body
-        html: "<b>Welcome aboard!!</b>", // html body
+        from: `"Stuff To Route" <${process.env.USER}>`,
+        to: req.body.email,
+        subject: "Welcome ✔",
+        text: "Welcome aboard!!",
+        html: "<b>Welcome aboard!!</b>",
       })
 
       res.status(201).send(_id, { message: "User registered, email sent!" })
