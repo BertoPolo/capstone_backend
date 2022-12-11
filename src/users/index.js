@@ -187,6 +187,22 @@ usersRouter.put("/me/password", JWTAuthMiddleware, async (req, res, next) => {
   }
 })
 
+//PUT check and reset password
+usersRouter.put("/forgotPassword", async (req, res, next) => {
+  try {
+    const user = await usersSchema.findOne({ name: req.body.name, username: req.body.username, email: req.body.email })
+
+    if (user) {
+      user.password = req.body.password
+      const { password } = await user.save()
+      res.status(201).send(user)
+    } else next(createError(404, `User not found`))
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
 //Delete user
 usersRouter.delete("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
