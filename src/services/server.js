@@ -7,6 +7,7 @@ import usersRouter from "../users/index.js"
 import brandsRouter from "../brands/index.js"
 import categoriesRouter from "../categories/index.js"
 import mainCategoriesRouter from "../mainCategories/index.js"
+import createError from "http-errors"
 
 import { genericErrorHandler, notFoundErrorHandler, badRequestErrorHandler, unauthorizedErrorHandler } from "./errorHandlers.js"
 
@@ -15,23 +16,20 @@ const port = process.env.PORT || 3001
 const urlList = [process.env.FE_DEV_URL, process.env.FE_PROD_URL]
 
 // ****************** MIDDLEWARES *********************
-server.use(cors())
-// server.use(
-//   cors({
-//     origin: (origin, next) => {
-//       // cors is a global middleware --> for each and every request we are going to be able to read the current origin value
-//       console.log("ORIGIN: ", origin)
+// server.use(cors())
+server.use(
+  cors({
+    origin: (origin, next) => {
+      console.log("ORIGIN: ", origin)
 
-//       if (!origin || urlList.indexOf(origin) !== -1) {
-//         // origin is in the urlList --> move next with no errors
-//         next(null, true)
-//       } else {
-//         // origin is NOT in the urlList --> trigger an error
-//         next(createError(400, "CORS ERROR!"))
-//       }
-//     },
-//   })
-// )
+      if (!origin || urlList.indexOf(origin) !== -1) {
+        next(null, true)
+      } else {
+        next(createError(400, "CORS ERROR!"))
+      }
+    },
+  })
+)
 server.use(express.json())
 
 // ****************** ENDPOINTS  *********************
