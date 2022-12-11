@@ -154,7 +154,7 @@ usersRouter.put("/edit/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (
 })
 
 //PUT self account data
-usersRouter.put("/me/", JWTAuthMiddleware, async (req, res, next) => {
+usersRouter.put("/me", JWTAuthMiddleware, async (req, res, next) => {
   try {
     const user = await usersSchema.findByIdAndUpdate(
       req.user._id,
