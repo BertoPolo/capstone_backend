@@ -225,9 +225,10 @@ usersRouter.put("/forgotPassword", async (req, res, next) => {
 //Delete user
 usersRouter.delete("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
-    await usersSchema.findByIdAndDelete(req.user._id)
+    const userToDelete = await usersSchema.findByIdAndDelete(req.params.userId)
 
-    res.status(200).send({ message: "deleted successfully" })
+    if (userToDelete) res.status(200).send({ message: "deleted successfully" })
+    else next(createError(404, `User not found`))
   } catch (error) {
     console.log(error)
     next(error)
