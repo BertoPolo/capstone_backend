@@ -195,6 +195,25 @@ usersRouter.put("/forgotPassword", async (req, res, next) => {
     if (user) {
       user.password = req.body.password
       const { password } = await user.save()
+
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+          user: process.env.USER,
+          pass: process.env.PASS,
+        },
+      })
+
+      const info = await transporter.sendMail({
+        from: `"Stuff To Route" <${process.env.USER}>`,
+        to: user.email,
+        subject: "Welcome ✔",
+        text: "Here is there your new password",
+        html: `<b>Here is there your new password. Change it ASAP, this one is a low security pass. <p>New password : <u> ${req.body.password}</u></p> <h3>Stuff to Route</h3> </b>`,
+      })
+
       res.status(201).send(user)
     } else next(createError(404, `User not found`))
   } catch (error) {
