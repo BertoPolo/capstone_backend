@@ -87,7 +87,7 @@ itemsRouter.get("/random", async (req, res, next) => {
   try {
     // if query parameter random===true then use $sample operator
     // else normal find()
-    const items = await itemSchema.aggregate([{ $sample: { size: 10 } }]) // do not returning random items
+    const items = await itemSchema.aggregate([{ $sample: { size: 10 } }]) // returning random items SOMETIMES
     // .find({ $sample: { size: 15 } })
     if (items) res.status(200).send(items)
     else next(createError(404, `nothing found`))
