@@ -46,13 +46,35 @@ server.use(notFoundErrorHandler) // 404
 server.use(genericErrorHandler) // 500
 ////
 
-mongoose.connect(process.env.MONGO_CONNECTION)
+// mongoose.connect(process.env.MONGO_CONNECTION)
 
-mongoose.connection.on("connected", () => {
-  console.log("Connected to Mongo")
+// mongoose.connection.on("connected", () => {
+//   console.log("Connected to Mongo")
 
+//   server.listen(port, () => {
+//     console.table(listEndpoints(server))
+//     console.log(`Server is running on port ${port}`)
+//   })
+// })
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_CONNECTION)
+    console.log(`MongoDB Connected: ${conn.connection.host}`)
+  } catch (error) {
+    console.log(error)
+    process.exit(1)
+  }
+}
+
+//Routes go here
+server.all("*", (req, res) => {
+  res.json({ "every thing": "is awesome" })
+})
+
+//Connect to the database before listening
+connectDB().then(() => {
   server.listen(port, () => {
-    console.table(listEndpoints(server))
-    console.log(`Server is running on port ${port}`)
+    console.log("listening for requests")
   })
 })
