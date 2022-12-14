@@ -32,19 +32,19 @@ server.use(
 )
 server.use(express.json())
 
-// ****************** ENDPOINTS  *********************
-server.use("/items", itemsRouter)
-server.use("/users", usersRouter)
-server.use("/brands", brandsRouter)
-server.use("/categories", categoriesRouter)
-server.use("/mainCategories", mainCategoriesRouter)
+// // ****************** ENDPOINTS  *********************
+// server.use("/items", itemsRouter)
+// server.use("/users", usersRouter)
+// server.use("/brands", brandsRouter)
+// server.use("/categories", categoriesRouter)
+// server.use("/mainCategories", mainCategoriesRouter)
 
-// ****************** ERROR HANDLERS *********************
-server.use(badRequestErrorHandler) // 400
-server.use(unauthorizedErrorHandler) // 401
-server.use(notFoundErrorHandler) // 404
-server.use(genericErrorHandler) // 500
-////
+// // ****************** ERROR HANDLERS *********************
+// server.use(badRequestErrorHandler) // 400
+// server.use(unauthorizedErrorHandler) // 401
+// server.use(notFoundErrorHandler) // 404
+// server.use(genericErrorHandler) // 500
+// ////
 
 // mongoose.connect(process.env.MONGO_CONNECTION)
 
@@ -70,6 +70,19 @@ const connectDB = async () => {
 //Routes go here
 server.all("*", (req, res) => {
   res.json({ "every thing": "is awesome" })
+  // ****************** ENDPOINTS  *********************
+  server.use("/items", itemsRouter)
+  server.use("/users", usersRouter)
+  server.use("/brands", brandsRouter)
+  server.use("/categories", categoriesRouter)
+  server.use("/mainCategories", mainCategoriesRouter)
+
+  // ****************** ERROR HANDLERS *********************
+  server.use(badRequestErrorHandler) // 400
+  server.use(unauthorizedErrorHandler) // 401
+  server.use(notFoundErrorHandler) // 404
+  server.use(genericErrorHandler) // 500
+  ////
 })
 
 //Connect to the database before listening
