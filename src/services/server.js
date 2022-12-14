@@ -17,20 +17,20 @@ const urlList = [process.env.FE_DEV_URL, process.env.FE_PROD_URL]
 
 // ****************** MIDDLEWARES *********************
 // server.use(cors())
-server.use(
-  cors({
-    origin: (origin, next) => {
-      // console.log("ORIGIN: ", origin)
+// server.use(
+//   cors({
+//     origin: (origin, next) => {
+//       // console.log("ORIGIN: ", origin)
 
-      if (!origin || urlList.indexOf(origin) !== -1) {
-        next(null, true)
-      } else {
-        next(createError(400, "CORS ERROR!"))
-      }
-    },
-  })
-)
-server.use(express.json())
+//       if (!origin || urlList.indexOf(origin) !== -1) {
+//         next(null, true)
+//       } else {
+//         next(createError(400, "CORS ERROR!"))
+//       }
+//     },
+//   })
+// )
+// server.use(express.json())
 
 // // ****************** ENDPOINTS  *********************
 // server.use("/items", itemsRouter)
@@ -70,6 +70,20 @@ const connectDB = async () => {
 //Routes go here
 server.all("*", (req, res) => {
   res.json({ "every thing": "is awesome" })
+  server.use(
+    cors({
+      origin: (origin, next) => {
+        // console.log("ORIGIN: ", origin)
+
+        if (!origin || urlList.indexOf(origin) !== -1) {
+          next(null, true)
+        } else {
+          next(createError(400, "CORS ERROR!"))
+        }
+      },
+    })
+  )
+  server.use(express.json())
   // ****************** ENDPOINTS  *********************
   server.use("/items", itemsRouter)
   server.use("/users", usersRouter)
