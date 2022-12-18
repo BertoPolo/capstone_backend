@@ -19,16 +19,6 @@ const cloudinaryfavImagesUploader = multer({
   }),
 }).single("image")
 
-// * @openapi
-/**
- * items/:
- *   post:
- *     description: Creates a new item
- *     responses:
- *       201:
- *         description: Returns new item's id.
- */
-
 /**
  * @swagger
  * components:
@@ -85,6 +75,24 @@ const cloudinaryfavImagesUploader = multer({
  *         description: this helmet is cool
  *         fullDescription: this helmet is cool and awesome you should buy it now
  *
+ */
+
+/**
+ * @swagger
+ * /items/:
+ *   post:
+ *     description: Creates a new item
+ *     tags: [Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/Items'
+ *     responses:
+ *       201:
+ *         description: Returns new item's id.
  */
 
 //POST a new item
