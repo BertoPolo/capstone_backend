@@ -7,7 +7,7 @@ const options = {
     openapi: "3.0.0",
     info: { title: "Stuff to route documentation", version: "1.0.0" },
   },
-  apis: ["src/items/index.js"], //not right
+  apis: ["src/items/index.js"], //
 }
 
 //Docs in JSON format
@@ -15,7 +15,7 @@ const swaggerSpec = swaggerJSDoc(options)
 
 //To setup our docs
 export const swaggerDocs = (server, port) => {
-  server.use("/aoi/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+  server.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
   server.get("/api/docs.json", (req, res) => {
     res.setHeader("Content-Type", "application/json")
     res.send(swaggerSpec)
