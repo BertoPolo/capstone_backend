@@ -2,13 +2,14 @@ import express from "express"
 import mongoose from "mongoose"
 import listEndpoints from "express-list-endpoints"
 import cors from "cors"
+import createError from "http-errors"
 import itemsRouter from "../items/index.js"
 import usersRouter from "../users/index.js"
 import brandsRouter from "../brands/index.js"
 import categoriesRouter from "../categories/index.js"
 import mainCategoriesRouter from "../mainCategories/index.js"
-import createError from "http-errors"
 
+import { swaggerDocs as V1SwaggerDocs } from "../routes/swagger.js"
 import { genericErrorHandler, notFoundErrorHandler, badRequestErrorHandler, unauthorizedErrorHandler } from "./errorHandlers.js"
 
 const server = express()
@@ -54,6 +55,7 @@ mongoose.connection.on("connected", () => {
   server.listen(port, () => {
     console.table(listEndpoints(server))
     console.log(`Server is running on port ${port}`)
+    V1SwaggerDocs(server, port)
   })
 })
 
