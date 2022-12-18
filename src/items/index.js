@@ -19,15 +19,75 @@ const cloudinaryfavImagesUploader = multer({
   }),
 }).single("image")
 
+// * @openapi
 /**
- * @openapi
- * /:
+ * items/:
  *   post:
  *     description: Creates a new item
  *     responses:
  *       201:
  *         description: Returns new item's id.
  */
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    Items:
+ *      type: object
+ *      properties:
+ *        title:
+ *          type: string
+ *          description: Item's title
+ *        price:
+ *          type: Number
+ *          description: Item's price
+ *        image:
+ *          type: string
+ *          description: Item's image
+ *        mainCategory:
+ *          type: Schema.Types.ObjectId
+ *          description: Item's mainCategory
+ *        category:
+ *          type: Schema.Types.ObjectId
+ *          description: Item's category
+ *        brand:
+ *          type: string
+ *          description: Item's brand
+ *        isOutlet:
+ *          type: boolean
+ *          description: Item's isOutlet
+ *        outletPrice:
+ *          type: number
+ *          description: Item's outletPrice
+ *        description:
+ *          type: string
+ *          description: Item's description
+ *        fullDescription:
+ *          type: string
+ *          description: Item's fullDescription
+ *      required:
+ *        - title
+ *        - price
+ *        - mainCategory
+ *        - brand
+ *        - isOutlet
+ *        - description
+ *        - fullDescription
+ *      example:
+ *         title: Helmet Cool
+ *         price: 111.11
+ *         mainCategory: Helmets
+ *         category: Full ones
+ *         brand: Bandit
+ *         isOutlet: false
+ *         outletPrice: 23.88
+ *         description: this helmet is cool
+ *         fullDescription: this helmet is cool and awesome you should buy it now
+ *
+ */
+
+//POST a new item
 itemsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     //const item = new itemSchema(req.body)

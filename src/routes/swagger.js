@@ -7,7 +7,7 @@ const options = {
     openapi: "3.0.0",
     info: { title: "Stuff to route documentation", version: "1.0.0" },
   },
-  apis: ["src/items/index.js"], //
+  apis: ["src/items/index.js", "src/brands/index.js", "src/categories/index.js", "src/mainCategories/index.js", "src/users/index.js"], //
 }
 
 //Docs in JSON format
@@ -20,5 +20,5 @@ export const swaggerDocs = (server, port) => {
     res.setHeader("Content-Type", "application/json")
     res.send(swaggerSpec)
   })
-  console.log(`Version 1 Docs are available at http://localhost:${port}/api/docs`)
+  console.log(`Version 1 Docs are available at http://localhost:${port}/api/docs`) //should i add deployed version??
 }
