@@ -10,9 +10,6 @@ import { JWTAuthMiddleware } from "../auth/token.js"
 
 const itemsRouter = express.Router()
 
-// createError example
-// next(createError(404, `this post ${req.params.blogId} is not found`))
-
 const cloudinaryfavImagesUploader = multer({
   storage: new CloudinaryStorage({
     cloudinary,
@@ -22,7 +19,15 @@ const cloudinaryfavImagesUploader = multer({
   }),
 }).single("image")
 
-//POST a new item
+/**
+ * @openapi
+ * /:
+ *   post:
+ *     description: Creates a new item
+ *     responses:
+ *       201:
+ *         description: Returns new item's id.
+ */
 itemsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     //const item = new itemSchema(req.body)
