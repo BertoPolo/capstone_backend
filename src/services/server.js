@@ -15,8 +15,8 @@ const server = express()
 const port = process.env.PORT || 3001
 const urlList = [process.env.FE_DEV_URL, process.env.FE_PROD_URL]
 
-// ****************** MIDDLEWARES *********************
-// server.use(cors())
+//****************** MIDDLEWARES *********************
+server.use(cors())
 // server.use(
 //   cors({
 //     origin: (origin, next) => {
@@ -30,77 +30,77 @@ const urlList = [process.env.FE_DEV_URL, process.env.FE_PROD_URL]
 //     },
 //   })
 // )
-// server.use(express.json())
+server.use(express.json())
 
-// // ****************** ENDPOINTS  *********************
-// server.use("/items", itemsRouter)
-// server.use("/users", usersRouter)
-// server.use("/brands", brandsRouter)
-// server.use("/categories", categoriesRouter)
-// server.use("/mainCategories", mainCategoriesRouter)
+// ****************** ENDPOINTS  *********************
+server.use("/items", itemsRouter)
+server.use("/users", usersRouter)
+server.use("/brands", brandsRouter)
+server.use("/categories", categoriesRouter)
+server.use("/mainCategories", mainCategoriesRouter)
 
-// // ****************** ERROR HANDLERS *********************
-// server.use(badRequestErrorHandler) // 400
-// server.use(unauthorizedErrorHandler) // 401
-// server.use(notFoundErrorHandler) // 404
-// server.use(genericErrorHandler) // 500
-// ////
+// ****************** ERROR HANDLERS *********************
+server.use(badRequestErrorHandler) // 400
+server.use(unauthorizedErrorHandler) // 401
+server.use(notFoundErrorHandler) // 404
+server.use(genericErrorHandler) // 500
+////
 
-// mongoose.connect(process.env.MONGO_CONNECTION)
+mongoose.connect(process.env.MONGO_CONNECTION)
 
-// mongoose.connection.on("connected", () => {
-//   console.log("Connected to Mongo")
+mongoose.connection.on("connected", () => {
+  console.log("Connected to Mongo")
 
-//   server.listen(port, () => {
-//     console.table(listEndpoints(server))
-//     console.log(`Server is running on port ${port}`)
-//   })
-// })
-
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_CONNECTION)
-    console.log(`MongoDB Connected: ${conn.connection.host}`)
-  } catch (error) {
-    console.log(error)
-    process.exit(1)
-  }
-}
-
-//Routes go here
-server.all("*", (req, res) => {
-  res.json({ "every thing": "is awesome" })
-  server.use(
-    cors({
-      // origin: (origin, next) => {
-      //   // console.log("ORIGIN: ", origin)
-      //   if (!origin || urlList.indexOf(origin) !== -1) {
-      //     next(null, true)
-      //   } else {
-      //     next(createError(400, "CORS ERROR!"))
-      //   }
-      // },
-    })
-  )
-  server.use(express.json())
-  // ****************** ENDPOINTS  *********************
-  server.use("/items", itemsRouter)
-  server.use("/users", usersRouter)
-  server.use("/brands", brandsRouter)
-  server.use("/categories", categoriesRouter)
-  server.use("/mainCategories", mainCategoriesRouter)
-
-  // ****************** ERROR HANDLERS *********************
-  server.use(badRequestErrorHandler) // 400
-  server.use(unauthorizedErrorHandler) // 401
-  server.use(notFoundErrorHandler) // 404
-  server.use(genericErrorHandler) // 500
-  ////
-})
-
-//Connect to the database before listening
-connectDB().then(() => {
   server.listen(port, () => {
-    console.log("listening for requests")
+    console.table(listEndpoints(server))
+    console.log(`Server is running on port ${port}`)
   })
 })
+
+// const connectDB = async () => {
+//   try {
+//     const conn = await mongoose.connect(process.env.MONGO_CONNECTION)
+//     console.log(`MongoDB Connected: ${conn.connection.host}`)
+//   } catch (error) {
+//     console.log(error)
+//     process.exit(1)
+//   }
+// }
+
+// //Routes go here
+// server.all("*", (req, res) => {
+//   res.json({ "every thing": "is awesome" })
+//   server.use(
+//     cors({
+//       // origin: (origin, next) => {
+//       //   // console.log("ORIGIN: ", origin)
+//       //   if (!origin || urlList.indexOf(origin) !== -1) {
+//       //     next(null, true)
+//       //   } else {
+//       //     next(createError(400, "CORS ERROR!"))
+//       //   }
+//       // },
+//     })
+//   )
+//   server.use(express.json())
+//   // ****************** ENDPOINTS  *********************
+//   server.use("/items", itemsRouter)
+//   server.use("/users", usersRouter)
+//   server.use("/brands", brandsRouter)
+//   server.use("/categories", categoriesRouter)
+//   server.use("/mainCategories", mainCategoriesRouter)
+
+//   // ****************** ERROR HANDLERS *********************
+//   server.use(badRequestErrorHandler) // 400
+//   server.use(unauthorizedErrorHandler) // 401
+//   server.use(notFoundErrorHandler) // 404
+//   server.use(genericErrorHandler) // 500
+//   ////
+// })
+
+// //Connect to the database before listening
+// connectDB().then(() => {
+//   server.listen(port, () => {
+//     console.log("listening for requests")
+//   })
+// })
