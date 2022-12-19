@@ -82,7 +82,7 @@ usersRouter.post("/login", async (req, res, next) => {
       // 3. If credentials are ok --> generate an access token (JWT) and send it as a response
 
       const accessToken = await generateAccessToken({ _id: user._id, isAdmin: user.isAdmin })
-      res.send({ accessToken })
+      res.status(201).send({ accessToken })
     } else {
       // 4. If credentials are not ok --> throw an error (401)
       next(createError(401, "Credentials are not ok!"))
@@ -94,7 +94,7 @@ usersRouter.post("/login", async (req, res, next) => {
 
 /**
  * @swagger
- * /users/login:
+ * /users/:
  *   post:
  *     description: Creates a new user and send an email afer successful registration.
  *     tags: [User]
@@ -108,6 +108,8 @@ usersRouter.post("/login", async (req, res, next) => {
  *     responses:
  *       201:
  *         description: Returns new user's id.
+ *       409:
+ *         description: Returns error message "user already exists".
  */
 //POST a new user and send an email after successful registration
 usersRouter.post("/", async (req, res, next) => {
@@ -144,7 +146,24 @@ usersRouter.post("/", async (req, res, next) => {
   }
 })
 
-//POST send Email after purchase
+/**
+ * @swagger
+ * /users/purchase:
+ *   post:
+ *     description: Send an email after purchase.
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: Returns message "payment and Email are done!"
+ */
+//POST send an email after purchase
 usersRouter.post("/purchase", async (req, res, next) => {
   const { id, amount, email } = req.body
 
@@ -184,6 +203,25 @@ usersRouter.post("/purchase", async (req, res, next) => {
   }
 })
 
+/**
+ * @swagger
+ * /users/:name:
+ *   get:
+ *     description: Returns searched users by name. Needs token.
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: Returns found users
+ *       404:
+ *         description: Returns message "no users found"
+ */
 //Get searched users
 usersRouter.get("/:name", JWTAuthMiddleware, async (req, res, next) => {
   try {
@@ -199,6 +237,25 @@ usersRouter.get("/:name", JWTAuthMiddleware, async (req, res, next) => {
   }
 })
 
+/**
+ * @swagger
+ * /users/username/:username:
+ *   get:
+ *     description: Returns single user by username. Needs token.
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: Returns found user
+ *       404:
+ *         description: Returns message "no users found"
+ */
 //Get single user by username
 usersRouter.get("/username/:username", JWTAuthMiddleware, async (req, res, next) => {
   try {
@@ -212,6 +269,25 @@ usersRouter.get("/username/:username", JWTAuthMiddleware, async (req, res, next)
   }
 })
 
+/**
+ * @swagger
+ * /users/:userId:
+ *   put:
+ *     description: Modify account data. Needs admin token.
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       201:
+ *         description: Returns updated user
+ *       404:
+ *         description: Returns message "no users found"
+ */
 //PUT account data
 usersRouter.put("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {

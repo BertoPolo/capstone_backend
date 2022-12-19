@@ -114,41 +114,6 @@ itemsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, n
 
 /**
  * @swagger
- * /items/:itemId/img:
- *   put:
- *     description: Change item's image. Needs admin token
- *     tags: [Items]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             $ref: '#/components/schemas/Items'
- *     responses:
- *       201:
- *         description: Returns the updated item.
- *       404:
- *         description: Returns "not found"
- */
-//PUT img's item
-itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudinaryfavImagesUploader, async (req, res, next) => {
-  try {
-    const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { image: req.file.path }, { new: true })
-    if (itemToUpdate) {
-      res.status(201).send(itemToUpdate)
-    } else {
-      next(createError(404, `this item ${req.params.itemId} is not found`))
-      // console.log(error)
-    }
-  } catch (error) {
-    console.log(error)
-    next(error)
-  }
-})
-
-/**
- * @swagger
  * /items/:query:
  *   get:
  *     description: Search items searching by filters. query example "server"/items?limit=10&sort=-title&category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
@@ -198,13 +163,6 @@ itemsRouter.get("/", async (req, res, next) => {
  *   get:
  *     description: Returns 15 random items from the database.
  *     tags: [Items]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             $ref: '#/components/schemas/Items'
  *     responses:
  *       201:
  *         description: Returns an array of items.
@@ -220,6 +178,41 @@ itemsRouter.get("/random", async (req, res, next) => {
     // .find({ $sample: { size: 15 } })
     if (items) res.status(200).send(items)
     else next(createError(404, `nothing found`))
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
+/**
+ * @swagger
+ * /items/:itemId/img:
+ *   put:
+ *     description: Change item's image. Needs admin token
+ *     tags: [Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/Items'
+ *     responses:
+ *       201:
+ *         description: Returns the updated item.
+ *       404:
+ *         description: Returns "not found"
+ */
+//PUT img's item
+itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudinaryfavImagesUploader, async (req, res, next) => {
+  try {
+    const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { image: req.file.path }, { new: true })
+    if (itemToUpdate) {
+      res.status(201).send(itemToUpdate)
+    } else {
+      next(createError(404, `this item ${req.params.itemId} is not found`))
+      // console.log(error)
+    }
   } catch (error) {
     console.log(error)
     next(error)
