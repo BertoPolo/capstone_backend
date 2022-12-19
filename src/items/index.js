@@ -118,13 +118,13 @@ itemsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, n
  *   get:
  *     description: Search items searching by filters. query example "server"/items?limit=10&sort=-title&category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
  *     tags: [Items]
- *     requestBody:
+ *     parameters:
+ *     - in: path
+ *       name: query
+ *       schema:
+ *         type: string
  *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             $ref: '#/components/schemas/Items'
+ *       description: string with query parameters
  *     responses:
  *       201:
  *         description: Returns the searched item.
@@ -186,7 +186,7 @@ itemsRouter.get("/random", async (req, res, next) => {
 
 /**
  * @swagger
- * /items/:itemId/img:
+ * /items/{itemId}/img:
  *   put:
  *     description: Change item's image. Needs admin token
  *     tags: [Items]
@@ -197,6 +197,13 @@ itemsRouter.get("/random", async (req, res, next) => {
  *           schema:
  *             type: object
  *             $ref: '#/components/schemas/Items'
+ *     parameters:
+ *     - in: path
+ *       name: itemId
+ *       schema:
+ *         type: string
+ *       required: true
+ *       description: item's id
  *     responses:
  *       201:
  *         description: Returns the updated item.
@@ -221,7 +228,7 @@ itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudina
 
 /**
  * @swagger
- * /items/:itemId/:
+ * /items/{itemId}/:
  *   put:
  *     description: Change item's properties ( NOT IMAGE ). Needs admin token
  *     tags: [Items]
@@ -232,6 +239,13 @@ itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudina
  *           schema:
  *             type: object
  *             $ref: '#/components/schemas/Items'
+ *     parameters:
+ *     - in: path
+ *       name: itemId
+ *       schema:
+ *         type: string
+ *       required: true
+ *       description: item's id
  *     responses:
  *       201:
  *         description: Returns the updated item.
@@ -257,13 +271,13 @@ itemsRouter.put("/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, 
  *   delete:
  *     description: Delete an item. Needs admin token
  *     tags: [Items]
- *     requestBody:
+ *     parameters:
+ *     - in: path
+ *       name: itemId
+ *       schema:
+ *         type: string
  *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             $ref: '#/components/schemas/Items'
+ *       description: item's id
  *     responses:
  *       201:
  *         description: Returns a verification message.

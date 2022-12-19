@@ -205,17 +205,17 @@ usersRouter.post("/purchase", async (req, res, next) => {
 
 /**
  * @swagger
- * /users/:name:
+ * /users/{name}:
  *   get:
  *     description: Returns searched users by name. Needs token.
  *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             $ref: '#/components/schemas/User'
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user's name
  *     responses:
  *       200:
  *         description: Returns found users
@@ -239,17 +239,17 @@ usersRouter.get("/:name", JWTAuthMiddleware, async (req, res, next) => {
 
 /**
  * @swagger
- * /users/username/:username:
+ * /users/username/{username}:
  *   get:
  *     description: Returns single user by username. Needs token.
  *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             $ref: '#/components/schemas/User'
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user's username
  *     responses:
  *       200:
  *         description: Returns found user
@@ -271,17 +271,17 @@ usersRouter.get("/username/:username", JWTAuthMiddleware, async (req, res, next)
 
 /**
  * @swagger
- * /users/:userId:
+ * /users/{userId}:
  *   put:
  *     description: Modify account data. Needs admin token.
  *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             $ref: '#/components/schemas/User'
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user's id
  *     responses:
  *       201:
  *         description: Returns updated user
