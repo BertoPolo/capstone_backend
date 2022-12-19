@@ -19,9 +19,17 @@ const cloudinaryfavImagesUploader = multer({
   }),
 }).single("image")
 
+//swagger token not rightly applied
 /**
  * @swagger
  * components:
+ *  securitySchemes:
+ *    bearerAuth:
+ *      type: http
+ *      scheme: bearer
+ *      bearerFormat: JWT
+ *  security:
+ *  - bearerAuth: []
  *  schemas:
  *    Items:
  *      type: object

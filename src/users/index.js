@@ -9,9 +9,17 @@ import Stripe from "stripe"
 
 const usersRouter = express.Router()
 
+//swagger token not rightly applied
 /**
  * @swagger
  * components:
+ *  securitySchemes:
+ *    bearerAuth:
+ *      type: http
+ *      scheme: bearer
+ *      bearerFormat: JWT
+ *  security:
+ *  - bearerAuth: []
  *  schemas:
  *    User:
  *      type: object
