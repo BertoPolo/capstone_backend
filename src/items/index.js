@@ -81,7 +81,7 @@ const cloudinaryfavImagesUploader = multer({
  * @swagger
  * /items/:
  *   post:
- *     description: Creates a new item
+ *     description: Creates a new item. Needs admin token
  *     tags: [Items]
  *     requestBody:
  *       required: true
@@ -94,7 +94,6 @@ const cloudinaryfavImagesUploader = multer({
  *       201:
  *         description: Returns new item's id.
  */
-
 //POST a new item
 itemsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
@@ -113,7 +112,26 @@ itemsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, n
   }
 })
 
-//POST/PUT img's item
+/**
+ * @swagger
+ * /items/:itemId/img:
+ *   put:
+ *     description: Change item's image. Needs admin token
+ *     tags: [Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/Items'
+ *     responses:
+ *       201:
+ *         description: Returns the updated item.
+ *       404:
+ *         description: Returns "not found"
+ */
+//PUT img's item
 itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudinaryfavImagesUploader, async (req, res, next) => {
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { image: req.file.path }, { new: true })
@@ -129,8 +147,27 @@ itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudina
   }
 })
 
+/**
+ * @swagger
+ * /items/:query:
+ *   get:
+ *     description: Search items searching by filters. query example "server"/items?limit=10&sort=-title&category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
+ *     tags: [Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/Items'
+ *     responses:
+ *       201:
+ *         description: Returns the searched item.
+ *       404:
+ *         description: Returns "not found"
+ */
 //GET filtered items
-// http://query example : localhost:3004/items?limit=10&sort=-title&category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
+//query example http://:localhost:3004/items?limit=10&sort=-title&category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
 itemsRouter.get("/", async (req, res, next) => {
   try {
     const queryToMongo = q2m(req.query)
@@ -155,6 +192,25 @@ itemsRouter.get("/", async (req, res, next) => {
   }
 })
 
+/**
+ * @swagger
+ * /items/random:
+ *   get:
+ *     description: Returns 15 random items from the database.
+ *     tags: [Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/Items'
+ *     responses:
+ *       201:
+ *         description: Returns an array of items.
+ *       404:
+ *         description: Returns "not found"
+ */
 //GET 15 random items
 itemsRouter.get("/random", async (req, res, next) => {
   try {
@@ -170,25 +226,64 @@ itemsRouter.get("/random", async (req, res, next) => {
   }
 })
 
+/**
+ * @swagger
+ * /items/:itemId/:
+ *   put:
+ *     description: Change item's properties ( NOT IMAGE ). Needs admin token
+ *     tags: [Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/Items'
+ *     responses:
+ *       201:
+ *         description: Returns the updated item.
+ *       404:
+ *         description: Returns "not found"
+ */
 ///PUT item
 itemsRouter.put("/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { ...req.body }, { new: true })
 
     if (itemToUpdate) res.status(201).send(itemToUpdate)
-    else next(createError(404, `this item ${req.params.itemTitle} is not found`))
+    else next(createError(404, `this item: ${req.params.itemId}, is not found`))
   } catch (error) {
     console.log(error)
     next(error)
   }
 })
 
+/**
+ * @swagger
+ * /items/:itemId/:
+ *   delete:
+ *     description: Delete an item. Needs admin token
+ *     tags: [Items]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/Items'
+ *     responses:
+ *       201:
+ *         description: Returns a verification message.
+ *       404:
+ *         description: Returns "not found"
+ */
 ///DELETE item
 itemsRouter.delete("/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
-    await itemSchema.findByIdAndDelete(req.params.itemId)
+    const itemToDelete = await itemSchema.findByIdAndDelete(req.params.itemId)
 
-    res.status(200).send("item was deleted successfully")
+    if (itemToDelete) res.status(200).send("item was deleted successfully")
+    else next(createError(404, `this item: ${req.params.itemId}, is not found`))
   } catch (error) {
     next(error)
   }
