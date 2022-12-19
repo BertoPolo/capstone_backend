@@ -1,5 +1,5 @@
 # capstone_backend
 
 ## Deployed version
-https://stufftoroute.vercel.app
+https://capstone-backend.cyclic.app
 
