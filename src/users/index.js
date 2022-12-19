@@ -9,6 +9,66 @@ import Stripe from "stripe"
 
 const usersRouter = express.Router()
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    User:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *          description: User's name
+ *        price:
+ *          type: string
+ *          description: User's username
+ *        email:
+ *          type: string
+ *          description: User's email
+ *        adress:
+ *          type: string
+ *          description: User's adress
+ *        isAdmin:
+ *          type: boolean
+ *          description: User's rights, if it's admin or not
+ *        password:
+ *          type: string
+ *          description: User's encrypted password
+ *      required:
+ *        - name
+ *        - username
+ *        - email
+ *        - adress
+ *        - isAdmin
+ *        - password
+ *      example:
+ *         name: Harrison
+ *         username: s0nF0rd
+ *         email: harryford@gmail.com
+ *         adress: C/my street 33
+ *         isAdmin: false
+ *         password: 0192ie0jdq0j1A
+ */
+
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     description: Creates a new token.
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       201:
+ *         description: Returns a token
+ *       401:
+ *         description: returns a 401 error message " Credentials are not ok"
+ */
 //POST create a new token
 usersRouter.post("/login", async (req, res, next) => {
   try {
@@ -32,7 +92,24 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 })
 
-//POST a new user and send Email after registration
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     description: Creates a new user and send an email afer successful registration.
+ *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       201:
+ *         description: Returns new user's id.
+ */
+//POST a new user and send an email after successful registration
 usersRouter.post("/", async (req, res, next) => {
   try {
     const doesUserAlreadyExists = await usersSchema.findOne({ username: req.body.username })

@@ -20,5 +20,5 @@ export const swaggerDocs = (server, port) => {
     res.setHeader("Content-Type", "application/json")
     res.send(swaggerSpec)
   })
-  console.log(`Version 1 Docs are available at http://localhost:${port}/api/docs`) //should i add deployed version??
+  console.log(`Version 1 Docs are available at http://localhost:${port}/api/docs`) //should I add deployed version??
 }
