@@ -6,8 +6,6 @@
   "type": "module",
   "scripts": {
     "start": "node ./src/services/server.js ",
-    "antiguostart": "serve -d build",
-    "test": "react-scripts test",
     "dev": "nodemon -r dotenv/config -e js ./src/services/server.js"
   },
   "repository": {
