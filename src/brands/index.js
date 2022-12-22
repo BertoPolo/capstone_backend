@@ -20,7 +20,7 @@ brandsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, 
 })
 
 //GET ALL Brands
-brandsRouter.get("/all", async (req, res, next) => {
+brandsRouter.get("/", async (req, res, next) => {
   try {
     const brands = await brandsSchema.find()
 

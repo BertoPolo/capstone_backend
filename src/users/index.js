@@ -314,6 +314,18 @@ usersRouter.put("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, 
   }
 })
 
+/**
+ * @swagger
+ * /users/me:
+ *   put:
+ *     description: Modify self account data. Needs token.
+ *     tags: [User]
+ *     responses:
+ *       201:
+ *         description: Returns updated user
+ *       404:
+ *         description: Returns message "no users found"
+ */
 //PUT self account data
 usersRouter.put("/me", JWTAuthMiddleware, async (req, res, next) => {
   try {
@@ -332,6 +344,18 @@ usersRouter.put("/me", JWTAuthMiddleware, async (req, res, next) => {
   }
 })
 
+/**
+ * @swagger
+ * /users/me/password:
+ *   put:
+ *     description: Modify self password. Needs token.
+ *     tags: [User]
+ *     responses:
+ *       201:
+ *         description: Returns updated user
+ *       404:
+ *         description: Returns message "no users found"
+ */
 //PUT self account password
 usersRouter.put("/me/password", JWTAuthMiddleware, async (req, res, next) => {
   try {
@@ -348,6 +372,18 @@ usersRouter.put("/me/password", JWTAuthMiddleware, async (req, res, next) => {
   }
 })
 
+/**
+ * @swagger
+ * /users/forgotPassword:
+ *   put:
+ *     description: set password from account and send email with new provisional password.
+ *     tags: [User]
+ *     responses:
+ *       201:
+ *         description: Returns updated user
+ *       404:
+ *         description: Returns message "no users found"
+ */
 //PUT check and reset password
 usersRouter.put("/forgotPassword", async (req, res, next) => {
   try {
@@ -375,7 +411,7 @@ usersRouter.put("/forgotPassword", async (req, res, next) => {
         html: `<b>Here is there your new password. Change it ASAP, this one is a low security pass. <p>New password : <u> ${req.body.password}</u></p> <h3>Stuff to Route</h3> </b>`,
       })
 
-      res.status(201).send(user)
+      res.status(201).send({ message: "New password is sent to that mail successfully" })
     } else next(createError(404, `User not found`))
   } catch (error) {
     console.log(error)
@@ -383,6 +419,25 @@ usersRouter.put("/forgotPassword", async (req, res, next) => {
   }
 })
 
+/**
+ * @swagger
+ * /users/{userId}:
+ *   delete:
+ *     description: delete an user, Needs admin token.
+ *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: user's id
+ *     responses:
+ *       201:
+ *         description: Returns "deleted successfully"
+ *       404:
+ *         description: Returns message "no users found"
+ */
 //Delete user
 usersRouter.delete("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
