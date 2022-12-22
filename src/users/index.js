@@ -433,7 +433,7 @@ usersRouter.put("/forgotPassword", async (req, res, next) => {
  *         required: true
  *         description: user's id
  *     responses:
- *       201:
+ *       200:
  *         description: Returns "deleted successfully"
  *       404:
  *         description: Returns message "no users found"

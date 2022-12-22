@@ -6,7 +6,40 @@ import { JWTAuthMiddleware } from "../auth/token.js"
 
 const brandsRouter = express.Router()
 
-//POST new Brands
+/**
+ * @swagger
+ * components:
+ *  securitySchemes:
+ *    bearerAuth:
+ *      type: http
+ *      scheme: bearer
+ *      bearerFormat: JWT
+ *  security:
+ *  - bearerAuth: []
+ *  schemas:
+ *    Brand:
+ *      type: object
+ *      properties:
+ *        name:
+ *          type: string
+ *          description: item's Brand
+ *      required:
+ *        - brands
+ *      example:
+ *         brands: DMD
+ */
+
+/**
+ * @swagger
+ * /brands/:
+ *   post:
+ *     description: create a new brand, Needs admin token.
+ *     tags: [Brand]
+ *     responses:
+ *       201:
+ *         description: Returns new brand's id
+ */
+//POST new Brand
 brandsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const newBrands = new brandsSchema(req.body)
@@ -19,6 +52,16 @@ brandsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, 
   }
 })
 
+/**
+ * @swagger
+ * /brands/:
+ *   get:
+ *     description: recive all the brands
+ *     tags: [Brand]
+ *     responses:
+ *       200:
+ *         description: Returns brands array
+ */
 //GET ALL Brands
 brandsRouter.get("/", async (req, res, next) => {
   try {
