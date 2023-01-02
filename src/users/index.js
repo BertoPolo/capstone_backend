@@ -327,7 +327,7 @@ usersRouter.put("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, 
  *         description: Returns message "no users found"
  */
 //PUT self account data
-usersRouter.put("/me", JWTAuthMiddleware, async (req, res, next) => {
+usersRouter.put("/me/data", JWTAuthMiddleware, async (req, res, next) => {
   try {
     const user = await usersSchema.findByIdAndUpdate(
       req.user._id,
