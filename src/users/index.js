@@ -385,7 +385,7 @@ usersRouter.put("/me/password", JWTAuthMiddleware, async (req, res, next) => {
  *         description: Returns message "no users found"
  */
 //PUT check and reset password
-usersRouter.put("/forgotPassword", async (req, res, next) => {
+usersRouter.put("/password/forgotPassword", async (req, res, next) => {
   try {
     const user = await usersSchema.findOne({ name: req.body.name, username: req.body.username, email: req.body.email })
 
