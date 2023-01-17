@@ -46,6 +46,17 @@ mainCategoriesRouter.put("/:mCatId", JWTAuthMiddleware, adminOnlyMiddleware, asy
     next(createError(404, `no main categories found`))
   }
 })
-//Delete Main Category
+
+///DELETE main category
+mainCategoriesRouter.delete("/:mainCategoryId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+  try {
+    const mainCategoryToDelete = await mainCategoriesSchema.findByIdAndDelete(req.params.mainCategoryId)
+
+    if (mainCategoryToDelete) res.status(200).send("maincategories was deleted successfully")
+    else next(createError(404, `this maincategories: ${req.params.mainCategoryId}, is not found`))
+  } catch (error) {
+    next(error)
+  }
+})
 
 export default mainCategoriesRouter
