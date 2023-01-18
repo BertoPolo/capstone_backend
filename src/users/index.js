@@ -1,11 +1,12 @@
 import usersSchema from "./model.js"
 import express from "express"
 import createError from "http-errors"
+import nodemailer from "nodemailer"
+import Stripe from "stripe"
+import q2m from "query-to-mongo"
 import { JWTAuthMiddleware } from "../auth/token.js"
 import { generateAccessToken } from "../auth/tools.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
-import nodemailer from "nodemailer"
-import Stripe from "stripe"
 
 const usersRouter = express.Router()
 
@@ -233,9 +234,15 @@ usersRouter.post("/purchase", async (req, res, next) => {
 //Get searched users
 usersRouter.get("/:name", JWTAuthMiddleware, async (req, res, next) => {
   try {
+    // remove ":/name"
+    // const queryToMongo = q2m(req.query)
+    // const users = await usersSchema
+    //   .find(queryToMongo.criteria)
+    //   .limit(queryToMongo.options.limit)
+    //   .skip(queryToMongo.options.skip)
+    //   .sort(queryToMongo.options.sort)
+
     const users = await usersSchema.find({ name: { $regex: req.params.name, $options: "i" } })
-    // you can also sort by name
-    //implement q2m to search how admin wants to
 
     if (users) res.status(200).send(users)
     else next(createError(404, `no users found`))
