@@ -232,7 +232,7 @@ usersRouter.post("/purchase", async (req, res, next) => {
  *         description: Returns message "no users found"
  */
 //Get searched users
-usersRouter.get("/", async (req, res, next) => {
+usersRouter.get("/", JWTAuthMiddleware, async (req, res, next) => {
   try {
     const queryToMongo = q2m(req.query)
     console.log(queryToMongo)
@@ -241,10 +241,6 @@ usersRouter.get("/", async (req, res, next) => {
       .limit(queryToMongo.options.limit)
       .skip(queryToMongo.options.skip)
       .sort(queryToMongo.options.sort)
-
-    // if(req.params.way ==="name")
-    // if(req.params.way ==="userName")
-    // if(req.params.way ==="name")
 
     // const users = await usersSchema.find({ name: { $regex: req.params.name, $options: "i" } })
 
