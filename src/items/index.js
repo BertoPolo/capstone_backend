@@ -225,7 +225,6 @@ itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudina
       res.status(201).send(itemToUpdate)
     } else {
       next(createError(404, `this item ${req.params.itemId} is not found`))
-      // console.log(error)
     }
   } catch (error) {
     console.log(error)
