@@ -3,6 +3,8 @@ import mongoose from "mongoose"
 import listEndpoints from "express-list-endpoints"
 import cors from "cors"
 import createError from "http-errors"
+import helmet from "helmet"
+
 import itemsRouter from "../items/index.js"
 import usersRouter from "../users/index.js"
 import brandsRouter from "../brands/index.js"
@@ -11,6 +13,7 @@ import mainCategoriesRouter from "../mainCategories/index.js"
 
 import { swaggerDocs as V1SwaggerDocs } from "../routes/swagger.js"
 import { genericErrorHandler, notFoundErrorHandler, badRequestErrorHandler, unauthorizedErrorHandler } from "./errorHandlers.js"
+import apiLimiter from "../tools/requestRestriction.js"
 
 const server = express()
 const port = process.env.PORT || 3001
@@ -46,6 +49,9 @@ server.use(unauthorizedErrorHandler) // 401
 server.use(notFoundErrorHandler) // 404
 server.use(genericErrorHandler) // 500
 ////
+// ****************** TOOLS *********************
+server.use(apiLimiter)
+server.use(helmet())
 
 mongoose.connect(process.env.MONGO_CONNECTION)
 
