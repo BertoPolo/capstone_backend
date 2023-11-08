@@ -20,7 +20,7 @@ const port = process.env.PORT || 3001
 const urlList = [process.env.FE_DEV_URL, process.env.FE_PROD_URL]
 
 //****************** MIDDLEWARES *********************
-// server.use(cors())
+server.use(cors())
 server.use(
   cors({
     origin: (origin, next) => {
