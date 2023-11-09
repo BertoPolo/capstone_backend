@@ -172,7 +172,7 @@ itemsRouter.get("/", async (req, res, next) => {
  *     description: Returns 15 random items from the database.
  *     tags: [Items]
  *     responses:
- *       201:
+ *       200:
  *         description: Returns an array of items.
  *       404:
  *         description: Returns "not found"
