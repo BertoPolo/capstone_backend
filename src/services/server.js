@@ -40,15 +40,15 @@ server.use("/brands", brandsRouter)
 server.use("/categories", categoriesRouter)
 server.use("/mainCategories", mainCategoriesRouter)
 
+// ****************** TOOLS *********************
+server.use(apiLimiter)
+server.use(helmet())
+
 // ****************** ERROR HANDLERS *********************
 server.use(badRequestErrorHandler) // 400
 server.use(unauthorizedErrorHandler) // 401
 server.use(notFoundErrorHandler) // 404
 server.use(genericErrorHandler) // 500
-////
-// ****************** TOOLS *********************
-server.use(apiLimiter)
-server.use(helmet())
 
 mongoose.connect(process.env.MONGO_CONNECTION)
 
