@@ -10,7 +10,7 @@ import { JWTAuthMiddleware } from "../auth/token.js"
 
 const itemsRouter = express.Router()
 
-const cloudinaryfavImagesUploader = multer({
+const cloudinaryItemImagesUploader = multer({
   storage: new CloudinaryStorage({
     cloudinary,
     params: {
@@ -218,7 +218,7 @@ itemsRouter.get("/random", async (req, res, next) => {
  *         description: Returns "not found"
  */
 //PUT img's item
-itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudinaryfavImagesUploader, async (req, res, next) => {
+itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudinaryItemImagesUploader, async (req, res, next) => {
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { image: req.file.path }, { new: true })
     if (itemToUpdate) {
