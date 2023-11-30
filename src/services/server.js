@@ -44,6 +44,21 @@ server.use("/mainCategories", mainCategoriesRouter)
 server.use(apiLimiter)
 server.use(helmet())
 
+// check,adapt and add this whenever you can
+// server.use(
+//   helmet({
+//     contentSecurityPolicy: {
+//       directives: {
+//         defaultSrc: ["'self'"], // Solo permite recursos del mismo origen
+//         scriptSrc: ["'self'", "https://apis.example.com"], // Ejemplo: permite scripts del mismo origen y de apis.example.com
+//         objectSrc: ["'none'"], // No permite plugins (Flash, etc.)
+//         upgradeInsecureRequests: [], // Actualiza las solicitudes HTTP a HTTPS
+//         // ... otras directivas según sea necesario ...
+//       },
+//     },
+//   })
+// )
+
 // ****************** ERROR HANDLERS *********************
 server.use(badRequestErrorHandler) // 400
 server.use(unauthorizedErrorHandler) // 401
