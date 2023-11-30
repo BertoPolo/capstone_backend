@@ -4,7 +4,7 @@ const { Schema, model } = mongoose
 
 const brandsSchema = new Schema(
   {
-    brands: { type: String, required: true },
+    brands: { type: String, required: true, trim: true, maxlength: 15 },
   },
   { timestamps: true }
 )
