@@ -38,8 +38,7 @@ categoriesRouter.get("/all", async (req, res, next) => {
 ///DELETE categories
 categoriesRouter.delete("/:categoriesId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
-    // const categoriesToDelete = await categoriesSchema.findByIdAndDelete(req.params.categoriesId)
-    const categoriesToDelete = await categoriesSchema.findById(req.params.categoriesId)
+    const categoriesToDelete = await categoriesSchema.findByIdAndDelete(req.params.categoriesId)
 
     if (categoriesToDelete) res.status(200).send("categories was deleted successfully")
     else next(createError(404, `this categories: ${req.params.categoriesId}, is not found`))

@@ -1,77 +1,86 @@
 import mongoose from "mongoose"
+import fs from "fs"
+import path from "path"
+import { fileURLToPath } from "url"
+import { dirname, join } from "path"
 import itemsModel from "../items/model.js"
 import usersModel from "../users/model.js"
 import brandsModel from "../brands/model.js"
 import categoriesModel from "../categories/model.js"
 import mainCategoriesModel from "../mainCategories/model.js"
 
+// console.log(fileURLToPath(import.meta.url))  exactamente el path donde estas
+
 const stringToDate = (dateString) => {
   const [day, month, year] = dateString.split("/")
   return new Date(year, month - 1, day)
 }
+const currentFilePath = fileURLToPath(import.meta.url)
+const parentFolderPath = dirname(dirname(currentFilePath))
+const itemsJSONPath = join(parentFolderPath, "data", "items.json")
+const usersJSONPath = join(parentFolderPath, "data", "users.json")
+const brandsJSONPath = join(parentFolderPath, "data", "brands.json")
+const categoriesJSONPath = join(parentFolderPath, "data", "categories.json")
+const maincategoriesJSONPath = join(parentFolderPath, "data", "maincategories.json")
 
-let cutoffDate = stringToDate("08/12/2023")
 let lastAdminChangeTime = null
 let rollbackScheduled = false
 
 export const onAdminChange = () => {
   const currentTime = new Date()
   lastAdminChangeTime = currentTime
-  // scheduleRollbackIfNeeded()
+  scheduleRollbackIfNeeded()
+  // console.log("hellooooo", usersJSONPath)
 }
 
-// const scheduleRollbackIfNeeded = () => {
-//   if (!rollbackScheduled) {
-//     rollbackScheduled = true
-//     setTimeout(async () => {
-//       try {
-//         await rollbackChanges()
-//         rollbackScheduled = false
-//       } catch (err) {
-//         console.error("Rollback failed:", err)
-//         // send me a notification email
-//       }
-//     }, 30 * 60 * 1000) // 30 minutes
-//   }
-// }
+const scheduleRollbackIfNeeded = () => {
+  if (!rollbackScheduled) {
+    rollbackScheduled = true
+    setTimeout(async () => {
+      try {
+        await rollbackChanges()
+        rollbackScheduled = false
+      } catch (err) {
+        console.error("Rollback failed:", err)
+        // send me a notification email
+      }
+    }, 0.3 * 60 * 1000) // 30 minutes
+  }
+}
 
-// mongoose.connect(process.env.MONGO_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true })
 
-// const rollbackChanges = async () => {
-//   try {
-//     await itemsModel.deleteMany({ createdAt: { $gt: cutoffDate } })
-//     const changesOnItems = await itemsChangeHistoryModel.find({}).sort({ changedAt: -1 })
-//     for (const change of changesOnItems) {
-//       await itemsModel.findByIdAndUpdate(change.itemId, { $set: change.previousState })
-//     }
+const rollbackChanges = async () => {
+  try {
+    console.log("Starting database rollback...")
+    // Clear existing data
+    // await brandsModel.deleteMany({})
+    // await categoriesModel.deleteMany({})
+    // await itemsModel.deleteMany({})
+    // await mainCategoriesModel.deleteMany({})
+    // await usersModel.deleteMany({})
 
-//     await brandsModel.deleteMany({ createdAt: { $gt: cutoffDate } })
-//     const changesOnBrands = await itemsChangeHistoryModel.find({}).sort({ changedAt: -1 })
-//     for (const change of changesOnBrands) {
-//       await itemsModel.findByIdAndUpdate(change.itemId, { $set: change.previousState })
-//     }
+    // Read and insert default data
+    console.log("Reading JSON data...")
+    const defaultUsers = JSON.parse(fs.readFileSync(usersJSONPath, "utf8"))
+    console.log(`Loaded ${defaultUsers.length} users`)
+    const defaultBrands = JSON.parse(fs.readFileSync(brandsJSONPath, "utf8"))
+    const defaultCategories = JSON.parse(fs.readFileSync(categoriesJSONPath, "utf8"))
+    const defaultItems = JSON.parse(fs.readFileSync(itemsJSONPath, "utf8"))
+    const defaultMainCategories = JSON.parse(fs.readFileSync(maincategoriesJSONPath, "utf8"))
 
-//     await categoriesModel.deleteMany({ createdAt: { $gt: cutoffDate } })
-//     const changesOnCategories = await itemsChangeHistoryModel.find({}).sort({ changedAt: -1 })
-//     for (const change of changesOnCategories) {
-//       await itemsModel.findByIdAndUpdate(change.itemId, { $set: change.previousState })
-//     }
+    console.log("Inserting data into database...")
+    const insertedUsers = await usersModel.insertMany(defaultUsers)
+    console.log(`Inserted ${insertedUsers.length} users`)
+    // await brandsModel.insertMany(defaultBrands)
+    // await categoriesModel.insertMany(defaultCategories)
+    // await itemsModel.insertMany(defaultItems)
+    // await mainCategoriesModel.insertMany(defaultMainCategories)
+    // await usersModel.insertMany(defaultUsers)
 
-//     await mainCategoriesModel.deleteMany({ createdAt: { $gt: cutoffDate } })
-//     const changesOnMainCategories = await itemsChangeHistoryModel.find({}).sort({ changedAt: -1 })
-//     for (const change of changesOnMainCategories) {
-//       await itemsModel.findByIdAndUpdate(change.itemId, { $set: change.previousState })
-//     }
-
-//     await usersModel.deleteMany({ createdAt: { $gt: cutoffDate } })
-//     const changesOnUsers = await itemsChangeHistoryModel.find({}).sort({ changedAt: -1 })
-//     for (const change of changesOnUsers) {
-//       await itemsModel.findByIdAndUpdate(change.itemId, { $set: change.previousState })
-//     }
-
-//     console.log("Database reset for records after 08/12/2023 completed successfully")
-//   } catch (error) {
-//     console.error("Database reset failed:", err)
-//     // send me a notification email
-//   }
-// }
+    console.log("Database rollback completed successfully")
+  } catch (error) {
+    console.error("Database rollback failed:", error)
+    // send me a notification email
+  }
+}

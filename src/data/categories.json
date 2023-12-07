@@ -1,0 +1,241 @@
+[{
+  "_id": {
+    "$oid": "635ea2f7d8adae02dd144549"
+  },
+  "categories": "Modular",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146487058"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146487058"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635ea25bd8adae02dd144533"
+  },
+  "categories": "Front Lights",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146331006"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146331006"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635ea275d8adae02dd144537"
+  },
+  "categories": "Signal Lights",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146357623"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146357623"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635ea297d8adae02dd144539"
+  },
+  "categories": "Handlebars",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146391451"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146391451"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635ea2bfd8adae02dd144541"
+  },
+  "categories": "Stands",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146431484"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146431484"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635ea29dd8adae02dd14453b"
+  },
+  "categories": "Risers",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146397929"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146397929"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635ea2dad8adae02dd144545"
+  },
+  "categories": "Mid Controls",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146458773"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146458773"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635ea2f2d8adae02dd144547"
+  },
+  "categories": "Jet",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146482718"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146482718"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635ea26fd8adae02dd144535"
+  },
+  "categories": "Rear Lights",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146351100"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146351100"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635ea2a3d8adae02dd14453d"
+  },
+  "categories": "Mirrors",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146403932"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146403932"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635ea2a9d8adae02dd14453f"
+  },
+  "categories": "Grips",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146409984"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146409984"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635ea2c6d8adae02dd144543"
+  },
+  "categories": "Footpegs",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146438809"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146438809"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635ea2ffd8adae02dd14454b"
+  },
+  "categories": "Full Face",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667146495667"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667146495667"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "635eb3a7af81fe244468d425"
+  },
+  "categories": "Hats",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1667150759222"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1667150759222"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63962502ce7760c13f192787"
+  },
+  "categories": "Jackets",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1670784258074"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1670784258074"
+    }
+  },
+  "__v": 0
+}]

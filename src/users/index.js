@@ -125,11 +125,10 @@ usersRouter.post("/login", async (req, res, next) => {
 usersRouter.post("/", async (req, res, next) => {
   try {
     const doesUserAlreadyExists = await usersSchema.findOne({ username: req.body.username })
-
+    onAdminChange()
     if (!doesUserAlreadyExists) {
       const newUser = new usersSchema(req.body)
       const { _id } = await newUser.save()
-
       const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 587,
@@ -453,8 +452,7 @@ usersRouter.put("/password/forgotPassword", async (req, res, next) => {
 //Delete user
 usersRouter.delete("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
-    // const userToDelete = await usersSchema.findByIdAndDelete(req.params.userId)
-    const userToDelete = await usersSchema.findById(req.params.userId)
+    const userToDelete = await usersSchema.findByIdAndDelete(req.params.userId)
 
     if (userToDelete) res.status(200).send({ message: "deleted successfully" })
     else next(createError(404, `User not found`))
