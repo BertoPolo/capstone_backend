@@ -7,6 +7,7 @@ import q2m from "query-to-mongo"
 import { JWTAuthMiddleware } from "../auth/token.js"
 import { generateAccessToken } from "../auth/tools.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
+import { onAdminChange } from "../services/resetScript.js"
 
 const usersRouter = express.Router()
 
@@ -313,8 +314,10 @@ usersRouter.put("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, 
       },
       { new: true }
     )
-    if (user) res.status(201).send(user)
-    else next(createError(404, `no users found`))
+    if (user) {
+      onAdminChange()
+      res.status(201).send(user)
+    } else next(createError(404, `no users found`))
   } catch (error) {
     console.log(error)
     next(error)
@@ -343,8 +346,10 @@ usersRouter.put("/me/data", JWTAuthMiddleware, async (req, res, next) => {
       },
       { new: true }
     )
-    if (user) res.status(201).send(user)
-    else next(createError(404, `no users found`))
+    if (user) {
+      onAdminChange()
+      res.status(201).send(user)
+    } else next(createError(404, `no users found`))
   } catch (error) {
     console.log(error)
     next(error)
@@ -417,7 +422,7 @@ usersRouter.put("/password/forgotPassword", async (req, res, next) => {
         text: "Here is there your new password",
         html: `<b>Here is there your new password. Change it ASAP, this one is a low security pass. <p>New password : <u> ${req.body.password}</u></p> <h3>Stuff to Route</h3> </b>`,
       })
-
+      onAdminChange()
       res.status(201).send({ message: "New password is sent to that mail successfully" })
     } else next(createError(404, `User not found`))
   } catch (error) {
@@ -448,7 +453,8 @@ usersRouter.put("/password/forgotPassword", async (req, res, next) => {
 //Delete user
 usersRouter.delete("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
-    const userToDelete = await usersSchema.findByIdAndDelete(req.params.userId)
+    // const userToDelete = await usersSchema.findByIdAndDelete(req.params.userId)
+    const userToDelete = await usersSchema.findById(req.params.userId)
 
     if (userToDelete) res.status(200).send({ message: "deleted successfully" })
     else next(createError(404, `User not found`))
