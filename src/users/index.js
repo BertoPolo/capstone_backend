@@ -7,7 +7,7 @@ import q2m from "query-to-mongo"
 import { JWTAuthMiddleware } from "../auth/token.js"
 import { generateAccessToken } from "../auth/tools.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
-import { onAdminChange } from "../services/resetScript.js"
+import { onAdminChange } from "../services/rollbackScript.js"
 
 const usersRouter = express.Router()
 
