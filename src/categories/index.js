@@ -4,6 +4,7 @@ import express from "express"
 import createError from "http-errors"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 import { JWTAuthMiddleware } from "../auth/token.js"
+import { onAdminChange } from "../services/resetScript.js"
 
 const categoriesRouter = express.Router()
 
@@ -14,6 +15,7 @@ categoriesRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, r
     const { _id } = await newCategory.save()
     const mainCategory = await mainCategoriesSchema.findByIdAndUpdate(req.body.mainCategory, { $push: { categories: _id } })
 
+    onAdminChange()
     res.status(201).send(_id)
   } catch (error) {
     console.log(error)
@@ -36,7 +38,8 @@ categoriesRouter.get("/all", async (req, res, next) => {
 ///DELETE categories
 categoriesRouter.delete("/:categoriesId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
-    const categoriesToDelete = await categoriesSchema.findByIdAndDelete(req.params.categoriesId)
+    // const categoriesToDelete = await categoriesSchema.findByIdAndDelete(req.params.categoriesId)
+    const categoriesToDelete = await categoriesSchema.findById(req.params.categoriesId)
 
     if (categoriesToDelete) res.status(200).send("categories was deleted successfully")
     else next(createError(404, `this categories: ${req.params.categoriesId}, is not found`))

@@ -7,6 +7,7 @@ import { CloudinaryStorage } from "multer-storage-cloudinary"
 import { v2 as cloudinary } from "cloudinary"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 import { JWTAuthMiddleware } from "../auth/token.js"
+import { onAdminChange } from "../services/resetScript.js"
 
 const itemsRouter = express.Router()
 
@@ -113,6 +114,7 @@ itemsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, n
     const item = new itemSchema(req.body)
     const { _id } = await item.save()
 
+    onAdminChange()
     res.status(201).send(_id)
   } catch (error) {
     console.log(error)
@@ -222,6 +224,7 @@ itemsRouter.put("/:itemId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudina
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { image: req.file.path }, { new: true })
     if (itemToUpdate) {
+      onAdminChange()
       res.status(201).send(itemToUpdate)
     } else {
       next(createError(404, `this item ${req.params.itemId} is not found`))
@@ -263,8 +266,10 @@ itemsRouter.put("/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, 
   try {
     const itemToUpdate = await itemSchema.findByIdAndUpdate(req.params.itemId, { ...req.body }, { new: true })
 
-    if (itemToUpdate) res.status(201).send(itemToUpdate)
-    else next(createError(404, `this item: ${req.params.itemId}, is not found`))
+    if (itemToUpdate) {
+      onAdminChange()
+      res.status(201).send(itemToUpdate)
+    } else next(createError(404, `this item: ${req.params.itemId}, is not found`))
   } catch (error) {
     console.log(error)
     next(error)
@@ -293,7 +298,8 @@ itemsRouter.put("/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, 
 ///DELETE item
 itemsRouter.delete("/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
-    const itemToDelete = await itemSchema.findByIdAndDelete(req.params.itemId)
+    // const itemToDelete = await itemSchema.findByIdAndDelete(req.params.itemId)
+    const itemToDelete = await itemSchema.findById(req.params.itemId)
 
     if (itemToDelete) res.status(200).send("item was deleted successfully")
     else next(createError(404, `this item: ${req.params.itemId}, is not found`))

@@ -3,6 +3,7 @@ import express from "express"
 import createError from "http-errors"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 import { JWTAuthMiddleware } from "../auth/token.js"
+import { onAdminChange } from "../services/resetScript.js"
 
 const brandsRouter = express.Router()
 
@@ -45,6 +46,7 @@ brandsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, 
     const newBrands = new brandsSchema(req.body)
     const { _id } = await newBrands.save()
 
+    onAdminChange()
     res.status(201).send(_id)
   } catch (error) {
     console.log(error)
@@ -78,7 +80,8 @@ brandsRouter.get("/", async (req, res, next) => {
 ///DELETE brand
 brandsRouter.delete("/:brandId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
-    const brandToDelete = await brandsSchema.findByIdAndDelete(req.params.brandId)
+    // const brandToDelete = await brandsSchema.findByIdAndDelete(req.params.brandId)
+    const brandToDelete = await brandsSchema.findById(req.params.brandId)
 
     if (brandToDelete) res.status(200).send("brand was deleted successfully")
     else next(createError(404, `this brand: ${req.params.brandId}, is not found`))
