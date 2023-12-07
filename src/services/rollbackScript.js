@@ -29,8 +29,7 @@ let rollbackScheduled = false
 export const onAdminChange = () => {
   const currentTime = new Date()
   lastAdminChangeTime = currentTime
-  scheduleRollbackIfNeeded()
-  // console.log("hellooooo", usersJSONPath)
+  // scheduleRollbackIfNeeded()
 }
 
 const scheduleRollbackIfNeeded = () => {
@@ -60,23 +59,19 @@ const rollbackChanges = async () => {
     // await mainCategoriesModel.deleteMany({})
     // await usersModel.deleteMany({})
 
-    // Read and insert default data
-    console.log("Reading JSON data...")
+    // Read default data
     const defaultUsers = JSON.parse(fs.readFileSync(usersJSONPath, "utf8"))
-    console.log(`Loaded ${defaultUsers.length} users`)
     const defaultBrands = JSON.parse(fs.readFileSync(brandsJSONPath, "utf8"))
     const defaultCategories = JSON.parse(fs.readFileSync(categoriesJSONPath, "utf8"))
     const defaultItems = JSON.parse(fs.readFileSync(itemsJSONPath, "utf8"))
     const defaultMainCategories = JSON.parse(fs.readFileSync(maincategoriesJSONPath, "utf8"))
 
-    console.log("Inserting data into database...")
-    const insertedUsers = await usersModel.insertMany(defaultUsers)
-    console.log(`Inserted ${insertedUsers.length} users`)
-    // await brandsModel.insertMany(defaultBrands)
+    //Insert default data
+    await brandsModel.insertMany(defaultBrands)
     // await categoriesModel.insertMany(defaultCategories)
     // await itemsModel.insertMany(defaultItems)
     // await mainCategoriesModel.insertMany(defaultMainCategories)
-    // await usersModel.insertMany(defaultUsers)
+    await usersModel.insertMany(defaultUsers)
 
     console.log("Database rollback completed successfully")
   } catch (error) {

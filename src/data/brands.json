@@ -1,241 +1,47 @@
-[{
-  "_id": {
-    "$oid": "63501f8ba63bc3ba9b91c4bd"
+[
+  {
+    "brands": "Drag Specialities"
   },
-  "brands": "Drag Specialities",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1666195339492"
-    }
+  {
+    "brands": "Hatch"
   },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1666195339492"
-    }
+  {
+    "brands": "Rotherwald"
   },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "63696bd00f20af2289b940d4"
+  {
+    "brands": "Biltwell"
   },
-  "brands": "Hatch",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1667853264178"
-    }
+  {
+    "brands": "S&S"
   },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1667853264178"
-    }
+  {
+    "brands": "Accel"
   },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "636f86b3b581cb8ffb2ee9e5"
+  {
+    "brands": "Bandit"
   },
-  "brands": "Rotherwald",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1668253363080"
-    }
+  {
+    "brands": "Arlen Ness"
   },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1668253363080"
-    }
+  {
+    "brands": "DMD Helmets"
   },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "63501f67a63bc3ba9b91c4b9"
+  {
+    "brands": "Highway"
   },
-  "brands": "Biltwell",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1666195303619"
-    }
+  {
+    "brands": "Progressive"
   },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1666195303619"
-    }
+  {
+    "brands": "RevTech"
   },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "636f87bfb581cb8ffb2ee9f5"
+  {
+    "brands": "NZI"
   },
-  "brands": "S&S",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1668253631189"
-    }
+  {
+    "brands": "Metzeler"
   },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1668253631189"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "636f8761b581cb8ffb2ee9e9"
-  },
-  "brands": "Accel",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1668253537386"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1668253537386"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "63501f2fa63bc3ba9b91c4b5"
-  },
-  "brands": "Bandit",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1666195247281"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1666195247281"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "636f876cb581cb8ffb2ee9eb"
-  },
-  "brands": "Arlen Ness",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1668253548153"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1668253548153"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "636f8785b581cb8ffb2ee9ed"
-  },
-  "brands": "DMD Helmets",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1668253573092"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1668253573092"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "636f8793b581cb8ffb2ee9ef"
-  },
-  "brands": "Highway",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1668253587635"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1668253587635"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "636f87b4b581cb8ffb2ee9f3"
-  },
-  "brands": "Progressive",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1668253620958"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1668253620958"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "636f87e6b581cb8ffb2ee9f9"
-  },
-  "brands": "RevTech",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1668253670044"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1668253670044"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "63501f3aa63bc3ba9b91c4b7"
-  },
-  "brands": "NZI",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1666195258015"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1666195258015"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "636f87a1b581cb8ffb2ee9f1"
-  },
-  "brands": "Metzeler",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1668253601227"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1668253601227"
-    }
-  },
-  "__v": 0
-},{
-  "_id": {
-    "$oid": "636f87cfb581cb8ffb2ee9f7"
-  },
-  "brands": "Supertrap",
-  "createdAt": {
-    "$date": {
-      "$numberLong": "1668253647175"
-    }
-  },
-  "updatedAt": {
-    "$date": {
-      "$numberLong": "1668253647175"
-    }
-  },
-  "__v": 0
-}]
+  {
+    "brands": "Supertrap"
+  }
+]
