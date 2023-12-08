@@ -12,8 +12,8 @@ const itemsSchema = new Schema(
     brand: { type: Schema.Types.ObjectId, ref: "Brands", required: true, trim: true, maxlength: 15 },
     isOutlet: { type: Boolean, required: true },
     outletPrice: { type: Number, default: 0, trim: true, maxlength: 6 },
-    description: { type: String, required: true, trim: true, maxlength: 70 }, // when at Home
-    fullDescription: { type: String, required: true, trim: true, maxlength: 250 }, //  when u see the full item
+    description: { type: String, required: true, trim: true, maxlength: 110 }, // when at Home
+    fullDescription: { type: String, required: true, trim: true, maxlength: 555 }, //  when u see the full item
   },
   { timestamps: true }
 )

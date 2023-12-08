@@ -15,6 +15,8 @@ import { swaggerDocs as V1SwaggerDocs } from "../routes/swagger.js"
 import { genericErrorHandler, notFoundErrorHandler, badRequestErrorHandler, unauthorizedErrorHandler } from "./errorHandlers.js"
 import apiLimiter from "../tools/requestRestriction.js"
 
+mongoose.set("strictQuery", false)
+
 const server = express()
 const port = process.env.PORT || 3001
 const urlList = [process.env.FE_DEV_URL, process.env.FE_PROD_URL]

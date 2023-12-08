@@ -29,7 +29,7 @@ let rollbackScheduled = false
 export const onAdminChange = () => {
   const currentTime = new Date()
   lastAdminChangeTime = currentTime
-  // scheduleRollbackIfNeeded()
+  scheduleRollbackIfNeeded()
 }
 
 const scheduleRollbackIfNeeded = () => {
@@ -43,7 +43,7 @@ const scheduleRollbackIfNeeded = () => {
         console.error("Rollback failed:", err)
         // send me a notification email
       }
-    }, 0.3 * 60 * 1000) // 30 minutes
+    }, 0.1 * 60 * 1000) // 30 minutes, 0.1 to test
   }
 }
 
@@ -71,7 +71,7 @@ const rollbackChanges = async () => {
     // await categoriesModel.insertMany(defaultCategories)
     // await itemsModel.insertMany(defaultItems)
     // await mainCategoriesModel.insertMany(defaultMainCategories)
-    await usersModel.insertMany(defaultUsers)
+    // await usersModel.insertMany(defaultUsers)
 
     console.log("Database rollback completed successfully")
   } catch (error) {
