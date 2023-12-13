@@ -17,7 +17,7 @@ const parentFolderPath = dirname(dirname(currentFilePath))
 const backupPath = `${parentFolderPath}/data`
 
 const mongodump = `mongodump --uri="${process.env.MONGO_CONNECTION}"  --out="${backupPath}"`
-const mongorestore = `mongorestore --uri="${process.env.MONGO_CONNECTION}" --drop ${backupPath}/Capstone`
+const mongorestore = `mongorestore --uri="${process.env.MONGO_CONNECTION}" --drop "${backupPath}/Capstone"`
 
 // Función para ejecutar un comando
 const executeCommand = (command) => {
