@@ -68,6 +68,7 @@ server.use(notFoundErrorHandler) // 404
 server.use(genericErrorHandler) // 500
 
 mongoose.connect(process.env.MONGO_CONNECTION)
+// mongoose.connect(process.env.MONGO_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true })
 
 mongoose.connection.on("connected", () => {
   console.log("Connected to Mongo")
