@@ -36,7 +36,7 @@ const executeCommand = (command) => {
 
 // Ejecutar mongorestore
 // Descomenta la siguiente línea para ejecutar mongorestore
-executeCommand(mongorestore)
+// executeCommand(mongorestore)
 
 //////////////////////////////////////////////////////////////
 
@@ -52,7 +52,6 @@ executeCommand(mongorestore)
 // const categoriesJSONPath = join(parentFolderPath, "data", "categories.json")
 // const maincategoriesJSONPath = join(parentFolderPath, "data", "maincategories.json")
 
-// let lastAdminChangeTime = null
 // let rollbackScheduled = false
 
 export const onAdminChange = () => {
@@ -76,8 +75,6 @@ export const onAdminChange = () => {
 //   }
 // }
 
-// mongoose.connect(process.env.MONGO_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true })
-
 // const rollbackChanges = async () => {
 //   try {
 //     console.log("Starting database rollback...")
@@ -86,21 +83,7 @@ export const onAdminChange = () => {
 // await categoriesModel.deleteMany({})
 // await itemsModel.deleteMany({})
 // await mainCategoriesModel.deleteMany({})
-// await usersModel.deleteMany({})
-
-// Read default data
-// const defaultUsers = JSON.parse(fs.readFileSync(usersJSONPath, "utf8"))
-// const defaultBrands = JSON.parse(fs.readFileSync(brandsJSONPath, "utf8"))
-// const defaultCategories = JSON.parse(fs.readFileSync(categoriesJSONPath, "utf8"))
-// const defaultItems = JSON.parse(fs.readFileSync(itemsJSONPath, "utf8"))
-// const defaultMainCategories = JSON.parse(fs.readFileSync(maincategoriesJSONPath, "utf8"))
-
-//Insert default data
-// await brandsModel.insertMany(defaultBrands)
-// await categoriesModel.insertMany(defaultCategories)
-// await itemsModel.insertMany(defaultItems)
-// await mainCategoriesModel.insertMany(defaultMainCategories)
-// await usersModel.insertMany(defaultUsers)
+//  await usersModel.deleteMany({})
 
 //   console.log("Database rollback completed successfully")
 // } catch (error) {
