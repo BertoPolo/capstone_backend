@@ -302,8 +302,10 @@ itemsRouter.delete("/:itemId", JWTAuthMiddleware, adminOnlyMiddleware, async (re
   try {
     const itemToDelete = await itemSchema.findByIdAndDelete(req.params.itemId)
 
-    if (itemToDelete) res.status(200).send("item was deleted successfully")
-    else next(createError(404, `this item: ${req.params.itemId}, is not found`))
+    if (itemToDelete) {
+      onAdminChange()
+      res.status(200).send("item was deleted successfully")
+    } else next(createError(404, `this item: ${req.params.itemId}, is not found`))
   } catch (error) {
     next(error)
   }

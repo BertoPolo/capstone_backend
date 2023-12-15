@@ -125,7 +125,6 @@ usersRouter.post("/login", async (req, res, next) => {
 usersRouter.post("/", async (req, res, next) => {
   try {
     const doesUserAlreadyExists = await usersSchema.findOne({ username: req.body.username })
-    onAdminChange()
     if (!doesUserAlreadyExists) {
       const newUser = new usersSchema(req.body)
       const { _id } = await newUser.save()
@@ -375,8 +374,10 @@ usersRouter.put("/me/password", JWTAuthMiddleware, async (req, res, next) => {
 
     const { password } = await user.save()
 
-    if (user) res.status(201).send(user)
-    else next(createError(404, `no user found`))
+    if (user) {
+      res.status(201).send(user)
+      onAdminChange()
+    } else next(createError(404, `no user found`))
   } catch (error) {
     console.log(error)
     next(error)
@@ -453,7 +454,7 @@ usersRouter.put("/password/forgotPassword", async (req, res, next) => {
 usersRouter.delete("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const userToDelete = await usersSchema.findByIdAndDelete(req.params.userId)
-
+    onAdminChange()
     if (userToDelete) res.status(200).send({ message: "deleted successfully" })
     else next(createError(404, `User not found`))
   } catch (error) {

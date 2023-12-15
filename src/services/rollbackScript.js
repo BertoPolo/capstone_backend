@@ -19,7 +19,29 @@ const backupPath = `${parentFolderPath}/data`
 const mongodump = `mongodump --uri="${process.env.MONGO_CONNECTION}"  --out="${backupPath}"`
 const mongorestore = `mongorestore --uri="${process.env.MONGO_CONNECTION}" --drop "${backupPath}/Capstone"`
 
-// Función para ejecutar un comando
+let rollbackScheduled = false
+
+export const onAdminChange = () => {
+  const currentTime = new Date()
+  lastAdminChangeTime = currentTime
+  scheduleRollbackIfNeeded()
+}
+
+const scheduleRollbackIfNeeded = () => {
+  if (!rollbackScheduled) {
+    rollbackScheduled = true
+    setTimeout(async () => {
+      try {
+        await rollbackChanges()
+        rollbackScheduled = false
+      } catch (err) {
+        console.error("Schedule rollback failed:", err)
+        // add - send me a notification email " somebody touched the DB"
+      }
+    }, 45 * 60 * 1000) // 45 minutes
+  }
+}
+
 const executeCommand = (command) => {
   exec(command, (err, stdout, stderr) => {
     if (err) {
@@ -31,63 +53,23 @@ const executeCommand = (command) => {
   })
 }
 
-// Ejecutar mongodump
+// Create a recovery point with mongodump
 // executeCommand(mongodump)
 
-// Ejecutar mongorestore
-// Descomenta la siguiente línea para ejecutar mongorestore
-// executeCommand(mongorestore)
+const rollbackChanges = async () => {
+  try {
+    console.log("Starting database rollback...")
+    // Clear existing data
+    await brandsModel.deleteMany({})
+    await categoriesModel.deleteMany({})
+    await itemsModel.deleteMany({})
+    await mainCategoriesModel.deleteMany({})
+    await usersModel.deleteMany({})
 
-//////////////////////////////////////////////////////////////
-
-// const stringToDate = (dateString) => {
-//   const [day, month, year] = dateString.split("/")
-//   return new Date(year, month - 1, day)
-// }
-// const currentFilePath = fileURLToPath(import.meta.url)
-// const parentFolderPath = dirname(dirname(currentFilePath))
-// const itemsJSONPath = join(parentFolderPath, "data", "items.json")
-// const usersJSONPath = join(parentFolderPath, "data", "users.json")
-// const brandsJSONPath = join(parentFolderPath, "data", "brands.json")
-// const categoriesJSONPath = join(parentFolderPath, "data", "categories.json")
-// const maincategoriesJSONPath = join(parentFolderPath, "data", "maincategories.json")
-
-// let rollbackScheduled = false
-
-export const onAdminChange = () => {
-  const currentTime = new Date()
-  lastAdminChangeTime = currentTime
-  // scheduleRollbackIfNeeded()
+    // Restore DB with mongorestore
+    executeCommand(mongorestore)
+    console.log("Database rollback completed successfully")
+  } catch (error) {
+    console.error("Database rollback failed:", error)
+  }
 }
-
-// const scheduleRollbackIfNeeded = () => {
-//   if (!rollbackScheduled) {
-//     rollbackScheduled = true
-//     setTimeout(async () => {
-//       try {
-//         await rollbackChanges()
-//         rollbackScheduled = false
-//       } catch (err) {
-//         console.error("Rollback failed:", err)
-//         // send me a notification email
-//       }
-//     }, 0.1 * 60 * 1000) // 30 minutes, 0.1 to test
-//   }
-// }
-
-// const rollbackChanges = async () => {
-//   try {
-//     console.log("Starting database rollback...")
-// Clear existing data
-// await brandsModel.deleteMany({})
-// await categoriesModel.deleteMany({})
-// await itemsModel.deleteMany({})
-// await mainCategoriesModel.deleteMany({})
-//  await usersModel.deleteMany({})
-
-//   console.log("Database rollback completed successfully")
-// } catch (error) {
-//   console.error("Database rollback failed:", error)
-// send me a notification email
-// }
-// }
