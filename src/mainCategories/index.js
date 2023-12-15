@@ -56,8 +56,10 @@ mainCategoriesRouter.delete("/:mainCategoryId", JWTAuthMiddleware, adminOnlyMidd
   try {
     const mainCategoryToDelete = await mainCategoriesSchema.findByIdAndDelete(req.params.mainCategoryId)
 
-    if (mainCategoryToDelete) res.status(200).send("Main category was deleted successfully")
-    else next(createError(404, `this maincategories: ${req.params.mainCategoryId}, is not found`))
+    if (mainCategoryToDelete) {
+      onAdminChange()
+      res.status(200).send("Main category was deleted successfully")
+    } else next(createError(404, `this maincategories: ${req.params.mainCategoryId}, is not found`))
   } catch (error) {
     next(error)
   }

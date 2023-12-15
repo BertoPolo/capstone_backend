@@ -82,8 +82,10 @@ brandsRouter.delete("/:brandId", JWTAuthMiddleware, adminOnlyMiddleware, async (
   try {
     const brandToDelete = await brandsSchema.findByIdAndDelete(req.params.brandId)
 
-    if (brandToDelete) res.status(200).send("brand was deleted successfully")
-    else next(createError(404, `this brand: ${req.params.brandId}, is not found`))
+    if (brandToDelete) {
+      onAdminChange()
+      res.status(200).send("brand was deleted successfully")
+    } else next(createError(404, `this brand: ${req.params.brandId}, is not found`))
   } catch (error) {
     next(error)
   }
