@@ -173,17 +173,18 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!--
 Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-- [Choose an Open Source License](https://choosealicense.com)
-- [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-- [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-- [Malven's Grid Cheatsheet](https://grid.malven.co/)
-- [Img Shields](https://shields.io)
-- [GitHub Pages](https://pages.github.com)
-- [Font Awesome](https://fontawesome.com)
-- [React Icons](https://react-icons.github.io/react-icons/search)
 -->
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<ol>
+  
+<li> <a href="">Node.js</a></li>  
+<li><a href="https://expressjs.com/">Express.js</a></li>
+<li><a href="">MongoDB</a></li>
+<li><a href="https://www.npmjs.com/package/jsonwebtoken">JSON Web Token</a></li>
+<li><a href="https://nodemailer.com/">Nodemailer</a></li>
+
+</ol>
+
+<palign="right">(<a href="#readme-top">back to top</a>)</palign=>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -205,3 +206,10 @@ Use this space to list resources you find helpful and would like to give credit 
 [JsonWebToken-url]: https://www.npmjs.com/package/jsonwebtoken
 [Nodemailer.img]: https://img.shields.io/badge/Nodemailer-blue?logo=nodemailer
 [Nodemailer-url]: https://nodemailer.com/
+
+<!--
+[Node-img]:
+[Node-url]:
+[MongoDB-img]:
+[MongoDB-url]:
+-->
