@@ -40,8 +40,6 @@
     <li>
       <a href="#usage">Usage</a>
       <ul>
-      <li><a href="#stripe-demo-payment">Stripe demo payment</a></li>
-      <li><a href="#demo-users">Demo Users</a></li>
       <li><a href="#about-the-project">About The Project</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>      
@@ -53,7 +51,6 @@
       </ul>
     </li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -79,16 +76,14 @@ user / 123
 
 ### About The Project
 
-E-commerce for bikers specialized products. You can enjoy an intuitive shopping experience with your computer or your phone. To see all the features you need an admin access.
+This backend is part of the Stuff To Route E-commerce application, designed to offer an intuitive shopping experience for specialized products for motorbikers. This backend manages store operations, including user authentication, order management, and integration with Stripe for payments.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
 
+- [![Node.js][Node.img]][Node-url]
 - [![Javascript][Javascript.img]][Javascript-url]
-- [![React.js][React.js]][React-url]
-- [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-- [![Redux][Redux.img]][Redux-url]
 - [![Express.js][Express.img]][Express-url]
 - [![Mongoose][Mongoose.img]][Mongoose-url]
 - [![Swagger][Swagger.img]][Swagger-url]
@@ -112,24 +107,24 @@ Follow these instructions to clone and set up the application on your local mach
    ```sh
    git clone https://github.com/BertoPolo/capstone-backend.git
    ```
-2. Install NPM packages
+2. Create an account in https://cloudinary.com/
+
+3. Install NPM packages
    ```sh
    npm install
    ```
-3. Set your .env file with these variables
+4. Set your .env file with these variables
 
 ```sh
-PORT
-MONGO_CONNECTION
-CLOUDINARY_URL
-JWT_SECRET
-FE_DEV_URL
-FE_PROD_URL
-USER
-PASS
+PORT= ( Your port number)
+MONGO_CONNECTION= ( Database URL)
+CLOUDINARY_URL= ( Cloudinary URL)
+JWT_SECRET= ( Complex string)
+USER= ( sender´s email id )
+PASS= (Email´s password )
 ```
 
-4. Run
+5. Run
 
 ```sh
 npm run dev
@@ -156,9 +151,9 @@ Don't forget to give the project a star! Thanks again!
 
 <!-- LICENSE -->
 
+<!--
 ## License
 
-<!--
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 -->
@@ -193,30 +188,11 @@ Use this space to list resources you find helpful and would like to give credit 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/bertopolo
 [linkedin-img]: https://img.shields.io/badge/Bertopolo-blue?logo=linkedin
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-blue?logo=react
-[React-url]: https://reactjs.org/
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-blue?logo=bootstrap
-[Bootstrap-url]: https://getbootstrap.com
 [Javascript.img]: https://img.shields.io/badge/Javascript-blue?logo=javascript
 [Javascript-url]: https://javascript.com
-[Redux.img]: https://img.shields.io/badge/Redux-blue?logo=redux
-[Redux-url]: https://https://Redux-toolkit.js.org/
 [Express.img]: https://img.shields.io/badge/Express-blue?logo=express
 [Express-url]: https://expressjs.com/
 [Mongoose.img]: https://img.shields.io/badge/Mongoose-blue?logo=mongoose
@@ -229,5 +205,3 @@ Use this space to list resources you find helpful and would like to give credit 
 [JsonWebToken-url]: https://www.npmjs.com/package/jsonwebtoken
 [Nodemailer.img]: https://img.shields.io/badge/Nodemailer-blue?logo=nodemailer
 [Nodemailer-url]: https://nodemailer.com/
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com
