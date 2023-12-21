@@ -22,7 +22,7 @@ let rollbackScheduled = false
 export const onAdminChange = () => {
   const currentTime = new Date()
   lastAdminChangeTime = currentTime
-  scheduleRollbackIfNeeded()
+  // scheduleRollbackIfNeeded()
 }
 
 const scheduleRollbackIfNeeded = () => {
