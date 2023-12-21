@@ -7,7 +7,7 @@ import { CloudinaryStorage } from "multer-storage-cloudinary"
 import { v2 as cloudinary } from "cloudinary"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 import { JWTAuthMiddleware } from "../auth/token.js"
-import { onAdminChange } from "../services/rollbackScript.js"
+import { onAdminChange, rollback } from "../services/rollbackScript.js"
 
 const itemsRouter = express.Router()
 
@@ -118,6 +118,15 @@ itemsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, n
     res.status(201).send(_id)
   } catch (error) {
     console.log(error)
+    next(error)
+  }
+})
+
+///force rollback
+itemsRouter.post("/rollback", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
+  try {
+    rollback()
+  } catch (error) {
     next(error)
   }
 })

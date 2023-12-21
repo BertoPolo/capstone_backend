@@ -54,7 +54,7 @@ const executeCommand = (command) => {
 // Create a recovery point with mongodump
 // executeCommand(mongodump)
 
-const rollback = async () => {
+export const rollback = async () => {
   try {
     console.log("Starting database rollback...")
     // Clear existing data
