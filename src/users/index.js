@@ -102,6 +102,22 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 })
 
+// POST for backoffice project. without mailing
+usersRouter.post("/createbackofficeuser", async (req, res, next) => {
+  try {
+    const doesUserAlreadyExists = await usersSchema.findOne({ username: req.body.username })
+    if (!doesUserAlreadyExists) {
+      const newUser = new usersSchema(req.body)
+      const { _id } = await newUser.save()
+
+      res.status(201).send(_id)
+    } else next(createError(409, `user already exists`))
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
 /**
  * @swagger
  * /users/:
