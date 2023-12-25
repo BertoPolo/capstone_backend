@@ -11,6 +11,9 @@ const usersSchema = new Schema(
     adress: { type: String, required: true },
     isAdmin: { type: Boolean, default: false },
     password: { type: String, required: true },
+    //for backoffice project
+    avatar: { type: String },
+    lastname: { type: String },
   },
   { timestamps: true }
 )
