@@ -151,7 +151,7 @@ itemsRouter.post("/rollback", JWTAuthMiddleware, adminOnlyMiddleware, async (req
  *         description: Returns "not found"
  */
 //GET filtered items
-//query example http://:localhost:3004/items?limit=10&sort=-title&category="Full Face"&price<20&brand=63501f2fa63bc3ba9b91c4b5
+//query example http://:localhost:3004/items?limit=10&sort=-title&price<20&brand=63501f2fa63bc3ba9b91c4b5
 itemsRouter.get("/", async (req, res, next) => {
   try {
     const queryToMongo = q2m(req.query)
