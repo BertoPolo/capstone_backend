@@ -1,6 +1,7 @@
 import { fileURLToPath } from "url"
 import { dirname } from "path"
 import { exec } from "child_process"
+import nodemailer from "nodemailer"
 
 import itemsModel from "../items/model.js"
 import usersModel from "../users/model.js"
@@ -35,6 +36,23 @@ const scheduleRollbackIfNeeded = () => {
       } catch (err) {
         console.error("Schedule rollback failed:", err)
         // add - send me a notification email " somebody touched the DB"
+        const transporter = nodemailer.createTransport({
+          host: "smtp.gmail.com",
+          port: 587,
+          secure: false,
+          auth: {
+            user: process.env.USER,
+            pass: process.env.PASS,
+          },
+        })
+
+        const info = await transporter.sendMail({
+          from: `"Stuff To Route" <${process.env.USER}>`,
+          to: process.env.MYMAIL,
+          subject: "Capstone DB",
+          text: "Tu DB ha sido manipulada",
+          html: "<b>Tu DB ha sido manipulada</b>",
+        })
       }
     }, 45 * 60 * 1000) // 45 minutes
   }
@@ -66,7 +84,7 @@ export const rollback = async () => {
 
     // Restore DB with mongorestore
     executeCommand(mongorestore)
-    console.log("Database rollback completed successfully")
+    console.log("Database rollback finished")
   } catch (error) {
     console.error("Database rollback failed:", error)
   }
