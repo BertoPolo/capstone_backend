@@ -4,12 +4,25 @@ import createError from "http-errors"
 import nodemailer from "nodemailer"
 import Stripe from "stripe"
 import q2m from "query-to-mongo"
+import multer from "multer"
+import { CloudinaryStorage } from "multer-storage-cloudinary"
+import { v2 as cloudinary } from "cloudinary"
+
 import { JWTAuthMiddleware } from "../auth/token.js"
 import { generateAccessToken } from "../auth/tools.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 import { onAdminChange } from "../services/rollbackScript.js"
 
 const usersRouter = express.Router()
+
+const cloudinaryItemImagesUploader = multer({
+  storage: new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: "itemImages",
+    },
+  }),
+}).single("image")
 
 //swagger token not rightly applied
 /**
@@ -102,7 +115,7 @@ usersRouter.post("/login", async (req, res, next) => {
   }
 })
 
-// POST for backoffice project. without mailing
+// POST for backoffice project. just without mailing
 usersRouter.post("/createbackofficeuser", async (req, res, next) => {
   try {
     const doesUserAlreadyExists = await usersSchema.findOne({ username: req.body.username })
@@ -332,6 +345,21 @@ usersRouter.put("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, 
       onAdminChange()
       res.status(201).send(user)
     } else next(createError(404, `no users found`))
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
+//PUT img's user
+usersRouter.put("/:userId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudinaryuserImagesUploader, async (req, res, next) => {
+  try {
+    const userToUpdate = await usersSchema.findByIdAndUpdate(req.params.userId, { avatar: req.file.path }, { new: true })
+    if (userToUpdate) {
+      res.status(201).send(userToUpdate)
+    } else {
+      next(createError(404, `this user ${req.params.userId} is not found`))
+    }
   } catch (error) {
     console.log(error)
     next(error)
