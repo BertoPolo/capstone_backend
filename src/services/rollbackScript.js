@@ -35,7 +35,7 @@ const scheduleRollbackIfNeeded = () => {
         rollbackScheduled = false
       } catch (err) {
         console.error("Schedule rollback failed:", err)
-        // add - send me a notification email " somebody touched the DB"
+        // Send me a notification email
         const transporter = nodemailer.createTransport({
           host: "smtp.gmail.com",
           port: 587,

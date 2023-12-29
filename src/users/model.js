@@ -12,7 +12,7 @@ const usersSchema = new Schema(
     isAdmin: { type: Boolean, default: false },
     password: { type: String, required: true },
     //for backoffice project
-    avatar: { type: String },
+    avatar: { type: String, trim: true },
     lastname: { type: String },
   },
   { timestamps: true }

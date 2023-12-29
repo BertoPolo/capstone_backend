@@ -194,7 +194,6 @@ itemsRouter.get("/random", async (req, res, next) => {
     // if query parameter random===true then use $sample operator
     // else normal find()
     const items = await itemSchema.aggregate([{ $sample: { size: 15 } }])
-    onAdminChange()
 
     if (items) res.status(200).send(items)
     else next(createError(404, `nothing found`))

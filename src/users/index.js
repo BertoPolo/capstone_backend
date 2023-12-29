@@ -15,11 +15,11 @@ import { onAdminChange } from "../services/rollbackScript.js"
 
 const usersRouter = express.Router()
 
-const cloudinaryItemImagesUploader = multer({
+const cloudinaryUsersImagesUploader = multer({
   storage: new CloudinaryStorage({
     cloudinary,
     params: {
-      folder: "itemImages",
+      folder: "usersAvatars",
     },
   }),
 }).single("image")
@@ -352,7 +352,7 @@ usersRouter.put("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, 
 })
 
 //PUT img's user
-usersRouter.put("/:userId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudinaryuserImagesUploader, async (req, res, next) => {
+usersRouter.put("/:userId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudinaryUsersImagesUploader, async (req, res, next) => {
   try {
     const userToUpdate = await usersSchema.findByIdAndUpdate(req.params.userId, { avatar: req.file.path }, { new: true })
     if (userToUpdate) {
