@@ -48,9 +48,9 @@ const cloudinaryUsersImagesUploader = multer({
  *        email:
  *          type: string
  *          description: User's email
- *        adress:
+ *        address:
  *          type: string
- *          description: User's adress
+ *          description: User's address
  *        isAdmin:
  *          type: boolean
  *          description: User's rights, if it's admin or not
@@ -61,14 +61,14 @@ const cloudinaryUsersImagesUploader = multer({
  *        - name
  *        - username
  *        - email
- *        - adress
+ *        - address
  *        - isAdmin
  *        - password
  *      example:
  *         name: Harrison
  *         username: s0nF0rd
  *         email: harryford@gmail.com
- *         adress: C/my street 33
+ *         address: C/my street 33
  *         isAdmin: false
  *         password: 0192ie0jdq0j1A
  */
@@ -124,7 +124,7 @@ usersRouter.post("/createbackofficeuser", async (req, res, next) => {
       const { _id } = await newUser.save()
 
       res.status(201).send(_id)
-    } else next(createError(409, `user already exists`))
+    } else next(createError(409, `User already exists`))
   } catch (error) {
     console.log(error)
     next(error)

@@ -70,7 +70,7 @@ const executeCommand = (command) => {
 }
 
 // Create a recovery point with mongodump
-// executeCommand(mongodump)
+executeCommand(mongodump)
 
 export const rollback = async () => {
   try {
@@ -83,7 +83,7 @@ export const rollback = async () => {
     await usersModel.deleteMany({})
 
     // Restore DB with mongorestore
-    executeCommand(mongorestore)
+    // executeCommand(mongorestore)
     console.log("Database rollback finished")
   } catch (error) {
     console.error("Database rollback failed:", error)
