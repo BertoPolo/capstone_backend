@@ -122,6 +122,11 @@ CLOUDINARY_URL= ( Cloudinary URL)
 JWT_SECRET= ( Complex string)
 USER= ( sender´s email id )
 PASS= (Email´s password )
+FE_DEV_URL=
+FE_PROD_URL=
+FE_PROD_BACKOFFICE_URL= (URL for backoffice project)
+MYMAIL=
+SECRET_STRIPE_KEY=
 ```
 
 5. Run
