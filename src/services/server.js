@@ -19,7 +19,7 @@ mongoose.set("strictQuery", false)
 
 const server = express()
 const port = process.env.PORT || 3001
-const urlList = [process.env.FE_DEV_URL, process.env.FE_PROD_URL]
+const urlList = [process.env.FE_DEV_URL, process.env.FE_PROD_URL, process.env.FE_PROD_BACKOFFICE_URL]
 
 //****************** MIDDLEWARES *********************
 server.use(
