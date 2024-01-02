@@ -33,8 +33,6 @@ const scheduleRollbackIfNeeded = () => {
       try {
         await rollback()
         rollbackScheduled = false
-      } catch (err) {
-        console.error("Schedule rollback failed:", err)
         // Send me a notification email
         const transporter = nodemailer.createTransport({
           host: "smtp.gmail.com",
@@ -52,6 +50,26 @@ const scheduleRollbackIfNeeded = () => {
           subject: "Capstone DB",
           text: "Tu DB ha sido manipulada",
           html: "<b>Tu DB ha sido manipulada</b>",
+        })
+      } catch (err) {
+        console.error("Schedule rollback failed:", err)
+        // Send me a notification email
+        const transporter = nodemailer.createTransport({
+          host: "smtp.gmail.com",
+          port: 587,
+          secure: false,
+          auth: {
+            user: process.env.USER,
+            pass: process.env.PASS,
+          },
+        })
+
+        const info = await transporter.sendMail({
+          from: `"Stuff To Route" <${process.env.USER}>`,
+          to: process.env.MYMAIL,
+          subject: "Capstone DB",
+          text: "Error al restaurar la DB",
+          html: "<b>Error al restaurar la DB</b>",
         })
       }
     }, 45 * 60 * 1000) // 45 minutes
