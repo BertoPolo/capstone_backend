@@ -118,9 +118,14 @@ usersRouter.post("/login", async (req, res, next) => {
 // POST for backoffice project. just without mailing
 usersRouter.post("/createbackofficeuser", async (req, res, next) => {
   try {
-    const doesUserAlreadyExists = await usersSchema.findOne({ username: req.body.username })
+    const usernameLower = req.body.username.toLowerCase()
+
+    const doesUserAlreadyExists = await usersSchema.findOne({ username: usernameLower })
     if (!doesUserAlreadyExists) {
-      const newUser = new usersSchema(req.body)
+      const newUser = new usersSchema({
+        ...req.body,
+        username: usernameLower,
+      })
       const { _id } = await newUser.save()
 
       res.status(201).send(_id)
@@ -153,9 +158,14 @@ usersRouter.post("/createbackofficeuser", async (req, res, next) => {
 //POST a new user and send an email after successful registration
 usersRouter.post("/", async (req, res, next) => {
   try {
-    const doesUserAlreadyExists = await usersSchema.findOne({ username: req.body.username })
+    const usernameLower = req.body.username.toLowerCase()
+
+    const doesUserAlreadyExists = await usersSchema.findOne({ username: usernameLower })
     if (!doesUserAlreadyExists) {
-      const newUser = new usersSchema(req.body)
+      const newUser = new usersSchema({
+        ...req.body,
+        username: usernameLower,
+      })
       const { _id } = await newUser.save()
       const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
