@@ -88,7 +88,7 @@ const executeCommand = (command) => {
 }
 
 // Create a recovery point with mongodump
-executeCommand(mongodump)
+// executeCommand(mongodump)
 
 export const rollback = async () => {
   try {
