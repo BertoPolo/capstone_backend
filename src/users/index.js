@@ -290,6 +290,33 @@ usersRouter.get("/", JWTAuthMiddleware, async (req, res, next) => {
   }
 })
 
+usersRouter.get("/withtotalnumber", JWTAuthMiddleware, async (req, res, next) => {
+  try {
+    const queryToMongo = q2m(req.query)
+    let criteria = queryToMongo.criteria
+
+    if (req.query.name) {
+      criteria = { ...criteria, name: { $regex: req.query.name, $options: "i" } }
+    }
+
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.limit) || 6
+    const skip = (page - 1) * limit
+
+    const total = await usersSchema.countDocuments({})
+    const users = await usersSchema.find({}).skip(skip).limit(limit).sort({ name: 1 })
+
+    if (users) {
+      res.status(200).send({ total, users })
+    } else {
+      next(createError(404, `No users found`))
+    }
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
+})
+
 /**
  * @swagger
  * /users/username/{username}:
