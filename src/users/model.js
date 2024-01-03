@@ -13,7 +13,6 @@ const usersSchema = new Schema(
     password: { type: String, required: true },
     //for backoffice project
     avatar: { type: String, trim: true },
-    lastname: { type: String },
   },
   { timestamps: true }
 )
