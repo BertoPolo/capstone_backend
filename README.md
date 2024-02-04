@@ -5,7 +5,7 @@
 <div align="center">
     <img src="public/STR_LOGIN.avif" alt="Logo" width="350" height="200">
   
-  <h1 align="center">Stuff To Route??</h1>
+  <h1 align="center">Stuff To Route</h1>
 
    <p align="center">
     E-commerce backend
@@ -46,25 +46,13 @@
 
 ## Usage
 
-### Stripe demo payment
-
-Use this payment method to fake a purchase: 4242 4242 4242 4242 01/28 424 22222
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Demo users
-
-admin / 123
-<br/>
-user / 123
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ABOUT THE PROJECT -->
 
 ### About The Project
 
-This backend is part of the Stuff To Route E-commerce application, designed to offer an intuitive shopping experience for specialized products for motorbikers. This backend manages store operations, including user authentication, order management, and integration with Stripe for payments.
+This backend is part of the Stuff To Route E-commerce application. It manages store operations, including user authentication, order management, and integration with Stripe for payments.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
