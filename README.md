@@ -1,15 +1,5 @@
 <a name="readme-top"></a>
 
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
-  <a href="https://github.com/othneildrew/Best-README-Template"></a>
--->
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -28,8 +18,6 @@
     </a>
   </p>
 </div>
-
-## Website and README.md are in construction
 
 <br/>
 
