@@ -5,8 +5,6 @@
 <div align="center">
     <img src="https://stufftoroute.vercel.app/STR_LOGIN.avif" alt="Logo" width="350" height="200">
   
-  <h1 align="center">Stuff To Route</h1>
-
    <p align="center">
     E-commerce backend
     <br />
