@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="public/STR_LOGIN.avif" alt="Logo" width="350" height="200">
+    <img src="https://stufftoroute.vercel.app/STR_LOGIN.avif" alt="Logo" width="350" height="200">
   
   <h1 align="center">Stuff To Route</h1>
 
