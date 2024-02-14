@@ -79,3 +79,5 @@ mongoose.connection.on("connected", () => {
     V1SwaggerDocs(server, port)
   })
 })
+
+export default server

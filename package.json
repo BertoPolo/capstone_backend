@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/BertoPolo/capstone_backend#readme",
   "devDependencies": {
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
     "dotenv": "^16.0.3",
     "jest": "^29.7.0",
     "nodemon": "^3.0.3",

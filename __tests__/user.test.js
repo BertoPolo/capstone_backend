@@ -1,12 +1,27 @@
 const request = require("supertest")
-const app = require("../app") // Asegúrate de exportar tu aplicación Express en este archivo
+const server = require("../src/services/server")
 
 describe("GET /users/:userId", () => {
   it("should return a user for a valid userId", async () => {
     const userId = "someUserId"
-    const response = await request(app).get(`/users/${userId}`)
+    const response = await request(server).get(`/users/${userId}`)
     expect(response.statusCode).toBe(200)
     expect(response.body).toHaveProperty("username")
-    // Agrega más expectativas según sea necesario
+    //
+  })
+})
+
+describe("POST /users/login", () => {
+  it("should authenticate user and return JWT token", async () => {
+    const userData = {
+      username: "testUser",
+      password: "testPassword",
+    }
+
+    const response = await request(server).post("/users/login").send(userData)
+
+    expect(response.statusCode).toBe(201)
+    expect(response.body).toHaveProperty("accessToken")
+    expect(response.body.accessToken).toBeDefined()
   })
 })
