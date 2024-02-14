@@ -397,13 +397,8 @@ usersRouter.put("/:userId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudina
 //PUT self account data
 usersRouter.put("/me/data", JWTAuthMiddleware, async (req, res, next) => {
   try {
-    const user = await usersSchema.findByIdAndUpdate(
-      req.user._id,
-      {
-        ...req.body,
-      },
-      { new: true }
-    )
+    const user = await usersSchema.findByIdAndUpdate(req.user._id, { ...req.body }, { new: true })
+
     if (user) {
       onAdminChange()
       res.status(201).send(user)
