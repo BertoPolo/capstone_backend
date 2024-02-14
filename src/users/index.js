@@ -24,73 +24,112 @@ const cloudinaryUsersImagesUploader = multer({
   }),
 }).single("image")
 
-//swagger token not rightly applied
 /**
- * @swagger
- * components:
- *  securitySchemes:
- *    bearerAuth:
- *      type: http
- *      scheme: bearer
- *      bearerFormat: JWT
- *  security:
- *  - bearerAuth: []
- *  schemas:
- *    User:
- *      type: object
- *      properties:
- *        name:
- *          type: string
- *          description: User's name
- *        price:
- *          type: string
- *          description: User's username
- *        email:
- *          type: string
- *          description: User's email
- *        address:
- *          type: string
- *          description: User's address
- *        isAdmin:
- *          type: boolean
- *          description: User's rights, if it's admin or not
- *        password:
- *          type: string
- *          description: User's encrypted password
- *      required:
- *        - name
- *        - username
- *        - email
- *        - address
- *        - isAdmin
- *        - password
- *      example:
- *         name: Harrison
- *         username: s0nF0rd
- *         email: harryford@gmail.com
- *         address: C/my street 33
- *         isAdmin: false
- *         password: 0192ie0jdq0j1A
+*@swagger: "2.0"
+*info:
+*  description: "API documentation for the Users service."
+*  version: "1.0.0"
+*  title: "Users API"
+*host: "localhost:3000"
+*basePath: "/"
+*schemes:
+*  - "http"
+*paths: {}
+*components:
+*  securitySchemes:
+*    bearerAuth:  # Correctly applying the JWT token for secured endpoints
+*      type: http
+*      scheme: bearer
+*      bearerFormat: JWT
+*  security:
+*    - bearerAuth: []
+*  schemas:
+*    User:
+*      type: object
+*      required:
+*        - name
+*        - username
+*        - email
+*        - address
+*        - isAdmin
+*        - password
+*      properties:
+*        name:
+*          type: string
+*          description: "The full name of the user."
+*        username:
+*          type: string
+*          description: "The unique username for the user. Used for logging in."
+*        email:
+*          type: string
+*          description: "The email address of the user."
+*        address:
+*          type: string
+*          description: "Physical address of the user."
+*        isAdmin:
+*          type: boolean
+*          description: "Flag indicating whether the user has admin privileges."
+*        password:
+*          type: string
+*          description: "The user's password. Stored securely as a hash."
+*      example:
+*        name: "Harrison"
+*        username: "s0nF0rd"
+*        email: "harryford@gmail.com"
+*        address: "C/my street 33"
+*        isAdmin: false
+*        password: "0192ie0jdq0j1A"
+
  */
 
 /**
- * @swagger
- * /users/login:
- *   post:
- *     description: Creates a new token.
- *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       201:
- *         description: Returns a token
- *       401:
- *         description: returns a 401 error message " Credentials are not ok"
+*@swagger: "2.0"
+*paths:
+*  /users/login:
+*    post:
+*      summary: "Login User"
+*      description: "Authenticates a user and creates a new JWT token."
+*      tags: 
+*        - User
+*      requestBody:
+*        required: true
+*        content:
+*          application/json:
+*            schema:
+*              type: object
+*              required:
+*                - username
+*                - password
+*              properties:
+*                username:
+*                  type: string
+*                  example: "user123"
+*                password:
+*                  type: string
+*                  format: password
+*                  example: "pass123"
+*      responses:
+*        201:
+*          description: "JWT token successfully created and returned."
+*          content:
+*            application/json:
+*              schema:
+*                type: object
+*                properties:
+*                  accessToken:
+*                    type: string
+*                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIxMjM0NTY3ODkwIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+*        401:
+*          description: "Authentication failed. Credentials are not ok."
+*          content:
+*            application/json:
+*              schema:
+*                type: object
+*                properties:
+*                  error:
+*                    type: string
+*                    example: "Credentials are not ok!"
+
  */
 //POST create a new token
 usersRouter.post("/login", async (req, res, next) => {
@@ -116,23 +155,69 @@ usersRouter.post("/login", async (req, res, next) => {
 })
 
 /**
- * @swagger
- * /users/:
- *   post:
- *     description: Creates a new user and send an email afer successful registration.
- *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       201:
- *         description: Returns new user's id.
- *       409:
- *         description: Returns error message "user already exists".
+ * @swagger: "2.0"
+ * paths:
+*  /users/:
+*    post:
+*      summary: "Register User"
+*      description: "Creates a new user and sends an email after successful registration."
+*      tags: 
+*        - User
+*      requestBody:
+*        required: true
+*        content:
+*          application/json:
+*            schema:
+*              type: object
+*              required:
+*                - name
+*                - username
+*                - email
+*                - password
+*                - address
+*                - isAdmin
+*              properties:
+*                name:
+*                  type: string
+*                  example: "Jane Doe"
+*                username:
+*                  type: string
+*                  example: "janedoe"
+*                email:
+*                  type: string
+*                  example: "jane.doe@example.com"
+*                password:
+*                  type: string
+*                  format: password
+*                  example: "password123"
+*                address:
+*                  type: string
+*                  example: "123 Main St, Anytown, Anycountry"
+*                isAdmin:
+*                  type: boolean
+*                  example: false
+*      responses:
+*        201:
+*          description: "New user's ID returned. An email is sent to the user's email address."
+*          content:
+*            application/json:
+*              schema:
+*                type: object
+*                properties:
+*                  _id:
+*                    type: string
+*                    example: "5f3e075d2712160018f7354d"
+*        409:
+*          description: "Error message returned when a user already exists."
+*          content:
+*            application/json:
+*              schema:
+*                type: object
+*                properties:
+*                  error:
+*                    type: string
+*                    example: "user already exists"
+
  */
 //POST a new user and send an email after successful registration
 usersRouter.post("/", async (req, res, next) => {
@@ -173,21 +258,49 @@ usersRouter.post("/", async (req, res, next) => {
 })
 
 /**
- * @swagger
- * /users/purchase:
- *   post:
- *     description: Send an email after purchase.
- *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       200:
- *         description: Returns message "payment and Email are done!"
+ * @swagger: "2.0"
+ * paths:
+*  /users/purchase:
+*    post:
+*      summary: "Process Purchase"
+*      description: "Processes a user's purchase and sends an email confirmation."
+*      tags: 
+*        - User
+*      requestBody:
+*        required: true
+*        content:
+*          application/json:
+*            schema:
+*              type: object
+*              required:
+*                - id
+*                - amount
+*                - email
+*              properties:
+*                id:
+*                  type: string
+*                  description: "Payment method ID."
+*                  example: "pm_1HfYK2GZbWqjMvR4Xx7lr6lv"
+*                amount:
+*                  type: number
+*                  description: "Total amount of the purchase."
+*                  example: 150.00
+*                email:
+*                  type: string
+*                  description: "Email address to send the purchase confirmation."
+*                  example: "user@example.com"
+*      responses:
+*        200:
+*          description: "Confirmation message that payment and email have been processed."
+*          content:
+*            application/json:
+*              schema:
+*                type: object
+*                properties:
+*                  message:
+*                    type: string
+*                    example: "payment and Email are done!"
+
  */
 //POST send an email after purchase
 usersRouter.post("/purchase", async (req, res, next) => {
@@ -230,23 +343,41 @@ usersRouter.post("/purchase", async (req, res, next) => {
 })
 
 /**
- * @swagger
- * /users/{name}:
- *   get:
- *     description: Returns searched users by name. Needs token.
- *     tags: [User]
- *     parameters:
- *       - in: path
- *         name: name
- *         schema:
- *           type: string
- *         required: true
- *         description: user's name
- *     responses:
- *       200:
- *         description: Returns found users
- *       404:
- *         description: Returns message "no users found"
+ * @swagger: "2.0"
+ * paths:
+ *  /users/:
+ *    get:
+ *      summary: "Search Users by Name"
+ *      description: "Returns users matching the provided name query. Requires a token for authentication."
+ *      tags:
+ *        - User
+ *      parameters:
+ *        - in: query
+ *          name: name
+ *          schema:
+ *            type: string
+ *          required: true
+ *          description: "The name of the user to search for."
+ *      responses:
+ *        200:
+ *          description: "A list of users that match the search criteria."
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                items:
+ *                  $ref: '#/components/schemas/User'
+ *        404:
+ *          description: "No users found matching the search criteria."
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    example: "no users found"
+ *
  */
 //Get searched users
 usersRouter.get("/", JWTAuthMiddleware, async (req, res, next) => {
@@ -297,23 +428,39 @@ usersRouter.get("/withtotalnumber", JWTAuthMiddleware, async (req, res, next) =>
 })
 
 /**
- * @swagger
- * /users/username/{username}:
- *   get:
- *     description: Returns single user by username. Needs token.
- *     tags: [User]
- *     parameters:
- *       - in: path
- *         name: username
- *         schema:
- *           type: string
- *         required: true
- *         description: user's username
- *     responses:
- *       200:
- *         description: Returns found user
- *       404:
- *         description: Returns message "no users found"
+ * @swagger: "2.0"
+ * paths:
+ *  /users/username/{username}:
+ *    get:
+ *      summary: "Get User by Username"
+ *      description: "Retrieves a single user by their username. Requires a token for authentication."
+ *      tags:
+ *        - User
+ *      parameters:
+ *        - in: path
+ *          name: username
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: "The username of the user to retrieve."
+ *      responses:
+ *        200:
+ *          description: "The user was found and is returned."
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/User'
+ *        404:
+ *          description: "No user found with the provided username."
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    example: "no users found"
+ *
  */
 //Get single user by username
 usersRouter.get("/username/:username", JWTAuthMiddleware, async (req, res, next) => {
@@ -329,23 +476,67 @@ usersRouter.get("/username/:username", JWTAuthMiddleware, async (req, res, next)
 })
 
 /**
- * @swagger
- * /users/{userId}:
- *   put:
- *     description: Modify account data. Needs admin token.
- *     tags: [User]
- *     parameters:
- *       - in: path
- *         name: userId
- *         schema:
- *           type: string
+ * @swagger: "2.0"
+ * paths:
+ *   /users/{userId}:
+ *     put:
+ *       summary: "Modify User Account Data"
+ *       description: "Updates the account data for a user. Requires an admin token for authentication."
+ *       tags:
+ *         - User
+ *       parameters:
+ *         - in: path
+ *           name: userId
+ *           required: true
+ *           schema:
+ *             type: string
+ *           description: "The unique identifier of the user whose account is being modified."
+ *       requestBody:
  *         required: true
- *         description: user's id
- *     responses:
- *       201:
- *         description: Returns updated user
- *       404:
- *         description: Returns message "no users found"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 name:
+ *                   type: string
+ *                   description: "User's new name."
+ *                 email:
+ *                   type: string
+ *                   description: "User's new email address."
+ *                 username:
+ *                   type: string
+ *                   description: "User's new username."
+ *                 address:
+ *                   type: string
+ *                   description: "User's new address."
+ *                 isAdmin:
+ *                   type: boolean
+ *                   description: "Whether the user has admin rights."
+ *               example:
+ *                 name: "Jane Doe"
+ *                 email: "janedoe@example.com"
+ *                 username: "janedoe"
+ *                 address: "123 New Street, New City, NC"
+ *                 isAdmin: false
+ *       responses:
+ *         201:
+ *           description: "The user's account data was successfully updated."
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 $ref: '#/components/schemas/User'
+ *         404:
+ *           description: "No user found with the provided ID."
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: string
+ *                     example: "no users found"
+ *
  */
 //PUT account data
 usersRouter.put("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
@@ -367,6 +558,53 @@ usersRouter.put("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, 
   }
 })
 
+/**
+ * @swagger: "2.0"
+ * paths:
+ *  /users/{userId}/img:
+ *   put:
+ *     summary: "Update User's Image"
+ *     description: "Allows an admin to update the avatar image for a user. The image is uploaded to Cloudinary."
+ *     tags:
+ *       - User
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: "The unique identifier of the user whose image is being updated."
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: "The new avatar image for the user."
+ *     responses:
+ *       201:
+ *         description: "User's image was successfully updated. Returns the updated user object."
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: "No user found with the provided ID."
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "this user {userId} is not found"
+ *     security:
+ *       - bearerAuth: []
+ */
 //PUT img's user
 usersRouter.put("/:userId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudinaryUsersImagesUploader, async (req, res, next) => {
   try {
@@ -381,6 +619,8 @@ usersRouter.put("/:userId/img", JWTAuthMiddleware, adminOnlyMiddleware, cloudina
     next(error)
   }
 })
+
+// SWAGGER CORRECTED UNTIL HERE, AND OTHER SCHEMAS ARE NOT DONE
 
 /**
  * @swagger
