@@ -33,7 +33,6 @@ const scheduleRollbackIfNeeded = () => {
       try {
         await rollback()
         rollbackScheduled = false
-        // Send me a notification email
         const transporter = nodemailer.createTransport({
           host: "smtp.gmail.com",
           port: 587,
@@ -53,7 +52,6 @@ const scheduleRollbackIfNeeded = () => {
         })
       } catch (err) {
         console.error("Schedule rollback failed:", err)
-        // Send me a notification email
         const transporter = nodemailer.createTransport({
           host: "smtp.gmail.com",
           port: 587,
