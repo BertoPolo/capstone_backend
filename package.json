@@ -24,7 +24,7 @@
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "@flydotio/dockerfile": "^0.5.7",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.4.5",
     "jest": "^29.7.0",
     "nodemon": "^3.1.0",
     "supertest": "^6.3.4"
