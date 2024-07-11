@@ -51,20 +51,33 @@ server.use("/mainCategories", mainCategoriesRouter)
 server.use(apiLimiter)
 server.use(helmet())
 
-// check,adapt and add this whenever you can
-// server.use(
-//   helmet({
-//     contentSecurityPolicy: {
-//       directives: {
-//         defaultSrc: ["'self'"], // Solo permite recursos del mismo origen
-//         scriptSrc: ["'self'", "https://apis.example.com"], // Ejemplo: permite scripts del mismo origen y de apis.example.com
-//         objectSrc: ["'none'"], // No permite plugins (Flash, etc.)
-//         upgradeInsecureRequests: [], // Actualiza las solicitudes HTTP a HTTPS
-//         // ... otras directivas según sea necesario ...
-//       },
-//     },
-//   })
-// )
+server.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://apis.example.com", "https://www.google.com"],
+        styleSrc: ["'self'", "https://fonts.googleapis.com"],
+        imgSrc: ["'self'", "data:", "https://images.unsplash.com", "http://www.w3.org/"],
+        connectSrc: ["'self'", "https://api.example.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        objectSrc: ["'none'"],
+        frameSrc: ["'self'", "https://www.google.com"],
+        upgradeInsecureRequests: [],
+      },
+    },
+    referrerPolicy: { policy: "no-referrer" }, // reference policies
+    frameguard: { action: "deny" }, // Protection clickjacking
+    dnsPrefetchControl: { allow: false }, // block prefetch DNS
+    expectCt: { enforce: true, maxAge: 86400 }, // Expect-CT
+    hidePoweredBy: true, // hide X-Powered-By header
+    hsts: { maxAge: 31536000, includeSubDomains: true, preload: true }, // Strict-Transport-Security
+    ieNoOpen: true, // X-Download-Options IE8+
+    noSniff: true, // X-Content-Type-Options
+    permittedCrossDomainPolicies: { policy: "none" }, // Cross-Domain Policies
+    xssFilter: true, // X-XSS-Protection
+  })
+)
 
 // ****************** ERROR HANDLERS *********************
 server.use(badRequestErrorHandler) // 400
