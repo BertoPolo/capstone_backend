@@ -4,6 +4,7 @@ import listEndpoints from "express-list-endpoints"
 import cors from "cors"
 import createError from "http-errors"
 import helmet from "helmet"
+import dotenv from "dotenv"
 
 import itemsRouter from "../items/index.js"
 import usersRouter from "../users/index.js"
@@ -16,10 +17,14 @@ import { genericErrorHandler, notFoundErrorHandler, badRequestErrorHandler, unau
 import apiLimiter from "../tools/requestRestriction.js"
 
 mongoose.set("strictQuery", false)
-
+dotenv.config()
 const server = express()
 const port = process.env.PORT || 3001
 const urlList = [process.env.FE_DEV_URL, process.env.FE_PROD_URL, process.env.FE_PROD_BACKOFFICE_URL]
+
+if (!process.env.PORT || !process.env.MONGO_CONNECTION || !process.env.FE_DEV_URL || !process.env.FE_PROD_URL) {
+  throw new Error("Missing required environment variables")
+}
 
 //****************** MIDDLEWARES *********************
 server.use(
