@@ -91,7 +91,8 @@ mongoose.connect(process.env.MONGO_CONNECTION)
 mongoose.connection.on("connected", () => {
   console.log("Connected to Mongo")
 
-  server.listen(port, () => {
+  // server.listen(port, () => {  adding 0's for fly.io, rest of hosts didn't ask for it
+  server.listen(port, "0.0.0.0", () => {
     console.table(listEndpoints(server))
     console.log(`Server is running on port ${port}`)
     V1SwaggerDocs(server, port)
