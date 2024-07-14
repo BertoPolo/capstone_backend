@@ -49,7 +49,6 @@ server.use("/mainCategories", mainCategoriesRouter)
 
 // ****************** TOOLS *********************
 server.use(apiLimiter)
-server.use(helmet())
 
 server.use(
   helmet({
@@ -58,7 +57,7 @@ server.use(
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "https://apis.example.com", "https://www.google.com"],
         styleSrc: ["'self'", "https://fonts.googleapis.com"],
-        imgSrc: ["'self'", "data:", "https://images.unsplash.com", "http://www.w3.org/"],
+        imgSrc: ["'self'", "data:", "https://images.unsplash.com", "http://www.w3.org/", "https://res.cloudinary.com"],
         connectSrc: ["'self'", "https://api.example.com"],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
         objectSrc: ["'none'"],
