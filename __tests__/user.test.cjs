@@ -50,6 +50,7 @@ describe("POST /users/login", () => {
     expect(response.statusCode).toBe(201)
     expect(response.body).toHaveProperty("accessToken")
     expect(typeof response.body.accessToken).toBe("string")
+    // expect(response.body.accessToken).toMatch(/^eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\./)
   })
 
   it("should return 401 for invalid credentials", async () => {

@@ -1,4 +1,3 @@
-import { fileURLToPath } from "url"
 import { dirname } from "path"
 import { exec } from "child_process"
 import nodemailer from "nodemailer"
@@ -9,7 +8,7 @@ import brandsModel from "../brands/model.js"
 import categoriesModel from "../categories/model.js"
 import mainCategoriesModel from "../mainCategories/model.js"
 
-const currentFilePath = fileURLToPath(import.meta.url)
+const currentFilePath = __filename
 const parentFolderPath = dirname(dirname(currentFilePath))
 
 const backupPath = `${parentFolderPath}/data`

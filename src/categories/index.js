@@ -4,7 +4,7 @@ import express from "express"
 import createError from "http-errors"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 import { JWTAuthMiddleware } from "../auth/token.js"
-// import { onAdminChange } from "../services/rollbackScript.js"
+import { onAdminChange } from "../services/rollbackScript.js"
 
 const categoriesRouter = express.Router()
 
@@ -15,7 +15,7 @@ categoriesRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, r
     const { _id } = await newCategory.save()
     const mainCategory = await mainCategoriesSchema.findByIdAndUpdate(req.body.mainCategory, { $push: { categories: _id } })
 
-    // onAdminChange()
+    onAdminChange()
     res.status(201).send(_id)
   } catch (error) {
     console.log(error)
