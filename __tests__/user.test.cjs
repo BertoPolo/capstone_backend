@@ -25,6 +25,7 @@ afterAll((done) => {
   })
 })
 
+//
 describe("POST /users/login", () => {
   it("should return an access token for valid credentials", async () => {
     const validUser = {
@@ -66,5 +67,53 @@ describe("POST /users/login", () => {
 
     expect(response.statusCode).toBe(401)
     expect(response.body).toHaveProperty("message", "Unauthorized!")
+  })
+})
+
+//
+describe("POST /users", () => {
+  it("should create a new user and send a welcome email, when username does not exist", async () => {
+    const newValidUser = {
+      username: "newuser",
+      password: "123456",
+      email: "newuser@example.com",
+      address: "123 Street",
+      isAdmin: false,
+    }
+
+    // Mockear la función findOne para devolver null (usuario no existe)
+    usersSchema.findOne = jest.fn().mockResolvedValue(null)
+
+    // Mockear la función save para devolver un _id
+    const savedUser = { _id: "newUserId", ...newValidUser }
+    usersSchema.prototype.save = jest.fn().mockResolvedValue(savedUser)
+
+    // Mockear la función createTransport y sendMail de nodemailer
+    const sendMailMock = jest.fn().mockResolvedValue("Email sent")
+    nodemailer.createTransport = jest.fn().mockReturnValue({
+      sendMail: sendMailMock,
+    })
+
+    const response = await request(app).post("/users").send(newValidUser)
+
+    expect(response.statusCode).toBe(201)
+    expect(response.body).toBe("newUserId")
+    expect(sendMailMock).toHaveBeenCalledTimes(1)
+  })
+
+  it("should return 409 if the user already exists", async () => {
+    const existingUser = {
+      username: "user",
+      password: "123",
+      email: "existinguser@example.com",
+    }
+
+    // Mockear la función findOne para devolver un usuario existente
+    usersSchema.findOne = jest.fn().mockResolvedValue(existingUser)
+
+    const response = await request(app).post("/users").send(existingUser)
+
+    expect(response.statusCode).toBe(409)
+    expect(response.body).toHaveProperty("message", "User already exists")
   })
 })

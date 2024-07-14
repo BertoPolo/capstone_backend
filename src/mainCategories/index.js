@@ -4,7 +4,7 @@ import createError from "http-errors"
 import { mongoose } from "mongoose"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 import { JWTAuthMiddleware } from "../auth/token.js"
-import { onAdminChange } from "../services/rollbackScript.js"
+import { onAdminChange } from "../services/rollbackScript.cjs"
 
 const mainCategoriesRouter = express.Router()
 

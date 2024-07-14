@@ -3,7 +3,7 @@ import express from "express"
 import createError from "http-errors"
 import { adminOnlyMiddleware } from "../auth/admin.js"
 import { JWTAuthMiddleware } from "../auth/token.js"
-import { onAdminChange } from "../services/rollbackScript.js"
+import { onAdminChange } from "../services/rollbackScript.cjs"
 
 const brandsRouter = express.Router()
 

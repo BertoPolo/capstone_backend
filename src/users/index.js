@@ -11,7 +11,7 @@ import { v2 as cloudinary } from "cloudinary"
 import { JWTAuthMiddleware } from "../auth/token.js"
 import { generateAccessToken } from "../auth/tools.js"
 import { adminOnlyMiddleware } from "../auth/admin.js"
-import { onAdminChange } from "../services/rollbackScript.js"
+import { onAdminChange } from "../services/rollbackScript.cjs"
 
 const usersRouter = express.Router()
 
@@ -249,7 +249,7 @@ usersRouter.post("/", async (req, res, next) => {
       })
 
       res.status(201).send(_id)
-    } else next(createError(409, `user already exists`))
+    } else next(createError(409, `User already exists`))
   } catch (error) {
     console.log(error)
     next(error)

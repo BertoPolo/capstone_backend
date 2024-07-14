@@ -1,12 +1,15 @@
-import { dirname } from "path"
-import { exec } from "child_process"
-import nodemailer from "nodemailer"
+// import { dirname } from "path"
+// import { exec } from "child_process"
+// import nodemailer from "nodemailer"
 
-import itemsModel from "../items/model.js"
-import usersModel from "../users/model.js"
-import brandsModel from "../brands/model.js"
-import categoriesModel from "../categories/model.js"
-import mainCategoriesModel from "../mainCategories/model.js"
+// import itemsModel from "../items/model.js"
+// import usersModel from "../users/model.js"
+// import brandsModel from "../brands/model.js"
+// import categoriesModel from "../categories/model.js"
+// import mainCategoriesModel from "../mainCategories/model.js"
+const { dirname } = require("path")
+const { exec } = require("child_process")
+const nodemailer = require("nodemailer")
 
 const currentFilePath = __filename
 const parentFolderPath = dirname(dirname(currentFilePath))
@@ -19,7 +22,7 @@ const mongorestore = `mongorestore --uri="${process.env.MONGO_CONNECTION}" --dro
 let lastAdminChangeTime = null
 let rollbackScheduled = false
 
-export const onAdminChange = () => {
+const onAdminChange = () => {
   const currentTime = new Date()
   lastAdminChangeTime = currentTime
   scheduleRollbackIfNeeded()
@@ -85,11 +88,18 @@ const executeCommand = (command) => {
 }
 
 // Create a recovery point with mongodump
-// executeCommand(mongodump)
+// executeCommand(mongodump);
 
-export const rollback = async () => {
+const rollback = async () => {
   try {
     console.log("Starting database rollback...")
+
+    const itemsModel = await import("../items/model.js")
+    const usersModel = await import("../users/model.js")
+    const brandsModel = await import("../brands/model.js")
+    const categoriesModel = await import("../categories/model.js")
+    const mainCategoriesModel = await import("../mainCategories/model.js")
+
     // Clear existing data
     await brandsModel.deleteMany({})
     await categoriesModel.deleteMany({})
@@ -104,3 +114,5 @@ export const rollback = async () => {
     console.error("Database rollback failed:", error)
   }
 }
+
+module.exports = { onAdminChange, rollback }
