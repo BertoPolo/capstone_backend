@@ -46,7 +46,7 @@ brandsRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, 
     const newBrands = new brandsSchema(req.body)
     const { _id } = await newBrands.save()
 
-    onAdminChange()
+    // onAdminChange()
     res.status(201).send(_id)
   } catch (error) {
     console.log(error)
@@ -83,7 +83,7 @@ brandsRouter.delete("/:brandId", JWTAuthMiddleware, adminOnlyMiddleware, async (
     const brandToDelete = await brandsSchema.findByIdAndDelete(req.params.brandId)
 
     if (brandToDelete) {
-      onAdminChange()
+      // onAdminChange()
       res.status(200).send("brand was deleted successfully")
     } else next(createError(404, `this brand: ${req.params.brandId}, is not found`))
   } catch (error) {

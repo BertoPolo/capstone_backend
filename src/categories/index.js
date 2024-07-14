@@ -15,7 +15,7 @@ categoriesRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (req, r
     const { _id } = await newCategory.save()
     const mainCategory = await mainCategoriesSchema.findByIdAndUpdate(req.body.mainCategory, { $push: { categories: _id } })
 
-    onAdminChange()
+    // onAdminChange()
     res.status(201).send(_id)
   } catch (error) {
     console.log(error)

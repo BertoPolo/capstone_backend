@@ -549,7 +549,7 @@ usersRouter.put("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, 
       { new: true }
     )
     if (user) {
-      onAdminChange()
+      // onAdminChange()
       res.status(201).send(user)
     } else next(createError(404, `no users found`))
   } catch (error) {
@@ -640,7 +640,7 @@ usersRouter.put("/me/data", JWTAuthMiddleware, async (req, res, next) => {
     const user = await usersSchema.findByIdAndUpdate(req.user._id, { ...req.body }, { new: true })
 
     if (user) {
-      onAdminChange()
+      // onAdminChange()
       res.status(201).send(user)
     } else next(createError(404, `no users found`))
   } catch (error) {
@@ -671,7 +671,7 @@ usersRouter.put("/me/password", JWTAuthMiddleware, async (req, res, next) => {
 
     if (user) {
       res.status(201).send(user)
-      onAdminChange()
+      // onAdminChange()
     } else next(createError(404, `no user found`))
   } catch (error) {
     console.log(error)
@@ -717,7 +717,7 @@ usersRouter.put("/password/forgotPassword", async (req, res, next) => {
         text: "Here is there your new password",
         html: `<b>Here is there your new password. Change it ASAP, this one is a low security pass. <p>New password : <u> ${req.body.password}</u></p> <h3>Stuff to Route</h3> </b>`,
       })
-      onAdminChange()
+      // onAdminChange()
       res.status(201).send({ message: "New password is sent to that mail successfully" })
     } else next(createError(404, `User not found`))
   } catch (error) {
@@ -749,7 +749,7 @@ usersRouter.put("/password/forgotPassword", async (req, res, next) => {
 usersRouter.delete("/:userId", JWTAuthMiddleware, adminOnlyMiddleware, async (req, res, next) => {
   try {
     const userToDelete = await usersSchema.findByIdAndDelete(req.params.userId)
-    onAdminChange()
+    // onAdminChange()
     if (userToDelete) res.status(200).send({ message: "deleted successfully" })
     else next(createError(404, `User not found`))
   } catch (error) {

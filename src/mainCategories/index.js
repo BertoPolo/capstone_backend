@@ -14,7 +14,7 @@ mainCategoriesRouter.post("/", JWTAuthMiddleware, adminOnlyMiddleware, async (re
     const newMcat = new mainCategoriesSchema(req.body)
     const { _id } = await newMcat.save()
 
-    onAdminChange()
+    // onAdminChange()
     res.status(201).send(_id)
   } catch (error) {
     console.log(error)
@@ -42,7 +42,7 @@ mainCategoriesRouter.put("/:mCatId", JWTAuthMiddleware, adminOnlyMiddleware, asy
     const mCatToModify = await mainCategoriesSchema.findByIdAndUpdate(req.params.mCatId, { $push: { categories: id } }, { new: true })
 
     if (mCatToModify) {
-      onAdminChange()
+      // onAdminChange()
       res.status(201).send(mCatToModify)
     } else next(createError(404, `No main categories found`))
   } catch (error) {
