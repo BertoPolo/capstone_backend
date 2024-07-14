@@ -85,14 +85,21 @@ server.use(notFoundErrorHandler) // 404
 server.use(genericErrorHandler) // 500
 
 const startServer = () => {
-  mongoose.connect(process.env.MONGO_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true })
-  mongoose.connection.on("connected", () => {
-    console.log("Connected to Mongo")
+  return new Promise((resolve, reject) => {
+    mongoose.connect(process.env.MONGO_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true })
+    mongoose.connection.on("connected", () => {
+      console.log("Connected to Mongo")
 
-    server.listen(port, "0.0.0.0", () => {
-      console.table(listEndpoints(server))
-      console.log(`Server is running on port ${port}`)
-      V1SwaggerDocs(server, port)
+      const app = server.listen(port, "0.0.0.0", () => {
+        console.table(listEndpoints(server))
+        console.log(`Server is running on port ${port}`)
+        V1SwaggerDocs(server, port)
+        resolve(app)
+      })
+    })
+
+    mongoose.connection.on("error", (err) => {
+      reject(err)
     })
   })
 }
@@ -101,4 +108,4 @@ if (process.env.NODE_ENV !== "test") {
   startServer()
 }
 
-export default server
+export { server, startServer }

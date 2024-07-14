@@ -136,18 +136,17 @@ usersRouter.post("/login", async (req, res, next) => {
   try {
     // 1. Obtain credentials from req.body
     const { username, password } = req.body
-
     // 2. Verify credentials
     const user = await usersSchema.checkCredentials(username, password)
-
     if (user) {
       // 3. If credentials are ok --> generate an access token (JWT) and send it as a response
-
       const accessToken = await generateAccessToken({ _id: user._id, isAdmin: user.isAdmin })
       res.status(201).send({ accessToken })
     } else {
       // 4. If credentials are not ok --> throw an error (401)
-      next(createError(401, "Credentials are not ok!"))
+      const error = new Error("Unauthorized")
+      error.status = 401
+      throw error
     }
   } catch (error) {
     next(error)
