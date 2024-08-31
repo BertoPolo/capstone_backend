@@ -33,7 +33,7 @@ server.use(
       if (!origin || urlList.indexOf(origin) !== -1) {
         next(null, true)
       } else {
-        next(createError(400, "CORS ERROR!"))
+        next(createError(400, "CORS ERROR, origin not allowed"))
       }
     },
   })

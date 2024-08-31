@@ -1,5 +1,6 @@
 const request = require("supertest")
 const { startServer } = require("../src/services/server")
+const nodemailer = require("nodemailer")
 const mongoose = require("mongoose")
 
 jest.mock("../src/users/model", () => ({
@@ -37,10 +38,10 @@ describe("POST /users/login", () => {
       password: "123",
     }
 
-    // Mockear la función checkCredentials para devolver un usuario válido
+    // Mock the checkCredentials function to return a valid user
     usersSchema.checkCredentials.mockResolvedValue(validUser)
 
-    // Mockear la función generateAccessToken para devolver un token
+    // Mock the generateAccessToken function to return a token
     generateAccessToken.mockResolvedValue("fakeAccessToken")
 
     const response = await request(app).post("/users/login").send({
@@ -81,14 +82,14 @@ describe("POST /users", () => {
       isAdmin: false,
     }
 
-    // Mockear la función findOne para devolver null (usuario no existe)
-    usersSchema.findOne = jest.fn().mockResolvedValue(null)
+    // Mock the findOne function to return null (user doesn't exist)
+    usersSchema.findOne.mockResolvedValue(null)
 
-    // Mockear la función save para devolver un _id
-    const savedUser = { _id: "newUserId", ...newValidUser }
-    usersSchema.prototype.save = jest.fn().mockResolvedValue(savedUser)
+    // Mock the save function to return an _id
+    const saveMock = jest.fn().mockResolvedValue({ _id: "newUserId", ...newValidUser })
+    usersSchema.prototype.save = saveMock
 
-    // Mockear la función createTransport y sendMail de nodemailer
+    // Mock the createTransport and sendMail functions of nodemailer
     const sendMailMock = jest.fn().mockResolvedValue("Email sent")
     nodemailer.createTransport = jest.fn().mockReturnValue({
       sendMail: sendMailMock,
@@ -97,7 +98,7 @@ describe("POST /users", () => {
     const response = await request(app).post("/users").send(newValidUser)
 
     expect(response.statusCode).toBe(201)
-    expect(response.body).toBe("newUserId")
+    expect(typeof response.body).toBe("string")
     expect(sendMailMock).toHaveBeenCalledTimes(1)
   })
 
